@@ -19,24 +19,36 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
-          version: 8
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install
 
       - name: Build smartcontracts
-        run: yarn next:build
+        run: pnpm tact:build --all
 
       - name: Run tests
-        run: yarn tact:test
+        run: pnpm tact:test
 
-      - name: Run hardhat lint
-        run: yarn hardhat:lint --max-warnings=0
+      - name: Run format
+        run: pnpm tact:format
+
+      - name: Run lint
+        run: pnpm tact:lint --max-warnings=0
