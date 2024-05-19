@@ -1,0 +1,9 @@
+#include "./stdlib.fc";
+
+const MY_WORKCHAIN = BASECHAIN; ;; TODO
+
+() assert_same_workchain(slice addr) impure inline {
+    (int wc, _) = parse_std_addr(addr);
+    throw_unless(error::wrong_workchain, wc == MY_WORKCHAIN);
+}
+

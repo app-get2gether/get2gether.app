@@ -1,0 +1,92 @@
+;; Current smartcontract implements TEP74 Jetton Master Wallet 
+;;
+;; Refs
+;; - https://github.com/Ton-Dynasty/tondynasty-contracts/blob/main/contracts/packages/token/jetton/JettonMaster.tact
+;; - https://github.com/ton-blockchain/stablecoin-contract/blob/main/contracts/jetton-minter.fc
+;;
+;; TEPs
+;; - https://github.com/ton-blockchain/TEPs/blob/master/text/0074-jettons-standard.md
+;; - https://github.com/ton-blockchain/TEPs/blob/master/text/0089-jetton-wallet-discovery.md
+;; - https://github.com/ton-blockchain/TEPs/blob/master/text/0064-token-data-standard.md
+
+#include "../stdlib.fc";
+#include "../error_codes.fc";
+#include "../utils.fc";
+#include "../gas.fc";
+
+const op::mint = 0x642b7d07;
+const op::internal_transfer = 0x178d4519;
+
+;; storage#_ total_supply:Coins mintable:bit owner:MsgAddress jetton_content:^Cell jetton_wallet_code:^Cell = Storage;
+(int, int, slice, cell, cell) load_data() inline {
+    slice ds = get_data().begin_parse();
+    var data = (
+        ds~load_coins(), ;; total_supply
+        ds~load_bool(), ;; mintable (-1/0)
+        ds~load_msg_addr(), ;; owner
+        ds~load_ref(),  ;; jetton_content (contains snake slice without 0x0 prefix)
+        ds~load_ref()   ;; jetton_wallet_code
+    );
+    ds.end_parse();
+    return data;
+}
+
+
+() recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
+  var cs = in_msg_full.begin_parse();
+  var flags = cs~load_uint(4);
+
+  ;; bounced messages
+  ;; TODO
+  if (flags & 1) {
+    return ();
+  }
+
+  slice sender = cs~load_msg_addr();
+  (int total_supply, int mintable, slice owner, cell jetton_content, cell jetton_wallet_code) = load_data();
+  int op = in_msg_body~load_uint(32);
+  int query_id = in_msg_body~load_uint(64);
+
+  ;; mint#642b7d07 query_id:uint64 amount:Coins to_address:MsgAddressInt master_msg:^JettonInternalTransfer = JettonMinterMsg;
+  if (op == op::mint) {
+    throw_unless(error::not_owner, equal_slices_bits(sender, owner));
+    int amount = in_msg_body~load_coins();
+    slice to_address = in_msg_body~load_msg_addr();
+    assert_same_workchain(to_address);
+    ;; TODO: restructure
+    ;; cell master_msg = in_msg_body~load_ref();
+    ;; in_msg_body.end_parse();
+
+    ;; TODO: assert coins
+    cell msg = begin_cell()
+      .store_uint(op::internal_transfer, 32) ;; query_id 
+      .store_coins(amount) ;; amount
+      .store_slice(my_address()) ;; from_address
+      .store_slice(sender) ;; response_address
+      ;;.store_coins() ;; forward_ton_amount
+      ;;.store_ref() ;; forward_payload
+      .end_cell();
+
+    ;; sending to jetton wallet
+    raw_reserve(ONE_TON, RESERVE_REGULAR);
+    ;; TL-B
+    ;; _ split_depth:(Maybe (## 5)) special:(Maybe TickTock)
+    ;;   code:(Maybe ^Cell) data:(Maybe ^Cell)
+    ;;   library:(Maybe ^Cell) = StateInit;
+  }
+}
+
+;; _ split_depth:(Maybe (## 5)) special:(Maybe TickTock) code:(Maybe ^Cell) data:(Maybe ^Cell) library:(Maybe ^Cell) = StateInit;
+cell calculate_jetton_wallet_state_init(slice owner_address, slice master_address, cell jetton_wallet_code) inline {
+    ;; TODO: define storage
+    cell jetton_content = begin_cell()
+    .end_cell();
+
+    return begin_cell()
+      .store_uint(0, 1) ;; split_depth
+      .store_uint(0, 1) ;; special
+      .store_maybe_ref(jetton_wallet_code)
+      .store_maybe_ref(jetton_content)
+      .store_uint(0, 1) ;; library
+    .end_cell();
+}

@@ -1,0 +1,25 @@
+// Refs:
+// - https://github.com/ton-blockchain/stablecoin-contract/blob/main/contracts/jetton.tlb
+
+bool_false$0 = Bool;
+transfer#0f8a7ea5 query_id:uint64 amount:(VarUInteger 16) destination:MsgAddress
+  response_destination:MsgAddress custom_payload:(Maybe ^Cell)
+  forward_ton_amount:(VarUInteger 16) forward_payload:(Either Cell ^Cell)
+  = InternalMsgBody;
+
+internal_transfer#0x178d4519 query_id:uint64 amount:(VarUInteger 16) from:MsgAddress
+  response_address:MsgAddress
+  forward_ton_amount:(VarUInteger 16)
+  forward_payload:(Either Cell ^Cell)
+  = InternalMsgBody;
+
+// @dev https://github.com/ton-blockchain/TEPs/blob/master/text/0064-token-data-standard.md#jetton-metadata-attributes
+tail#_ {bn:#} b:(bits bn) = SnakeData ~0;
+cons#_ {bn:#} {n:#} b:(bits bn) next:^(SnakeData ~n) = SnakeData ~(n + 1);
+jetton_conent#_ decimals:uint8
+  name:(Maybe Cell)
+  symbol:(Maybe Cell)
+  uri:(Maybe ^SnakeData)
+  description:(Maybe ^SnakeData)
+  image:(Maybe ^SnakeData)
+  = JettonContent

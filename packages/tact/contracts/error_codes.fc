@@ -1,0 +1,3 @@
+const error::not_owner = 132;
+const error::wrong_workchain = 333;
+const error::not_enough_gas = 48;
