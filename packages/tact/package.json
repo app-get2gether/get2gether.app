@@ -4,6 +4,7 @@
   "scripts": {
     "start": "blueprint run",
     "build": "blueprint build",
+    "lint": "eslint --config eslint.config.mjs **/*.ts",
     "test": "jest --verbose"
   },
   "devDependencies": {

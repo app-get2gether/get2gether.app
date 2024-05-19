@@ -1,0 +1,31 @@
+name: Tact
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup node env
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build smartcontracts
+        run: yarn next:build
+
+      - name: Run tests
+        run: yarn tact:test
+
+      - name: Run hardhat lint
+        run: yarn hardhat:lint --max-warnings=0

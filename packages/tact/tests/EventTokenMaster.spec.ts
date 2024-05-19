@@ -1,11 +1,10 @@
 import { Blockchain, SandboxContract, TreasuryContract } from "@ton/sandbox";
-import { SendMode, beginCell, toNano } from "@ton/core";
+import { beginCell, toNano } from "@ton/core";
 import { EventTokenMaster } from "../wrappers/EventTokenMaster";
 import "@ton/test-utils";
 import { EventToken, JettonData } from "../build/EventTokenMaster/tact_EventToken";
 import { printTransactionFees } from "../utils/printTransactionFees";
-import { getAllActionGasFees, getAllComputeGasFees, getAllFees, getTotalGasFees } from "../utils/gas";
-import { inspect } from "util";
+import { getAllFees } from "../utils/gas";
 
 const DECIMALS = 9;
 const SYMBOL = "GET";
