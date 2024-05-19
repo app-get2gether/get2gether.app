@@ -5,6 +5,7 @@
     "start": "blueprint run",
     "build": "blueprint build",
     "lint": "eslint --config eslint.config.mjs **/*.ts",
+    "format": "prettier --write **/*.ts",
     "test": "jest --verbose"
   },
   "devDependencies": {

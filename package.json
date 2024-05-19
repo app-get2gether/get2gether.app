@@ -8,6 +8,7 @@
     "tact:build": "pnpm -F @g2g/tact build",
     "tact:test": "pnpm -F @g2g/tact test",
     "tact:lint": "pnpm -F @g2g/tact lint",
+    "tact:format": "pnpm -F @g2g/tact format",
     "prepare": "husky"
   },
   "packageManager": "pnpm@9.0.5",

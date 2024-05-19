@@ -1,1 +1,2 @@
+pnpm tact:format
 pnpm tact:lint
