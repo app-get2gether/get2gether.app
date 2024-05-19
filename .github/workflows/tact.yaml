@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - packages/fastapi/**
+      - packages/nextjs/**
   pull_request:
     branches:
       - main
