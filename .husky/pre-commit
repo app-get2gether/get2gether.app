@@ -1,2 +1,2 @@
-pnpm tact:format
+pnpm tact:format:check
 pnpm tact:lint

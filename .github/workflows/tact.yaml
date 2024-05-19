@@ -48,7 +48,7 @@ jobs:
         run: pnpm tact:test
 
       - name: Run format
-        run: pnpm tact:format
+        run: pnpm tact:format:check
 
       - name: Run lint
         run: pnpm tact:lint --max-warnings=0

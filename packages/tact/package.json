@@ -6,6 +6,7 @@
     "build": "blueprint build",
     "lint": "eslint --config eslint.config.mjs **/*.ts",
     "format": "prettier --write **/*.ts",
+    "format:check": "prettier --check **/*.ts",
     "test": "jest --verbose"
   },
   "devDependencies": {
