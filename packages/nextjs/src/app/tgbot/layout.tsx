@@ -1,22 +1,25 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../globals.css";
+"use client";
 
-const inter = Inter({ subsets: ["latin"] });
+import Script from "next/script";
+import { useCallback, useState } from "react";
 
-export const metadata: Metadata = {
-  title: "Get2Gether",
-  description: " Get2Gether Telegram MiniApp, helps to create events and share with friends.",
-};
+const TELEGRAM_SCRIPT_URL = "https://telegram.org/js/telegram-web-app.js";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [theme, setTheme] = useState();
+  const onLoad = useCallback(() => {
+    setTheme(JSON.stringify(window.Telegram.WebApp.themeParams));
+  }, []);
+
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <>
+      <Script src={TELEGRAM_SCRIPT_URL} onReady={onLoad} />
+      <div className="code">THEME: {theme}</div>
+      {children}
+    </>
   );
 }
