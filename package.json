@@ -5,13 +5,13 @@
     "node": ">=18.16.1"
   },
   "scripts": {
+    "fastapi:dev": "cd packages/fastapi && task dev",
+    "fastapi:lint": "cd packages/fastapi && task lint",
+    "fastapi:mypy": "cd packages/fastapi && task mypy",
     "tact:build": "pnpm -F @g2g/tact build",
     "tact:test": "pnpm -F @g2g/tact test",
     "tact:lint": "pnpm -F @g2g/tact lint",
     "tact:format:check": "pnpm -F @g2g/tact format:check",
-    "fastapi:dev": "cd packages/fastapi && task dev",
-    "fastapi:lint": "cd packages/fastapi && task lint",
-    "fastapi:mypy": "cd packages/fastapi && task mypy",
     "prepare": "husky"
   },
   "packageManager": "pnpm@9.0.5",

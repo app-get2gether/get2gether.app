@@ -11,9 +11,9 @@ pnpm install
 pnpm tact:build
 ```
 
-## [NextJS](/packages/next)
+## [NextJS](/packages/nextjs)
 ```
-pnpm next:dev
+pnpm nextjs:dev
 ```
 
 ## [FastAPI](/packages/fastapi)
