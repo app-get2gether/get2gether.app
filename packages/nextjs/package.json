@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "format": "prettier --write **/*.ts",
+    "format:check": "prettier --check **/*.ts",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -32,6 +34,7 @@
     "eslint-config-next": "14.2.3",
     "eslint-plugin-storybook": "^0.8.0",
     "postcss": "^8",
+    "prettier": "^3.2.5",
     "storybook": "^8.1.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
