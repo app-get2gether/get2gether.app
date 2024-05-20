@@ -6,17 +6,17 @@ How to launch the repo locally
 pnpm install
 ```
 
-## [Smartcontracts](./packages/tact)
+## [Smartcontracts](/packages/tact)
 ```
 pnpm tact:build
 ```
 
-## [NextJS](./packages/next)
+## [NextJS](/packages/next)
 ```
 pnpm next:dev
 ```
 
-## [FastAPI](./packages/fastapi)
+## [FastAPI](/packages/fastapi)
 ```
 cd packages/fastapi
 poetry install
