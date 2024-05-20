@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     # optional
     TELEGRAM_ERROR_CHAT_ID: str = ""
     TELEGRAM_SETUP_COMMANDS: bool = False
+    CORS_ALLOW_ORIGINS: list[str] = []
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 

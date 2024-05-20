@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from typing import AsyncIterator, TypedDict
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from telegram import Bot
 
@@ -26,6 +27,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[State]:
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(CORSMiddleware, allow_origins=settings.CORS_ALLOW_ORIGINS)
 app.include_router(router)
 
 
