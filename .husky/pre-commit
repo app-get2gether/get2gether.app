@@ -1,2 +1,4 @@
 pnpm tact:format:check
 pnpm tact:lint
+pnpm fastapi:mypy
+pnpm fastapi:lint

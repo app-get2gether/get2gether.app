@@ -15,6 +15,11 @@ class Settings(BaseSettings):
 
     # required
     DATABASE_URL: str = ""
+    TELEGRAM_TOKEN: str = ""
+
+    # optional
+    TELEGRAM_ERROR_CHAT_ID: str = ""
+    TELEGRAM_SETUP_COMMANDS: bool = False
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 

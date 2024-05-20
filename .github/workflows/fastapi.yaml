@@ -60,3 +60,7 @@ jobs:
       run: |
         source .venv/bin/activate
         pytest -v 
+    - name: MyPy
+      run: |
+        source .venv/bin/activate
+        task mypy
