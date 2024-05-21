@@ -1,12 +1,11 @@
 "use client";
 
-import useSWR from "swr";
+import useSWR from "@/hooks/useSWR";
 import EventItem from "./EventItem";
 
 export default function EventsList() {
   const { data, isLoading, error } = useSWR("/tgbot/v1/events");
 
-  console.log(data, isLoading, error);
   if (!data) return null;
 
   return (
