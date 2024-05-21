@@ -1,9 +1,10 @@
 from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from telegram import Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, WebAppInfo
 from telegram.ext import BaseHandler, CommandHandler
 
+from app.settings import settings
 from app.tgbot.context import Context, enrich_context
 from app.tgbot.utils import extract_user_data
 
@@ -17,7 +18,19 @@ async def start(db: AsyncSession, update: Update, context: Context) -> None:
     chat = update.effective_chat
     if not chat:
         return
-    await chat.send_message("Hello")
+    await chat.send_message(
+        "Hello",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "Open app",
+                        web_app=WebAppInfo(url=f"{settings.WEBAPP_URL}/events"),
+                    )
+                ]
+            ]
+        ),
+    )
 
 
 handlers: List[BaseHandler[Update, Context]] = [

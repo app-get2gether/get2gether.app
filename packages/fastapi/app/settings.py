@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     # required
     DATABASE_URL: str = ""
     TELEGRAM_TOKEN: str = ""
+    WEBAPP_URL: str = ""
 
     # optional
     TELEGRAM_ERROR_CHAT_ID: str = ""
