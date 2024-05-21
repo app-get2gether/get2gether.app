@@ -25,6 +25,7 @@ pytest-watch = "^4.2.0"
 taskipy = "^1.12.2"
 coverage = "^7.4.0"
 alembic = "^1.13.1"
+pytest-dotenv = "^0.5.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -51,6 +52,13 @@ warn_return_any = true
 warn_unused_configs = true
 strict_equality = true
 
+[tool.pytest.ini_options]
+env_files = ".env.test"
+env_override_existing_values = 1
+filterwarnings = [
+  "ignore:The 'app' shortcut is now deprecated. Use the explicit style 'transport=WSGITransport\\(app=...\\)':DeprecationWarning",
+ ]
+
 # https://docs.astral.sh/ruff/configuration
 [tool.ruff]
 line-length = 88 # default
@@ -61,3 +69,5 @@ alembic_print = "bash alembic.sh"
 dev = "uvicorn app.server:app --reload"
 lint = "ruff format --check . && ruff check --diff"
 mypy = "mypy ."
+test = "coverage run -m pytest && coverage report -m"
+ptw = "ptw -v"
