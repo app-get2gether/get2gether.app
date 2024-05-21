@@ -15,7 +15,9 @@ export default function RootLayout({
 }>) {
   const [webApp, setWebApp] = useState<WebApp | null>(null);
   const onLoad = useCallback(() => {
-    mockWebApp();
+    if (process.env.NODE_ENV === "development") {
+      mockWebApp();
+    }
     setWebApp(window.Telegram.WebApp);
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
@@ -23,7 +25,7 @@ export default function RootLayout({
 
   return (
     <WebAppContext.Provider value={webApp}>
-      <Script src={TELEGRAM_SCRIPT_URL} onReady={onLoad} />
+      <Script src={TELEGRAM_SCRIPT_URL} onLoad={onLoad} />
       <div className="code">THEME: {JSON.stringify(webApp?.themeParams)}</div>
       {children}
     </WebAppContext.Provider>
