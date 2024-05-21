@@ -9,6 +9,7 @@
     "format": "prettier --write **/*.ts",
     "format:check": "prettier --check **/*.ts",
     "lint": "next lint",
+    "tsw": "tsc --noEmit --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
