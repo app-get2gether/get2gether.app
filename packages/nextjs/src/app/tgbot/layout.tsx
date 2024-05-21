@@ -1,5 +1,6 @@
 "use client";
 
+import FooterTabs from "@/components/FooterTabs";
 import { WebAppContext } from "@/contexts";
 import mockWebApp from "@/utils/mockWebApp";
 import Script from "next/script";
@@ -26,8 +27,14 @@ export default function RootLayout({
   return (
     <WebAppContext.Provider value={webApp}>
       <Script src={TELEGRAM_SCRIPT_URL} onLoad={onLoad} />
-      <div className="code">THEME: {JSON.stringify(webApp?.themeParams)}</div>
-      {children}
+      <div className="min-h-screen flex flex-col">
+        {/*
+        <div className="code">THEME: {JSON.stringify(webApp?.themeParams)}</div>
+        <div className="code">vieportHeight: {webApp?.viewportHeight}</div>
+        */}
+        <div className="mb-auto">{children}</div>
+        <FooterTabs className="sticky bottom-0" />
+      </div>
     </WebAppContext.Provider>
   );
 }

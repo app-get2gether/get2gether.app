@@ -6,6 +6,7 @@ import EventItem from "./EventItem";
 export default function EventsList() {
   const { data, isLoading, error } = useSWR("/tgbot/v1/events");
 
+  if (error) return <div>Failed to load</div>;
   if (!data) return null;
 
   return (
