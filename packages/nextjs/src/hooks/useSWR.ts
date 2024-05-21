@@ -12,7 +12,7 @@ const useCustomSWR = (key: Parameters<typeof useSWR>[0], config?: Parameters<typ
         ...options,
         headers: {
           ...options?.headers,
-          Authorization: `Telegram ${webApp?.initData}`,
+          "X-Telegram-Auth": `${webApp?.initData}`,
         },
       }).then(res => res.json());
     },

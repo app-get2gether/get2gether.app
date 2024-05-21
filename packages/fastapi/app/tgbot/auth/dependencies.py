@@ -4,18 +4,21 @@ import re
 from typing import Annotated
 from urllib.parse import unquote
 
-from fastapi import Header, HTTPException
+from fastapi import Depends, HTTPException
+from fastapi.security import APIKeyHeader
+from starlette.status import HTTP_403_FORBIDDEN
 
 from app.settings import settings
 
 
-async def validate_init_data(authorization: Annotated[str, Header()]) -> None:
-    if not authorization:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-
-    m = re.compile(r"^Telegram\s+((.*?)&hash=(.*?))$").match(unquote(authorization))
+async def validate_init_data(
+    auth_key: Annotated[str, Depends(APIKeyHeader(name="x-telegram-auth"))],
+) -> None:
+    m = re.compile(r"^((.*?)&hash=(.*?))$").match(unquote(auth_key))
     if not m:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+        raise HTTPException(
+            status_code=HTTP_403_FORBIDDEN, detail="Invalid authentication credentials"
+        )
 
     init_data = m.group(1)
     data_hash = m.group(3)
@@ -32,4 +35,4 @@ async def validate_init_data(authorization: Annotated[str, Header()]) -> None:
     ).hexdigest()
 
     if result_hash != data_hash:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+        raise HTTPException(status_code=HTTP_403_FORBIDDEN, detail="Hash is not valid")
