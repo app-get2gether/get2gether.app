@@ -8,8 +8,9 @@ services:
     restart: always
     volumes:
       - ./.db/:/var/lib/postgresql/data/
+      - ./scripts/create_multiple_postgresql_databases.sh:/docker-entrypoint-initdb.d/create_multiple_postgresql_databases.sh
     environment:
-      - POSTGRES_DB=db
+      - POSTGRES_MULTIPLE_DATABASES=db,db_test
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password123
     ports:
