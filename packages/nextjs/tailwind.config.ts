@@ -26,6 +26,10 @@ const TelegramTheme = {
   "primary-content": "var(--tg-theme-text-color)",
   "base-content": "var(--tg-theme-text-color)",
   */
+  primary: "var(--tg-theme-bg-color)",
+  colors: {
+    hint: "var(--tg-theme-hint-color)",
+  },
 };
 
 const config: Config = {

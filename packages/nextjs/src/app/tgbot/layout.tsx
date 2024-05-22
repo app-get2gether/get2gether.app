@@ -6,6 +6,7 @@ import mockWebApp from "@/utils/mockWebApp";
 import Script from "next/script";
 import { useCallback, useState } from "react";
 import type { WebApp } from "telegram";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 const TELEGRAM_SCRIPT_URL = "https://telegram.org/js/telegram-web-app.js";
 
@@ -26,15 +27,17 @@ export default function RootLayout({
 
   return (
     <WebAppContext.Provider value={webApp}>
-      <Script src={TELEGRAM_SCRIPT_URL} onLoad={onLoad} />
-      <div className="min-h-screen flex flex-col">
-        {/*
+      <TonConnectUIProvider manifestUrl={`${process.env.NEXT_PUBLIC_API_URL}/tgbot/v1/manifest`}>
+        <Script src={TELEGRAM_SCRIPT_URL} onLoad={onLoad} />
+        <div className="h-screen flex flex-col items-between">
+          {/*
         <div className="code">THEME: {JSON.stringify(webApp?.themeParams)}</div>
         <div className="code">vieportHeight: {webApp?.viewportHeight}</div>
         */}
-        <div className="mb-auto">{children}</div>
-        <FooterTabs className="sticky bottom-0" />
-      </div>
+          <div className="h-full">{children}</div>
+          <FooterTabs className="sticky bottom-0" />
+        </div>
+      </TonConnectUIProvider>
     </WebAppContext.Provider>
   );
 }
