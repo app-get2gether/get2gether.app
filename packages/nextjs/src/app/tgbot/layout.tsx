@@ -33,7 +33,7 @@ export default function RootLayout({
 
   return (
     <WebAppContext.Provider value={webApp}>
-      <TonConnectUIProvider manifestUrl={`${process.env.NEXT_PUBLIC_API_URL}/tgbot/v1/manifest`}>
+      <TonConnectUIProvider manifestUrl={`/manifest.json`}>
         <Script src={TELEGRAM_SCRIPT_URL} onLoad={onLoad} />
         <div className="h-screen flex flex-col items-between">
           {/*
