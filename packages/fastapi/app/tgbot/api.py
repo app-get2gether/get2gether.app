@@ -1,53 +1,19 @@
-from datetime import datetime
-from typing import Optional
-from uuid import UUID, uuid4
+from fastapi import APIRouter, Depends
 
-from fastapi import APIRouter
-from pydantic import BaseModel
+from app.tgbot.auth.dependencies import (
+    get_user_or_create_with_tg_data,
+    validate_init_data,
+)
+from app.tgbot.event.api import router as event_api
+from app.tgbot.user.api import router as user_api
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/tgbot/v1",
+    dependencies=[
+        Depends(validate_init_data),
+        Depends(get_user_or_create_with_tg_data),
+    ],
+)
 
-
-class Event(BaseModel):
-    id: UUID
-    title: str
-    description: Optional[str] = None
-    created_at: datetime
-    start_at: datetime
-    end_at: datetime
-
-
-@router.get("/events")
-async def get_events() -> list[Event]:
-    from datetime import timedelta
-
-    return [
-        Event(
-            id=uuid4(),
-            title="Event #1",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #2",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #3",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #4",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-    ]
+router.include_router(event_api)
+router.include_router(user_api)

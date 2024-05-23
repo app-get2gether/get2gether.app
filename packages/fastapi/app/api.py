@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
 from .tgbot.api import router as tgbot_api
-from .tgbot.auth.dependencies import validate_init_data
 
-router = APIRouter(prefix="/tgbot/v1")
+router = APIRouter()
 
-router.include_router(tgbot_api, dependencies=[Depends(validate_init_data)])
+router.include_router(tgbot_api)

@@ -41,13 +41,13 @@ async def error_handler(db: AsyncSession, update: object, context: Context) -> N
     )
 
     if isinstance(update, Update):
-        user_data = extract_user_data(update)
-        if user_data:
+        user_tg_data = extract_user_data(update)
+        if user_tg_data:
             user_msg = "\n".join(
                 [
-                    f"User: {user_data.first_name} {user_data.last_name}",
-                    f"User telegram_id: {user_data.telegram_id}",
-                    f"User username: {user_data.username}",
+                    f"User: {user_tg_data.first_name} {user_tg_data.last_name}",
+                    f"User telegram_id: {user_tg_data.id}",
+                    f"User username: {user_tg_data.username}",
                 ]
             )
             error_msg += f"\n\n{user_msg}"
@@ -65,8 +65,8 @@ async def error_handler(db: AsyncSession, update: object, context: Context) -> N
 async def _message_to_user(update: object, context: Context) -> None:
     if not isinstance(update, Update):
         return
-    user_data = extract_user_data(update)
-    if not user_data:
+    user_tg_data = extract_user_data(update)
+    if not user_tg_data:
         return
 
     # TODO: localize
@@ -74,6 +74,6 @@ async def _message_to_user(update: object, context: Context) -> None:
         "Oops! An error occurred while processing your request. Please try again later."
     )
     await context.bot.send_message(
-        chat_id=user_data.telegram_id,
+        chat_id=user_tg_data.id,
         text=error_msg,
     )

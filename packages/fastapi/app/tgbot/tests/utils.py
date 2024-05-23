@@ -14,6 +14,7 @@ def generate_telegram_auth_key() -> str:
         "query_id": "KSVjxFYIYtcUCDVEYdTOtqOe",
         "user": json.dumps(
             {
+                "id": "-10203172",
                 "first_name": "Alice",
                 "last_name": "Adventures",
                 "username": "alice",

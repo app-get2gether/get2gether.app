@@ -17,8 +17,8 @@ class UserModel(RecordModel):
     tg_last_name     = mapped_column(String(64), nullable=False, default="")
     tg_phone         = mapped_column(String(64), nullable=False, default="")
     tg_language_code = mapped_column(String(8), nullable=False, default="")
+    tg_is_bot        = mapped_column(Boolean, nullable=False, default=False)
 
-    is_bot        = mapped_column(Boolean, nullable=False, default=False)
     is_admin      = mapped_column(Boolean, nullable=False, default=False)
     is_blocked    = mapped_column(Boolean, nullable=False, default=False)
     # fmt: on

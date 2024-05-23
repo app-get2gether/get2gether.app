@@ -20,16 +20,16 @@ jobs:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_DB: db
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
+          POSTGRES_DB: db_test
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password123
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5433:5432
+          - 5435:5432
 
     steps:
     - uses: actions/checkout@v4

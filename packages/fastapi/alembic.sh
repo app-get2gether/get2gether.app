@@ -6,7 +6,7 @@
 set -euo pipefail
 
 echo "================================================================================="
-generated_revision=$(alembic revision --autogenerate | tail -n1 | cut -d' ' -f4)
+generated_revision=$(alembic revision --autogenerate | grep Generating | cut -d' ' -f4)
 cat "${generated_revision}"
 echo "================================================================================="
 alembic upgrade --sql +1

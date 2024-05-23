@@ -55,9 +55,10 @@ strict_equality = true
 
 [tool.pytest.ini_options]
 env_files = ".env.test"
+asyncio_mode = "auto"
 env_override_existing_values = 1
 filterwarnings = [
-  "ignore:The 'app' shortcut is now deprecated. Use the explicit style 'transport=WSGITransport\\(app=...\\)':DeprecationWarning",
+  "ignore:The 'app' shortcut is now deprecated. Use the explicit style 'transport=ASGITransport\\(app=...\\)':DeprecationWarning",
  ]
 
 # https://docs.astral.sh/ruff/configuration

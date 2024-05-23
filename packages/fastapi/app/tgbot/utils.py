@@ -1,20 +1,9 @@
-from typing import Annotated
-
-from pydantic import BaseModel, Field
 from telegram import Update
 
-
-# TODO: move to the Pydantic models file
-class UserData(BaseModel):
-    telegram_id: Annotated[int, Field(validation_alias="id")]
-    username: str = ""
-    first_name: str = ""
-    last_name: str = ""
-    language_code: str = ""
-    is_bot: bool = False
+from app.tgbot.user.schemas import UserTgData
 
 
-def extract_user_data(update: Update) -> UserData | None:
+def extract_user_data(update: Update) -> UserTgData | None:
     try:
         user = next(
             getattr(update, attr)
@@ -31,4 +20,4 @@ def extract_user_data(update: Update) -> UserData | None:
     except StopIteration:
         return None
 
-    return UserData(**user.to_dict())
+    return UserTgData(**user.to_dict())

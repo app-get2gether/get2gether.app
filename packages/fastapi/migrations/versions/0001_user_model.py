@@ -2,7 +2,7 @@
 
 Revision ID: 0001
 Revises:
-Create Date: 2024-05-23 21:16:28.074842
+Create Date: 2024-05-24 00:40:43.172445
 
 """
 from typing import Sequence, Union
@@ -28,7 +28,7 @@ def upgrade() -> None:
         sa.Column("tg_last_name", sa.String(length=64), nullable=False),
         sa.Column("tg_phone", sa.String(length=64), nullable=False),
         sa.Column("tg_language_code", sa.String(length=8), nullable=False),
-        sa.Column("is_bot", sa.Boolean(), nullable=False),
+        sa.Column("tg_is_bot", sa.Boolean(), nullable=False),
         sa.Column("is_admin", sa.Boolean(), nullable=False),
         sa.Column("is_blocked", sa.Boolean(), nullable=False),
         sa.Column("id", sa.UUID(), nullable=False),

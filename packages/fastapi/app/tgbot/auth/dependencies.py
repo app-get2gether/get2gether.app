@@ -1,5 +1,6 @@
 import hashlib
 import hmac
+import json
 import re
 from typing import Annotated
 from urllib.parse import unquote
@@ -9,6 +10,8 @@ from fastapi.security import APIKeyHeader
 from starlette.status import HTTP_403_FORBIDDEN
 
 from app.settings import settings
+from app.tgbot.user.schemas import User, UserTgData
+from app.tgbot.user.services import UserService
 
 
 async def validate_init_data(
@@ -36,3 +39,25 @@ async def validate_init_data(
 
     if result_hash != data_hash:
         raise HTTPException(status_code=HTTP_403_FORBIDDEN, detail="Hash is not valid")
+
+
+async def get_user_or_create_with_tg_data(
+    auth_key: Annotated[str, Depends(APIKeyHeader(name="x-telegram-auth"))],
+    user_svc: Annotated[UserService, Depends(UserService.get_svc)],
+) -> User:
+    m = re.compile(r"^((.*?)&hash=(.*?))$").match(unquote(auth_key))
+    if not m:
+        raise HTTPException(
+            status_code=HTTP_403_FORBIDDEN, detail="Invalid authentication credentials"
+        )
+
+    init_data = m.group(1)
+    data = {k: v for (k, v) in [p.split("=") for p in init_data.split("&")]}
+    user_tg_data = UserTgData.model_validate(json.loads(data["user"]))
+    user = await user_svc.get_by_tg_id(user_tg_data.id)
+    if not user:
+        user = await user_svc.create_with_tg_data(user_tg_data)
+    return user
+
+
+UserDep = Annotated[User, Depends(get_user_or_create_with_tg_data)]
