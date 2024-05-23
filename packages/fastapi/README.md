@@ -38,3 +38,9 @@ It allows to push error logs into telegram chat
     }
 
    ```
+
+## Migrations
+
+* `task alembic_print` - to see generated migrations output
+* `task makemigrations my_migration`
+* `task migrate`

@@ -2,11 +2,16 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
+from alembic.operations.ops import MigrationScript
+from alembic.runtime.migration import MigrationContext
+from alembic.script import ScriptDirectory
+from alembic.script.revision import _GetRevArg
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.models.base import BaseModel
+from app.models.user import UserModel  # noqa
 from app.settings import settings
 
 # this is the Alembic Config object, which provides
@@ -31,6 +36,23 @@ target_metadata = BaseModel.metadata
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 
+def process_revision_directives(
+    context: MigrationContext, revision: _GetRevArg, directives: list[MigrationScript]
+) -> None:
+    migration_script = directives[0]
+    config = context.config
+    if not config:
+        return
+    head_revision = ScriptDirectory.from_config(config).get_current_head()
+
+    if head_revision is None:
+        rev_id = 1
+    else:
+        last_rev_id = int(head_revision.lstrip("0"))
+        rev_id = last_rev_id + 1
+    migration_script.rev_id = f"{rev_id:04d}"
+
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
@@ -49,6 +71,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        process_revision_directives=process_revision_directives,
     )
 
     with context.begin_transaction():
@@ -56,7 +79,11 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        process_revision_directives=process_revision_directives,
+    )
 
     with context.begin_transaction():
         context.run_migrations()

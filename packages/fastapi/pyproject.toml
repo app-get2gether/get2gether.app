@@ -15,6 +15,7 @@ pydantic-settings = "^2.1.0"
 asyncpg = "^0.29.0"
 python-telegram-bot = "^21.1.1"
 pyi18n-v2 = "^1.2.1"
+pytest-asyncio = "^0.23.7"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -66,6 +67,8 @@ extend-select = ["B", "I", "SIM", "UP"]
 
 [tool.taskipy.tasks]
 alembic_print = "bash alembic.sh"
+makemigrations = "alembic revision --autogenerate -m"
+migrate = "alembic upgrade head"
 dev = "uvicorn app.server:app --reload"
 lint = "ruff format --check . && ruff check --diff"
 mypy = "mypy ."
