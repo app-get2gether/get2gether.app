@@ -1,8 +1,12 @@
+from typing import Annotated, Self
+
+from fastapi import Depends
 from geoalchemy2.functions import ST_MakePoint
 from sqlalchemy import sql
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.event import EventModel
+from app.db import get_db_session
+from app.models import EventModel
 from app.tgbot.event.schemas import Event, EventBase
 
 
@@ -10,18 +14,18 @@ class EventService:
     def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
+    @classmethod
+    async def get_svc(
+        cls, db: Annotated[AsyncSession, Depends(get_db_session)]
+    ) -> Self:
+        return cls(db)
+
     async def create(self, event: EventBase) -> Event:
-        stmt = (
-            sql.insert(EventModel)
-            .values(
-                **{
-                    "lat": event.lat,
-                    "lng": event.lng,
-                    "location": ST_MakePoint(event.lat, event.lng),
-                }
-            )
-            .returning(EventModel)
-        )
+        event_data = event.dict()
+        if event.lat and event.lng:
+            event_data["location"] = ST_MakePoint(event.lat, event.lng)
+
+        stmt = sql.insert(EventModel).values(**event_data).returning(EventModel)
         res = await self.db.execute(stmt)
         _event = Event.model_validate(res.scalar_one())
         await self.db.commit()

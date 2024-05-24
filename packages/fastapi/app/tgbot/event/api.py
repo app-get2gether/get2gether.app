@@ -1,26 +1,17 @@
-from datetime import datetime
-from uuid import UUID, uuid4
+from typing import Annotated
+from uuid import uuid4
 
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends
 
-from app.tgbot.auth.dependencies import UserDep
+from app.tgbot.event.schemas import Event, EventBase
+from app.tgbot.event.services import EventService
 
 router = APIRouter()
 
 
-class Event(BaseModel):
-    id: UUID
-    title: str
-    description: str | None = None
-    created_at: datetime
-    start_at: datetime
-    end_at: datetime
-
-
 @router.get("/events")
-async def get_events(user: UserDep) -> list[Event]:
-    from datetime import timedelta
+async def get_events() -> list[Event]:
+    from datetime import datetime, timedelta
 
     return [
         Event(
@@ -73,3 +64,12 @@ async def get_events(user: UserDep) -> list[Event]:
             end_at=datetime.now() + timedelta(hours=4),
         ),
     ]
+
+
+@router.post("/events")
+async def create_event(
+    event_data: EventBase,
+    event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+) -> Event:
+    event = await event_svc.create(event_data)
+    return event

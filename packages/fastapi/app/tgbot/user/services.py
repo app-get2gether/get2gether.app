@@ -6,7 +6,7 @@ from sqlalchemy import sql
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import get_db_session
-from app.models.user import UserModel
+from app.models import UserModel
 from app.tgbot.user.schemas import User, UserTgData
 
 

@@ -45,6 +45,10 @@ async def get_user_or_create_with_tg_data(
     auth_key: Annotated[str, Depends(APIKeyHeader(name="x-telegram-auth"))],
     user_svc: Annotated[UserService, Depends(UserService.get_svc)],
 ) -> User:
+    """
+    WARNING: Data is trusted and should be validated before calling this function
+    TODO: validate here one more time
+    """
     m = re.compile(r"^((.*?)&hash=(.*?))$").match(unquote(auth_key))
     if not m:
         raise HTTPException(

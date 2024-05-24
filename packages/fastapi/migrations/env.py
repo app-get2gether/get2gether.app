@@ -1,5 +1,6 @@
 import asyncio
 from logging.config import fileConfig
+from typing import Literal, Optional
 
 from alembic import context
 from alembic.operations.ops import MigrationScript
@@ -9,10 +10,9 @@ from alembic.script.revision import _GetRevArg
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
+from sqlalchemy.sql.schema import SchemaItem
 
-from app.models.base import BaseModel
-from app.models.event import EventModel  # noqa
-from app.models.user import UserModel  # noqa
+from app.models import BaseModel
 from app.settings import settings
 
 # this is the Alembic Config object, which provides
@@ -35,6 +35,27 @@ target_metadata = BaseModel.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+
+# Exclude extensions tables
+# https://gist.github.com/utek/6163250
+exclude_tables = config.get_main_option("exclude_tables", "").split(",")
+
+
+def include_object(
+    object: SchemaItem,
+    name: Optional[str],
+    type_: Literal[
+        "schema",
+        "table",
+        "column",
+        "index",
+        "unique_constraint",
+        "foreign_key_constraint",
+    ],
+    reflected: bool,
+    compare_to: Optional[SchemaItem],
+) -> bool:
+    return not (type_ == "table" and name in exclude_tables)
 
 
 def process_revision_directives(
@@ -73,6 +94,7 @@ def run_migrations_offline() -> None:
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
         process_revision_directives=process_revision_directives,
+        include_object=include_object,
     )
 
     with context.begin_transaction():
@@ -84,6 +106,7 @@ def do_run_migrations(connection: Connection) -> None:
         connection=connection,
         target_metadata=target_metadata,
         process_revision_directives=process_revision_directives,
+        include_object=include_object,
     )
 
     with context.begin_transaction():
