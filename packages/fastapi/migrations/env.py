@@ -11,6 +11,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.models.base import BaseModel
+from app.models.event import EventModel  # noqa
 from app.models.user import UserModel  # noqa
 from app.settings import settings
 

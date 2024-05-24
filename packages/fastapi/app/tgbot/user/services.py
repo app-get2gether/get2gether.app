@@ -28,9 +28,9 @@ class UserService:
             .returning(UserModel)
         )
         res = await self.db.execute(stmt)
+        user = User.model_validate(res.scalar_one())
         await self.db.commit()
-        user = res.scalar_one()
-        return User.model_validate(user)
+        return user
 
     async def get_by_tg_id(self, tg_id: int) -> User | None:
         stmt = sql.select(UserModel).where(UserModel.tg_id == tg_id)
