@@ -1,4 +1,4 @@
-# Get2Gether FastAPI backend
+# Get2Gether FastAPI backend [![codecov](https://codecov.io/github/app-get2gether/get2gether.app/branch/main/graph/badge.svg?token=YCAKITUCIR&flags=fastapi)](https://codecov.io/github/app-get2gether/get2gether.app)
 
 ## Installation
 
