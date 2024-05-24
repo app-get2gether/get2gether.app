@@ -6,39 +6,26 @@ How to launch the repo locally
 pnpm install
 ```
 
-## [Smartcontracts](/packages/tact)
+## [Smartcontracts](../packages/tact/)
+
 ```
 pnpm tact:build
 ```
 
-## [NextJS](/packages/nextjs)
+## [NextJS](../packages/nextjs/)
+
 ```
 pnpm nextjs:dev
 ```
 
-## [FastAPI](/packages/fastapi)
+## Backend
+
 ```
 cd packages/fastapi
 poetry install
+docker-compose up
+task migrate
 task dev
 ```
 
-## Setup tunnels
-
-Tunnels are needed to make your local endpoints (nextjs/fastapi) being accessible to Telegram
-
-### With Cloudflare Tunnel
-
-https://www.cloudflare.com/products/tunnel/  
-
-1. Go to dashboard and create tunnel
-2. Follow instructions to install and setup `cloudflared`
-3. Launch tunnels with dashboard or `cloudflared`
-   ```
-   cloudflared --url localhost:3000 
-   cloudflared --url localhost:8000
-   ```
-
-### With Ngrok
-
-https://ngrok.com/
+[More details](backend/)
