@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "7266ade8-96da-426e-96a0-592fcc6c9578",
+		"name": "Get2Gether.app",
+		"description": "Collections of Get2Gether backend endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3122908"
+	},
+	"item": [
+		{
+			"name": "tgbot/v1",
+			"item": [
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tgbot/v1/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tgbot",
+								"v1",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Basic bot API",
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{init_data}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "X-Telegram-Auth",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
