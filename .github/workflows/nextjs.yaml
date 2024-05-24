@@ -49,3 +49,6 @@ jobs:
 
       - name: Run lint
         run: pnpm nextjs:lint --max-warnings=0
+
+      - name: Run Typescript linter
+        run: pnpm nextjs:ts

@@ -1,4 +1,5 @@
 pnpm nextjs:lint
+pnpm nextjs:ts
 pnpm fastapi:mypy
 pnpm fastapi:lint
 pnpm tact:format:check

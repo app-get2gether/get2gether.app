@@ -1,0 +1,11 @@
+create_event:
+  set_description_form:
+    heading: ''
+    placeholder: ''
+  set_title_form:
+    heading: ''
+    placeholder: ''
+Set: ''
+Set your username: ''
+title:
+  events: Встречи

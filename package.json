@@ -10,6 +10,7 @@
     "fastapi:mypy": "cd packages/fastapi && task mypy",
     "nextjs:format:check": "pnpm -F @g2g/nextjs lint",
     "nextjs:lint": "pnpm -F @g2g/nextjs lint",
+    "nextjs:ts": "pnpm -F @g2g/nextjs ts",
     "tact:build": "pnpm -F @g2g/tact build",
     "tact:test": "pnpm -F @g2g/tact test",
     "tact:lint": "pnpm -F @g2g/tact lint",

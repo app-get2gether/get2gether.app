@@ -26,9 +26,6 @@ importers:
       '@tonconnect/ui-react':
         specifier: ^2.0.2
         version: 2.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      i18next-http-backend:
-        specifier: ^2.5.2
-        version: 2.5.2
       next:
         specifier: 14.2.3
         version: 14.2.3(@babel/core@7.24.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -41,6 +38,9 @@ importers:
       swr:
         specifier: ^2.2.5
         version: 2.2.5(react@18.3.1)
+      zustand:
+        specifier: ^4.5.2
+        version: 4.5.2(@types/react@18.3.2)(react@18.3.1)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^1.4.0
@@ -75,9 +75,6 @@ importers:
       '@storybook/test':
         specifier: ^8.1.1
         version: 8.1.1(@jest/globals@29.7.0)(@types/jest@29.5.12)(jest@29.7.0(@types/node@20.12.11)(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
       '@types/node':
         specifier: ^20
         version: 20.12.11
@@ -132,6 +129,9 @@ importers:
       typescript:
         specifier: ^5
         version: 5.4.5
+      yaml-loader:
+        specifier: ^0.8.1
+        version: 0.8.1
 
   packages/tact:
     devDependencies:
@@ -2173,9 +2173,6 @@ packages:
   '@types/jest@29.5.12':
     resolution: {integrity: sha512-eDC8bTvT/QhYdxJAulQikueigY5AsdBRH2yDKW3yveW7svY3+DzN84/2NUgkw10RTiJbWqZrTtoGVdYlvFJdLw==}
 
-  '@types/js-yaml@4.0.9':
-    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -3215,9 +3212,6 @@ packages:
 
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
-
-  cross-fetch@4.0.0:
-    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
 
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -4306,9 +4300,6 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next-http-backend@2.5.2:
-    resolution: {integrity: sha512-+K8HbDfrvc1/2X8jpb7RLhI9ZxBDpx3xogYkQwGKlWAUXLSEGXzgdt3EcUjLlBCdMwdQY+K+EUF6oh8oB6rwHw==}
-
   i18next-parser@8.13.0:
     resolution: {integrity: sha512-XU7resoeNcpJazh29OncQQUH6HsgCxk06RqBBDAmLHldafxopfCHY1vElyG/o3EY0Sn7XjelAmPTV0SgddJEww==}
     engines: {node: '>=16.0.0 || >=18.0.0 || >=20.0.0', npm: '>=6', yarn: '>=1'}
@@ -4690,6 +4681,9 @@ packages:
     resolution: {integrity: sha512-61btcOHNnLnsOdtLgA5efqQWjnSi/vow5HbI7HMdKKWqvrKR1bLK3BPlJn9gcSaP2ewuamUSMB5XEy76KUIS2w==}
     engines: {node: '>=10'}
     hasBin: true
+
+  javascript-stringify@2.1.0:
+    resolution: {integrity: sha512-JVAfqNPTvNq3sB/VHQJAFxN/sPgKnsKrCwyRt15zwNCdrMMJDdcEOdubuy+DuJYYdm0ox1J4uzEuYKkN+9yhVg==}
 
   jest-changed-files@29.7.0:
     resolution: {integrity: sha512-fEArFiwf1BpQ+4bXSprcDc3/x4HSzL4al2tozwVpDFpsxALjLYdyiIK4e5Vz66GQJIbXJ82+35PtysofptNX2w==}
@@ -6855,6 +6849,11 @@ packages:
       '@types/react':
         optional: true
 
+  use-sync-external-store@1.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   use-sync-external-store@1.2.2:
     resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
     peerDependencies:
@@ -7051,6 +7050,10 @@ packages:
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
+  yaml-loader@0.8.1:
+    resolution: {integrity: sha512-BCEndnUoi3BaZmePkwGGe93txRxLgMhBa/gE725v1/GHnura8QvNs7c4+4C1yyhhKoj3Dg63M7IqhA++15j6ww==}
+    engines: {node: '>= 14'}
+
   yaml@1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
@@ -7082,6 +7085,21 @@ packages:
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
+  zustand@4.5.2:
+    resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0.6'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
 
 snapshots:
 
@@ -9832,8 +9850,6 @@ snapshots:
       expect: 29.7.0
       pretty-format: 29.7.0
 
-  '@types/js-yaml@4.0.9': {}
-
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
@@ -11105,12 +11121,6 @@ snapshots:
       - ts-node
 
   create-require@1.1.1: {}
-
-  cross-fetch@4.0.0:
-    dependencies:
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
 
   cross-spawn@7.0.3:
     dependencies:
@@ -12511,12 +12521,6 @@ snapshots:
 
   husky@9.0.11: {}
 
-  i18next-http-backend@2.5.2:
-    dependencies:
-      cross-fetch: 4.0.0
-    transitivePeerDependencies:
-      - encoding
-
   i18next-parser@8.13.0:
     dependencies:
       '@babel/runtime': 7.24.5
@@ -12915,6 +12919,8 @@ snapshots:
       chalk: 4.1.2
       filelist: 1.0.4
       minimatch: 3.1.2
+
+  javascript-stringify@2.1.0: {}
 
   jest-changed-files@29.7.0:
     dependencies:
@@ -15387,6 +15393,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.2
 
+  use-sync-external-store@1.2.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   use-sync-external-store@1.2.2(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -15641,6 +15651,12 @@ snapshots:
 
   yallist@4.0.0: {}
 
+  yaml-loader@0.8.1:
+    dependencies:
+      javascript-stringify: 2.1.0
+      loader-utils: 2.0.4
+      yaml: 2.4.2
+
   yaml@1.10.2: {}
 
   yaml@2.4.2: {}
@@ -15664,3 +15680,10 @@ snapshots:
   yocto-queue@1.0.0: {}
 
   zod@3.23.8: {}
+
+  zustand@4.5.2(@types/react@18.3.2)(react@18.3.1):
+    dependencies:
+      use-sync-external-store: 1.2.0(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.2
+      react: 18.3.1

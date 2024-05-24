@@ -4,7 +4,7 @@ const config = {
   defaultNamespace: "default",
   createOldCatalogs: false,
   sort: true,
-  output: "public/locales/$LOCALE/$NAMESPACE.yml",
+  output: "src/locales/$LOCALE/$NAMESPACE.yaml",
 }
 
 export default config
