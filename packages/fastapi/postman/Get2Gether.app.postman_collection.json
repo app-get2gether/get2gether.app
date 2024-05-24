@@ -28,6 +28,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "set username",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"Bob\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tgbot/v1/me/username",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tgbot",
+								"v1",
+								"me",
+								"username"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Basic bot API",

@@ -56,11 +56,11 @@ jobs:
       run: |
         source .venv/bin/activate
         task lint
-    - name: Test with pytest
-      run: |
-        source .venv/bin/activate
-        pytest -v 
     - name: MyPy
       run: |
         source .venv/bin/activate
         task mypy
+    - name: Test with pytest
+      run: |
+        source .venv/bin/activate
+        task test

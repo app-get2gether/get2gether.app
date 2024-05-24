@@ -1,4 +1,5 @@
-from typing import Annotated, Self
+from typing import Annotated, Any, Dict, Self
+from uuid import UUID
 
 from fastapi import Depends
 from sqlalchemy import sql
@@ -18,6 +19,18 @@ class UserService:
         cls, db: Annotated[AsyncSession, Depends(get_db_session)]
     ) -> Self:
         return cls(db)
+
+    async def update(self, user_id: UUID, data: Dict[str, Any]) -> User:
+        stmt = (
+            sql.update(UserModel)
+            .where(UserModel.id == user_id)
+            .values(**data)
+            .returning(UserModel)
+        )
+        res = await self.db.execute(stmt)
+        await self.db.commit()
+        user = res.scalar_one()
+        return User.model_validate(user)
 
     async def get_by_tg_id(self, tg_id: int) -> User | None:
         stmt = sql.select(UserModel).where(UserModel.tg_id == tg_id)
