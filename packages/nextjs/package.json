@@ -10,6 +10,7 @@
     "format:check": "prettier --check **/*.ts",
     "i18next": "i18next 'src/**/*.{ts,tsx}'",
     "lint": "next lint",
+    "ts": "tsc --noEmit",
     "tsw": "tsc --noEmit --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -17,6 +18,8 @@
   "dependencies": {
     "@heroicons/react": "^2.1.3",
     "@tonconnect/ui-react": "^2.0.2",
+    "color-parse": "^2.0.2",
+    "colorjs.io": "^0.5.0",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",

@@ -25,7 +25,7 @@ const MenuLinks = [
 
 export default function FooterTabs({ className }: { className?: string }) {
   return (
-    <footer className={twMerge("footer pb-9 pt-2 bg-primary", className)}>
+    <footer className={twMerge("footer pb-9 pt-2", className)}>
       <div className="w-full flex flex-row text-hint">
         {MenuLinks.map(({ href, title, icon }, i) => (
           <FooterItem href={href} title={title} icon={icon} key={i} />
@@ -40,7 +40,7 @@ function FooterItem({ href, title, icon, key }: { href: string; title: string; i
   const isActive = pathname === href;
 
   return (
-    <Link href={href} className={cn("flex-1 text-center", { "text-accent": isActive })} key={key}>
+    <Link href={href} className={cn("flex-1 text-center", { "text-primary": isActive })} key={key}>
       <span className="w-7 h-7 block mx-auto my-1">{icon}</span>
       <span>{title}</span>
     </Link>

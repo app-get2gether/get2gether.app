@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  div[contenteditable] {
+    position: relative;
+    /* remove focus outline because it's broken on mobiles */
+    outline: none !important;
+  }
+  div[contenteditable][data-placeholder]:empty::before {
+    text-overflow: ellipsis;
+    content: attr(data-placeholder);
+    white-space: nowrap;
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @apply cursor-text w-full;
+}
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

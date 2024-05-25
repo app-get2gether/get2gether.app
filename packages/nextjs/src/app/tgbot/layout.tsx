@@ -7,6 +7,7 @@ import Script from "next/script";
 import { useCallback, useState } from "react";
 import type { WebApp } from "telegram";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import Colorjs from "colorjs.io";
 
 import i18n from "@/i18n";
 import { parseUserData } from "@/utils/telegram";
@@ -27,6 +28,14 @@ export default function RootLayout({
     i18n.changeLanguage(userData.language_code);
 
     setWebApp(window.Telegram.WebApp);
+    // retrieve the main background color of the theme
+    // not needed when telegram theme is used
+    const backgroundColor = getComputedStyle(document.documentElement).backgroundColor;
+    if (backgroundColor) {
+      const hex = new Colorjs(backgroundColor).to("srgb").toString({ format: "hex" });
+      window.Telegram.WebApp.setHeaderColor(hex);
+    }
+
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
   }, [setWebApp]);
