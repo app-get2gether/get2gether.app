@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer components {
+  /* Contenteditable */
   div[contenteditable] {
     position: relative;
     /* remove focus outline because it's broken on mobiles */
@@ -16,7 +17,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
     @apply cursor-text w-full;
-}
+  }
+  /* Modal */
+  .tgbot-modal {
+    @apply opacity-0 w-full h-full z-10 left-0 top-0 fixed transition-opacity duration-150 ease-in-out;
+    @apply flex flex-col justify-end;
+  }
+  .tgbot-modal .tgbot-modal-content {
+    @apply opacity-0 transition relative duration-150 ease-in-out;
+    @apply translate-y-full;
+  }
+  .tgbot-modal.enter-active, .tgbot-modal.enter-done {
+    @apply opacity-100;
+  }
+  .tgbot-modal.enter-active .tgbot-modal-content, .tgbot-modal.enter-done .tgbot-modal-content {
+    @apply opacity-100 translate-y-0;
+  }
 }
 
 @layer utilities {

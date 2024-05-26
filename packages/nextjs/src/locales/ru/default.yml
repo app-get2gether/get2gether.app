@@ -1,12 +1,13 @@
 create_event:
+  select_location_button: Добавить локацию
   set_description_form:
     heading: ''
     placeholder: ''
-  set_description_placeholder: 'Добавьте детали (опционально)'
+  set_description_placeholder: Добавьте детали (опционально)
   set_title_form:
     heading: ''
     placeholder: ''
-  set_title_placeholder: "Введите название встречи"
+  set_title_placeholder: Введите название встречи
 Set: ''
 Set your username: ''
 title:

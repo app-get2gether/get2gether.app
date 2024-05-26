@@ -2,9 +2,10 @@
 
 import { EditableInput, EditableTextarea } from "@/components/Editable";
 import { TCreateEventStore, useCreateEventStore } from "@/store";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ImageUplader from "@/components/ImageUploader";
+import Modal from "@/components/tgbot/Modal";
 
 export default function CreateEventPage() {
   const { t } = useTranslation();
@@ -14,6 +15,8 @@ export default function CreateEventPage() {
     setTitle: state.setTitle,
     setImageUrl: state.setImageUrl,
   }));
+  const [showLocationModal, setShowLocationModal] = useState(false);
+
   const textareaRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -29,13 +32,16 @@ export default function CreateEventPage() {
     },
     [setImageUrl],
   );
+  const onSelectLocation = useCallback(() => {
+    setShowLocationModal(true);
+  }, [setShowLocationModal]);
 
   return (
     <main className="h-full">
-      <div className="card bg-base-100 mx-3 mt-5">
+      <div className="card bg-base-100 mx-3 mt-2 shadow border border-base-300">
         <figure>
           {imageUrl && (
-            <div className="w-full h-48 overflow-hidden relative">
+            <div className="w-full h-52 overflow-hidden relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 ref={imageRef}
@@ -61,6 +67,19 @@ export default function CreateEventPage() {
             onSubmit={() => {}}
           />
           <ImageUplader onChange={onChangeImage} />
+          <div className="text-center">
+            <button className="btn btn-primary mt-5" onClick={onSelectLocation}>
+              {t("create_event.select_location_button")}
+            </button>
+          </div>
+          <Modal
+            open={showLocationModal}
+            onClose={useCallback(() => {
+              setShowLocationModal(false);
+            }, [setShowLocationModal])}
+          >
+            <div className="h-[500px]">Set location</div>
+          </Modal>
         </div>
       </div>
     </main>

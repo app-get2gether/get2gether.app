@@ -1,12 +1,13 @@
 create_event:
+  select_location_button: Add location
   set_description_form:
     heading: ''
     placeholder: ''
-  set_description_placeholder: 'Provide more details (Optional).'
+  set_description_placeholder: Provide more details (Optional).
   set_title_form:
     heading: ''
     placeholder: ''
-  set_title_placeholder: "Enter the name of your event"
+  set_title_placeholder: Enter the name of your event
 Set: ''
 Set your username: ''
 title:
