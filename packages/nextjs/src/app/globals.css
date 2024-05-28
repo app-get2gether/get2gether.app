@@ -3,6 +3,18 @@
 @tailwind utilities;
 
 @layer components {
+  * {
+    overscroll-behavior-y: none;
+    overscroll-behavior-block: none;
+  }
+  body {
+    /*@apply mb-[1px]; /* fix iOS bug with overscroll bounce effect*/
+  }
+  .h-root {
+    height: var(--tg-viewport-height);
+    box-sizing: border-box;
+    padding-bottom: 6rem; /* 6rem is a height of the footer */
+  }
   /* Contenteditable */
   div[contenteditable] {
     position: relative;
@@ -19,13 +31,19 @@
     @apply cursor-text w-full;
   }
   /* Modal */
+  /* if modal-content is small - use justify-end */
   .tgbot-modal {
-    @apply opacity-0 w-full h-full z-10 left-0 top-0 fixed transition-opacity duration-150 ease-in-out;
-    @apply flex flex-col justify-end;
+    @apply opacity-0 z-10 left-0 bottom-0 transition-opacity duration-500 ease-in-out;
+    @apply flex flex-col;
+    @apply w-full absolute inset-0;
+    /* pay attention that overlay background color is used in javascript in Modal.tsx */
+    @apply  bg-black bg-opacity-50;
+    height: var(--tg-viewport-height);
+    overflow-y: scroll;
   }
   .tgbot-modal .tgbot-modal-content {
-    @apply opacity-0 transition relative duration-150 ease-in-out;
-    @apply translate-y-full;
+    @apply opacity-0 transition relative duration-500 ease-in-out mt-10;
+    @apply w-full translate-y-full;
   }
   .tgbot-modal.enter-active, .tgbot-modal.enter-done {
     @apply opacity-100;

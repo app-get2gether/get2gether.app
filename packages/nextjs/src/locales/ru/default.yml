@@ -4,6 +4,9 @@ create_event:
     heading: ''
     placeholder: ''
   set_description_placeholder: Добавьте детали (опционально)
+  set_location_address: Введите адрес
+  set_location_button: Сохранить
+  set_location_notes: Дополнительная информация
   set_title_form:
     heading: ''
     placeholder: ''

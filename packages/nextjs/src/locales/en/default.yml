@@ -4,6 +4,9 @@ create_event:
     heading: ''
     placeholder: ''
   set_description_placeholder: Provide more details (Optional).
+  set_location_address: Enter the address
+  set_location_button: Set location
+  set_location_notes: Any additional notes
   set_title_form:
     heading: ''
     placeholder: ''

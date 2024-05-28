@@ -1,4 +1,4 @@
-import { ForwardedRef, MutableRefObject, forwardRef, useCallback } from "react";
+import { ForwardedRef, forwardRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 
 /**
@@ -39,18 +39,23 @@ export function EditableInput({
       if (!e.currentTarget.innerText.trim()) {
         e.currentTarget.innerHTML = "";
       }
+      e.currentTarget.dispatchEvent(new Event("keyboard:hide"));
       onSubmit(e.currentTarget.innerText);
     },
     [onSubmit],
   );
+  const onFocus = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+    e.currentTarget.dispatchEvent(new Event("keyboard:show"));
+  }, []);
 
   return (
     <div
       contentEditable={true}
-      className=" w-full min-w-44 block textarea textarea-lg textarea-ghost focused:texterea-info"
+      className={twMerge("w-full min-w-44 block textarea textarea-ghost focused:texterea-info", className)}
       data-placeholder={placeholder}
       onKeyDown={onKeyDown}
       onBlur={onBlur}
+      onFocus={onFocus}
     >
       {value}
     </div>
@@ -65,26 +70,36 @@ export const EditableTextarea = forwardRef<
   {
     placeholder?: string;
     className?: string;
+    onBlur?: () => void;
     onSubmit: () => void;
   }
->(({ placeholder, className, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
+>(({ placeholder, className, onBlur, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
       e.currentTarget.blur();
     }
   }, []);
 
-  const onBlur = useCallback(
+  const _onBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       // https://stackoverflow.com/questions/14638887/br-is-inserted-into-contenteditable-html-element-if-left-empty
       if (!e.currentTarget.innerText.trim()) {
         e.currentTarget.innerHTML = "";
-        return;
       }
+      const event = new Event("keyboard:hide", { bubbles: true, cancelable: true });
+      e.currentTarget.dispatchEvent(event);
+      onBlur && onBlur();
       onSubmit();
     },
-    [onSubmit],
+    [onSubmit, onBlur],
   );
+  const onFocus = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const event = new Event("keyboard:show", { bubbles: true, cancelable: true });
+    e.currentTarget.dispatchEvent(event);
+  }, []);
 
   return (
     <div
@@ -93,7 +108,8 @@ export const EditableTextarea = forwardRef<
       className={twMerge("w-full min-w-44 block textarea textarea-ghost focused:texterea-info", className)}
       data-placeholder={placeholder}
       onKeyDown={onKeyDown}
-      onBlur={onBlur}
+      onBlur={_onBlur}
+      onFocus={onFocus}
     ></div>
   );
 });

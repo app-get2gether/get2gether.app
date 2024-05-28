@@ -4,6 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import IconButton from "@/components/IconButton";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCallback, useRef } from "react";
+import { useTelegramViewportHack } from "@/hooks/useTelegramViewportResize";
 
 export default function Modal({
   open,
@@ -18,11 +19,17 @@ export default function Modal({
     onClose();
   }, [onClose]);
   const ref = useRef<HTMLDivElement>(null);
+  // Prevent click outside of modal
+  const disableClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }, []);
+
+  useTelegramViewportHack(ref);
 
   return (
     <CSSTransition nodeRef={ref} in={open} timeout={500} mountOnEnter={true} unmountOnExit={true}>
       <div ref={ref} className="tgbot-modal" onClick={_onClose}>
-        <div className="tgbot-modal-content mt-10 rounded-t-3xl bg-base-300 overflow-hidden">
+        <div className="tgbot-modal-content rounded-t-3xl bg-base-100 z-20" onClick={disableClick}>
           <IconButton
             className="absolute right-4 top-4 z-10 bg-neutral text-neutral-content rounded-full"
             onClick={_onClose}
