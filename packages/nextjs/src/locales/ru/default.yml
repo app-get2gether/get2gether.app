@@ -1,5 +1,8 @@
 create_event:
   select_location_button: Добавить локацию
+  set_datetime:
+    now: Сейчас
+  set_datetime_prefix: В
   set_description_form:
     heading: ''
     placeholder: ''

@@ -68,12 +68,13 @@ export function EditableInput({
 export const EditableTextarea = forwardRef<
   HTMLDivElement,
   {
+    value?: string;
     placeholder?: string;
     className?: string;
     onBlur?: () => void;
     onSubmit: () => void;
   }
->(({ placeholder, className, onBlur, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
+>(({ value, placeholder, className, onBlur, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
       e.currentTarget.blur();
@@ -110,7 +111,9 @@ export const EditableTextarea = forwardRef<
       onKeyDown={onKeyDown}
       onBlur={_onBlur}
       onFocus={onFocus}
-    ></div>
+    >
+      {value}
+    </div>
   );
 });
 EditableTextarea.displayName = "EditableTextarea";

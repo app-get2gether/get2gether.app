@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+import MomentLocalesPlugin from "moment-locales-webpack-plugin";
+
 const nextConfig = {
   images: {
     remotePatterns: [{
@@ -10,7 +12,10 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.ya?ml$/,
       use: "yaml-loader"
-    })
+    });
+    config.plugins.push(new MomentLocalesPlugin({
+      localesToKeep: ["en", "ru"],
+    }));
 
     return config;
   }

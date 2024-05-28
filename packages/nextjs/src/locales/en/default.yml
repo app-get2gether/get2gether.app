@@ -1,5 +1,8 @@
 create_event:
   select_location_button: Add location
+  set_datetime:
+    now: Now
+  set_datetime_prefix: at
   set_description_form:
     heading: ''
     placeholder: ''
