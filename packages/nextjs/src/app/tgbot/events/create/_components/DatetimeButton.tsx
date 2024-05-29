@@ -49,9 +49,9 @@ export default function DatetimeButton() {
   );
 
   return (
-    <div className="mx-auto mt-5 flex cursor-pointer group/datetime" onClick={onClick}>
+    <div className="mx-auto mt-5 inline-flex cursor-pointer animated-on-press" onClick={onClick}>
       <label className="mr-4 text-primary">
-        <CalendarIcon className="w-6 h-6 -mt-1 inline-block transition-transform duration-[125ms] ease-in-out group-hover/datetime:scale-105 group-active/datetime:scale-95" />
+        <CalendarIcon className="w-6 h-6 -mt-1 inline-block" />
       </label>
       <div className="relative">
         <div className="z-1 relative select-none" ref={ref}>

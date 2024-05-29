@@ -7,7 +7,7 @@ import cn from "classnames";
 
 const MAX_FILE_SIZE = 1024 * 1024 * 6; // 6MB
 
-export default function Image() {
+export default function ImageBlock() {
   const { imageFile, setImageFile } = useCreateEventStore((state: TCreateEventStore) => ({
     imageFile: state.imageFile,
     setImageFile: state.setImageFile,
