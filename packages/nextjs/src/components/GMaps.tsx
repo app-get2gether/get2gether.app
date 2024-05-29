@@ -39,6 +39,7 @@ export default function GMaps({
         zoom: 14,
         disableDefaultUI: true,
         mapId: "create_event_map",
+        clickableIcons: false,
       };
 
       async function showMap(lat: number, lng: number) {
@@ -51,7 +52,6 @@ export default function GMaps({
           gmpDraggable: true,
         });
         marker.addListener("dragend", () => {
-          console.log("dragend", marker.position);
           const position = marker.position;
           if (!position) return;
           const new_lat = typeof position.lat === "function" ? position.lat() : position.lat;
@@ -85,7 +85,8 @@ export default function GMaps({
     }
 
     loadGoogleMaps(node);
-  }, [onSetLocation, lat, lng]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onSetLocation]);
 
   return <div ref={ref} className="w-full h-96 rounded-xl z-0"></div>;
 }

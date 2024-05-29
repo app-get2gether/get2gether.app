@@ -71,7 +71,7 @@ export default function ImageBlock() {
       ) : null}
       {showControls && (
         <div
-          className="cursor-pointer border-2 rounded-full border-primary text-primary absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-3 bg-neutral bg-opacity-70"
+          className="cursor-pointer border-2 rounded-full border-primary text-primary absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-3 bg-neutral bg-opacity-70 animated-on-press"
           onClick={onUploaderClick}
           ref={uploaderRef}
         >
@@ -79,7 +79,7 @@ export default function ImageBlock() {
         </div>
       )}
       {imageFile && showControls ? (
-        <div className="absolute right-3 top-3 cursor-pointer text-primary" onClick={onDeleteClick}>
+        <div className="absolute right-3 top-3 cursor-pointer text-primary animated-on-press" onClick={onDeleteClick}>
           <TrashIcon className="h-6 w-6" />
         </div>
       ) : null}
