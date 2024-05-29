@@ -25,7 +25,6 @@
   <a href="https://docs.get2gether.team">Docs</a> •
   <a href="https://dorahacks.io/buidl/11527">DoraHacks</a> •
   <a href="https://dorahacks.io/hackathon/the-open-league-hackathon/buidl">OpenLeague Hackaton</a>
-  <a href="https://ton.org">TON</a>
 </p>
 
 
@@ -37,7 +36,7 @@
 
 
 ## Blockchain Features
-* [ ] Jettons TEP-74
+* [ ] Jettons, TEP-74
 * [ ] NFTs, TEP-62
 * [ ] Swap pool
 * [ ] NFTs marketplace
