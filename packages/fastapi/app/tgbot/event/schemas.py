@@ -11,9 +11,12 @@ class EventBase(BaseModel):
 
     title: Annotated[str, Field(min_length=5, max_length=64)]
     description: Annotated[str | None, Field(max_length=4096)] = ""
+    image_url: Annotated[str | None, Field(max_length=128)] = ""
 
     lat: Decimal | None = None
     lng: Decimal | None = None
+    address: Annotated[str | None, Field(max_length=256)] = ""
+    address_info: str = ""
 
 
 class Event(EventBase):

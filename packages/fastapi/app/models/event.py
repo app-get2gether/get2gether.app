@@ -32,6 +32,15 @@ class EventModel(RecordModel):
 
     title = mapped_column(String(64), nullable=False)
     description = mapped_column(Text(), nullable=False, default="")
+    image_url = mapped_column(String(128), nullable=False, default="")
+
+    address = mapped_column(String(256), nullable=False, default="")
+    address_info = mapped_column(Text(), nullable=False, default="")
+    lat = mapped_column(Numeric, nullable=True)
+    lng = mapped_column(Numeric, nullable=True)
+    location = mapped_column(
+        Geography("POINT", 4326, spatial_index=True), nullable=True
+    )  # SRID 4326, WGS84
 
     start_at = mapped_column(TIMESTAMP(timezone=True), nullable=False, default=utc_now)
     end_at = mapped_column(
@@ -40,9 +49,3 @@ class EventModel(RecordModel):
         nullable=False,
         default=get_default_end_at,
     )
-
-    lat = mapped_column(Numeric, nullable=True)
-    lng = mapped_column(Numeric, nullable=True)
-    location = mapped_column(
-        Geography("POINT", 4326, spatial_index=True), nullable=True
-    )  # SRID 4326, WGS84

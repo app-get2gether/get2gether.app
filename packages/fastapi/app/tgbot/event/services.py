@@ -20,6 +20,11 @@ class EventService:
     ) -> Self:
         return cls(db)
 
+    async def get_by_id(self, event_id: int) -> Event:
+        stmt = sql.select(EventModel).where(EventModel.id == event_id)
+        res = await self.db.execute(stmt)
+        return Event.model_validate(res.scalar_one())
+
     async def create(self, event: EventBase) -> Event:
         event_data = event.dict()
         if event.lat and event.lng:

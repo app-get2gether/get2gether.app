@@ -23,7 +23,23 @@ async def generate_events() -> None:
     for i in range(AMOUNT):
         lat = faker.latitude()
         lng = faker.longitude()
-        await event_svc.create(EventBase.model_validate({"lat": lat, "lng": lng}))
+        title = faker.title()
+        description = faker.text()
+        address = faker.address()
+        address_info = faker.text()
+
+        await event_svc.create(
+            EventBase.model_validate(
+                {
+                    "lat": lat,
+                    "lng": lng,
+                    "title": title,
+                    "description": description,
+                    "address": address,
+                    "address_info": address_info,
+                }
+            )
+        )
         print(f"{i}: {lat}, {lng}")
     await engine.dispose()
 

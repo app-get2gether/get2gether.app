@@ -2,7 +2,7 @@
 
 Revision ID: 0002
 Revises: 0001
-Create Date: 2024-05-24 13:13:58.768418
+Create Date: 2024-05-31 00:24:14.789072
 
 """
 from typing import Sequence, Union
@@ -24,8 +24,9 @@ def upgrade() -> None:
         "events",
         sa.Column("title", sa.String(length=64), nullable=False),
         sa.Column("description", sa.Text(), nullable=False),
-        sa.Column("start_at", sa.TIMESTAMP(timezone=True), nullable=False),
-        sa.Column("end_at", sa.TIMESTAMP(timezone=True), nullable=False),
+        sa.Column("image_url", sa.String(length=128), nullable=False),
+        sa.Column("address", sa.String(length=256), nullable=False),
+        sa.Column("address_info", sa.Text(), nullable=False),
         sa.Column("lat", sa.Numeric(), nullable=True),
         sa.Column("lng", sa.Numeric(), nullable=True),
         sa.Column(
@@ -39,6 +40,8 @@ def upgrade() -> None:
             ),
             nullable=True,
         ),
+        sa.Column("start_at", sa.TIMESTAMP(timezone=True), nullable=False),
+        sa.Column("end_at", sa.TIMESTAMP(timezone=True), nullable=False),
         sa.Column("id", sa.UUID(), nullable=False),
         sa.Column("created_at", sa.TIMESTAMP(timezone=True), nullable=False),
         sa.Column("updated_at", sa.TIMESTAMP(timezone=True), nullable=True),

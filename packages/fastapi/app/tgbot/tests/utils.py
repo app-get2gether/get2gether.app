@@ -40,6 +40,5 @@ def generate_telegram_auth_key(tg_id: Optional[int] = None) -> str:
 
 
 def print_telegram_auth_key() -> None:
-    print(settings.TELEGRAM_TOKEN)
     print("X-Telegram-Auth:", end=" ")
     print(generate_telegram_auth_key())
