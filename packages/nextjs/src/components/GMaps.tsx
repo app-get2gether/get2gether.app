@@ -8,10 +8,12 @@ export default function GMaps({
   lat,
   lng,
   onSetLocation,
+  markerRef,
 }: {
   lat: number | null;
   lng: number | null;
   onSetLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
+  markerRef?: React.MutableRefObject<google.maps.marker.AdvancedMarkerElement | null>;
 }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -67,6 +69,9 @@ export default function GMaps({
           marker.position = { lat, lng };
           onSetLocation({ lat, lng });
         });
+        if (markerRef) {
+          markerRef.current = marker;
+        }
       }
 
       if (lat && lng) {

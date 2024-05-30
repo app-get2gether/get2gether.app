@@ -55,6 +55,19 @@
   .animated-on-press {
     @apply transition-transform duration-[125ms] ease-in-out active:scale-95;
   }
+  .simple-loader {
+    /*--tg-simple-loader-main-color: #ffa516 */;
+    --tg-simple-loader-main-color: oklch(var(--bc));
+    --tg-simple-loader-shadow-color: #0000;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(farthest-side,var(--tg-simple-loader-main-color) 94%,var(--tg-simple-loader-shadow-color)) top/4px 4px no-repeat,
+      conic-gradient(#0000 30%,var(--tg-simple-loader-main-color));
+    -webkit-mask: radial-gradient(farthest-side,var(--tg-simple-loader-shadow-color) calc(100% - 4px),#000 0);
+    @apply animate-spin;
+  }
   /* Bacgkrounds */
   .bg-isometric {
     background-color: #e5e5f7;
