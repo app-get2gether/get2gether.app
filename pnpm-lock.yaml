@@ -78,6 +78,9 @@ importers:
       '@storybook/addon-themes':
         specifier: ^8.1.1
         version: 8.1.1
+      '@storybook/addon-viewport':
+        specifier: ^8.1.4
+        version: 8.1.4
       '@storybook/blocks':
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.3.0)(@types/react@18.3.2)(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -144,6 +147,9 @@ importers:
       storybook:
         specifier: ^8.1.1
         version: 8.1.1(@babel/preset-env@7.24.5(@babel/core@7.24.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      storybook-react-i18next:
+        specifier: ^3.1.1
+        version: 3.1.1(@jest/globals@29.7.0)(@types/jest@29.5.12)(i18next-browser-languagedetector@8.0.0)(i18next-http-backend@2.5.2)(i18next@23.11.5)(jest@29.7.0(@types/node@20.12.11)(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))(react-i18next@14.1.2(i18next@23.11.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       tailwind-merge:
         specifier: ^2.3.0
         version: 2.3.0
@@ -1825,6 +1831,9 @@ packages:
   '@storybook/addon-viewport@8.1.1':
     resolution: {integrity: sha512-AqUYM7mozrIDa/MNHEd2h7jbfKncofx/OUVI8hrbj7VX46OQ5XbvBqgKpPK15c1ejPfx1hiVz9ZYGxA6HXXrjw==}
 
+  '@storybook/addon-viewport@8.1.4':
+    resolution: {integrity: sha512-OmHJzs6ZzLxD2ihNoc3s2YOJS9PDQNvDej6yYlWRLzS8DAW8ADE3DYl0i8wv/zDXbgEVxyEYwe8JhouIu8x5MA==}
+
   '@storybook/blocks@8.1.1':
     resolution: {integrity: sha512-D+jUlkA2dxYPSY97+yM5sbLXPABKlsZAhmDy6gw05UoSpfBu1MnKd18Qj4fTbyqLYIJGH9z/whGd3tTcuZn8KQ==}
     peerDependencies:
@@ -3289,6 +3298,9 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
+  cross-fetch@4.0.0:
+    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
+
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -4378,6 +4390,12 @@ packages:
     resolution: {integrity: sha512-AB6lFlbwwyIqMdHYhwPe+kjOC3Oc5P3nThEoW/AaO2BX3vJDjWPFxYLxokUZOo6RNX20He3AaT8sESs9NJcmEw==}
     engines: {node: '>=18'}
     hasBin: true
+
+  i18next-browser-languagedetector@8.0.0:
+    resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
+
+  i18next-http-backend@2.5.2:
+    resolution: {integrity: sha512-+K8HbDfrvc1/2X8jpb7RLhI9ZxBDpx3xogYkQwGKlWAUXLSEGXzgdt3EcUjLlBCdMwdQY+K+EUF6oh8oB6rwHw==}
 
   i18next-parser@8.13.0:
     resolution: {integrity: sha512-XU7resoeNcpJazh29OncQQUH6HsgCxk06RqBBDAmLHldafxopfCHY1vElyG/o3EY0Sn7XjelAmPTV0SgddJEww==}
@@ -6377,6 +6395,17 @@ packages:
 
   store2@2.14.3:
     resolution: {integrity: sha512-4QcZ+yx7nzEFiV4BMLnr/pRa5HYzNITX2ri0Zh6sT9EyQHbBHacC6YigllUPU9X3D0f/22QCgfokpKs52YRrUg==}
+
+  storybook-i18n@3.0.1:
+    resolution: {integrity: sha512-euCfw6ABqq8jSZ4fCaAIsNwk1FBIrSIr4kMP900bjUgO/mGgzZzXmrYmZaXs51mx9A2p87xo0OktPPZUuKYCTQ==}
+
+  storybook-react-i18next@3.1.1:
+    resolution: {integrity: sha512-myMs1r2Ng4JFna3QiaY590VFTg6/gzRURwJGL95mPcS8bNA5g98Jn74Bs9lJKdltN7D+J01Z0boHM3lMQZB7nA==}
+    peerDependencies:
+      i18next: ^22.0.0 || ^23.0.0 || ^24.0.0
+      i18next-browser-languagedetector: ^7.0.0 || ^8.0.0
+      i18next-http-backend: ^2.0.0
+      react-i18next: ^12.0.0 || ^13.0.0 || ^14.0.0
 
   storybook@8.1.1:
     resolution: {integrity: sha512-tkoz1O2UcPOkfRgl/QkefI/1akyjkBghuX+2S/FaXb9cKUR1St4WBQfFqDUvJr1T9MKdizCBVFQ5HuqYzCiWWQ==}
@@ -9035,6 +9064,10 @@ snapshots:
     dependencies:
       memoizerific: 1.11.3
 
+  '@storybook/addon-viewport@8.1.4':
+    dependencies:
+      memoizerific: 1.11.3
+
   '@storybook/blocks@8.1.1(@types/react-dom@18.3.0)(@types/react@18.3.2)(prettier@3.2.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@storybook/channels': 8.1.1
@@ -11271,6 +11304,12 @@ snapshots:
 
   create-require@1.1.1: {}
 
+  cross-fetch@4.0.0:
+    dependencies:
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
   cross-spawn@7.0.3:
     dependencies:
       path-key: 3.1.1
@@ -12674,6 +12713,16 @@ snapshots:
   human-signals@5.0.0: {}
 
   husky@9.0.11: {}
+
+  i18next-browser-languagedetector@8.0.0:
+    dependencies:
+      '@babel/runtime': 7.24.5
+
+  i18next-http-backend@2.5.2:
+    dependencies:
+      cross-fetch: 4.0.0
+    transitivePeerDependencies:
+      - encoding
 
   i18next-parser@8.13.0:
     dependencies:
@@ -14927,6 +14976,23 @@ snapshots:
       internal-slot: 1.0.7
 
   store2@2.14.3: {}
+
+  storybook-i18n@3.0.1: {}
+
+  storybook-react-i18next@3.1.1(@jest/globals@29.7.0)(@types/jest@29.5.12)(i18next-browser-languagedetector@8.0.0)(i18next-http-backend@2.5.2)(i18next@23.11.5)(jest@29.7.0(@types/node@20.12.11)(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))(react-i18next@14.1.2(i18next@23.11.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+    dependencies:
+      '@storybook/test': 8.1.1(@jest/globals@29.7.0)(@types/jest@29.5.12)(jest@29.7.0(@types/node@20.12.11)(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))
+      i18next: 23.11.5
+      i18next-browser-languagedetector: 8.0.0
+      i18next-http-backend: 2.5.2
+      react-i18next: 14.1.2(i18next@23.11.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      storybook-i18n: 3.0.1
+    transitivePeerDependencies:
+      - '@jest/globals'
+      - '@types/bun'
+      - '@types/jest'
+      - jest
+      - vitest
 
   storybook@8.1.1(@babel/preset-env@7.24.5(@babel/core@7.24.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
