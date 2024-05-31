@@ -125,7 +125,7 @@ export default function LocationButton() {
               <div>
                 <div className="relative">
                   <EditableInput
-                    className="text-primary my-3 textarea-lg p-3 pr-9"
+                    className="my-3 textarea-lg p-3 pr-9"
                     placeholder={t("create_event.set_location_address")}
                     onChange={onSetAddress}
                     onSubmit={() => onSearchAddress(false)}
@@ -153,7 +153,7 @@ export default function LocationButton() {
                   placeholder={t("create_event.set_location_notes")}
                   onSubmit={onSetAddressInfo}
                 />
-                <button className="btn btn-primary w-full mb-7" onClick={onSubmit}>
+                <button className="btn btn-success w-full mb-7" onClick={onSubmit}>
                   {t("create_event.set_location_button")}
                 </button>
               </div>

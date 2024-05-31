@@ -62,7 +62,7 @@ export default function ImageBlock() {
   }
 
   return (
-    <figure className={cn("h-52 relative", { "bg-neutral": !imageFile })} onClick={onRootClick}>
+    <figure className={cn("h-52 relative", { "bg-base-300": !imageFile })} onClick={onRootClick}>
       {imageFile ? (
         <div className="w-full h-52 overflow-hidden absolute top-0 left-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}

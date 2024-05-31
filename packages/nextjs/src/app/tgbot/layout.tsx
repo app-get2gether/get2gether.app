@@ -27,6 +27,7 @@ export default function RootLayout({
     }
     const userData = parseUserData(window.Telegram.WebApp.initData);
     i18n.changeLanguage(userData.language_code);
+    document.documentElement.setAttribute("data-theme", window.Telegram.WebApp.colorScheme);
 
     setWebApp(window.Telegram.WebApp);
     // retrieve the main background color of the theme

@@ -9,9 +9,10 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   daisyui: {
+    lightTheme: "winter",
     darkTheme: "dark",
+    themes: ["winter", "light", "dark"],
   },
-  themes: ["light", "dark"],
   theme: {
     extend: {
       backgroundImage: {
