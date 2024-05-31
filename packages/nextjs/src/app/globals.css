@@ -51,6 +51,16 @@
   .tgbot-modal.enter-active .tgbot-modal-content, .tgbot-modal.enter-done .tgbot-modal-content {
     @apply opacity-100 translate-y-0;
   }
+  .notification-panel {
+    @apply px-10 w-full text-center transition absolute ease-in-out duration-500;
+    @apply opacity-0 top-0 z-10;
+  }
+  .notification-panel > div {
+    @apply p-3 rounded-md;
+  }
+  .notification-panel.enter-active, .notification-panel.enter-done {
+    @apply opacity-100 translate-y-5;
+  }
   /* animations */
   .animated-on-press {
     @apply transition-transform duration-[125ms] ease-in-out active:scale-95;

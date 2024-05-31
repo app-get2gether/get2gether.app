@@ -1,19 +1,16 @@
 create_event:
+  create_button: Publish
+  error_msg: Something happened. Try one more time latter
   select_location_button: Add location
   set_datetime:
     now: Now
   set_datetime_prefix: at
-  set_description_form:
-    heading: ''
-    placeholder: ''
   set_description_placeholder: Provide more details (Optional).
   set_location_address: Enter the address
   set_location_button: Set location
   set_location_notes: Any additional notes
-  set_title_form:
-    heading: ''
-    placeholder: ''
   set_title_placeholder: Enter the name of your event
+  success_msg: Successfully published
 Set: ''
 Set your username: ''
 title:

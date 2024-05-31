@@ -1,19 +1,16 @@
 create_event:
+  create_button: Опубликовать
+  error_msg: Упс, случилась ошибка, попробуйте позднее
   select_location_button: Добавить локацию
   set_datetime:
     now: Сейчас
   set_datetime_prefix: В
-  set_description_form:
-    heading: ''
-    placeholder: ''
   set_description_placeholder: Добавьте детали (опционально)
   set_location_address: Введите адрес
   set_location_button: Сохранить
   set_location_notes: Дополнительная информация
-  set_title_form:
-    heading: ''
-    placeholder: ''
   set_title_placeholder: Введите название встречи
+  success_msg: Опубликовано
 Set: ''
 Set your username: ''
 title:

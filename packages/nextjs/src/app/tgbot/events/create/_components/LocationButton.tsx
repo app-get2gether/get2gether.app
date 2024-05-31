@@ -26,7 +26,7 @@ const searchAddress = async (address: string) => {
 
 export default function LocationButton() {
   const { t } = useTranslation();
-  const { address, addressInfo, location, setLocation, setAddress, setAddressInfo } = useCreateEventStore(
+  const { address, addressInfo, location, setAddress, setAddressInfo, setLocation } = useCreateEventStore(
     (state: TCreateEventStore) => ({
       address: state.address,
       addressInfo: state.addressInfo,
@@ -103,20 +103,19 @@ export default function LocationButton() {
   );
 
   const onSubmit = useCallback(() => {
-    setAddress(_address);
+    setAddress(_address.trim());
     setAddressInfo(_addressInfo);
     setLocation(_location);
-  }, [_address, _addressInfo, _location, setAddress, setAddressInfo, setLocation]);
+    setShowLocationModal(false);
+  }, [_address, _addressInfo, _location, setAddress, setAddressInfo, setLocation, setShowLocationModal]);
 
   return (
     <div className="inline-flex cursor-pointer animated-on-press">
       <label className="mr-4 text-primary">
         <MapPinIcon className="w-6 h-6 -mt-1 inline-block" />
       </label>
-      <div>
-        <button className="rounded-md truncate" onClick={onLocationButtonClick}>
-          {t("create_event.select_location_button")}
-        </button>
+      <div className="truncate w-56" onClick={onLocationButtonClick}>
+        {address.trim() || t("create_event.select_location_button")}
       </div>
       {typeof window !== "undefined" &&
         window.document &&
@@ -154,7 +153,7 @@ export default function LocationButton() {
                   placeholder={t("create_event.set_location_notes")}
                   onSubmit={onSetAddressInfo}
                 />
-                <button className="btn btn-primary w-full mb-7" onClick={() => setShowLocationModal(false)}>
+                <button className="btn btn-primary w-full mb-7" onClick={onSubmit}>
                   {t("create_event.set_location_button")}
                 </button>
               </div>

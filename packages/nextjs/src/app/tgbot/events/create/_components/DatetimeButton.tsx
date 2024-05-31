@@ -10,7 +10,9 @@ const formatDatetime = (timestamp: number) => {
 };
 
 // if in 30 minutes then it means it's now
-const isNow = (date: Moment) => {
+const isNow = (date: Moment | null | "now") => {
+  if (date === "now") return true;
+  if (!date) return false;
   const MINUTES = 30;
   const diff = Math.abs(moment().valueOf() - date.valueOf());
   return diff < 1000 * 60 * MINUTES ? true : false;
@@ -55,7 +57,11 @@ export default function DatetimeButton() {
       </label>
       <div className="relative">
         <div className="z-1 relative select-none" ref={ref}>
-          {startAt == "now" ? t("create_event.set_datetime.now") : formatDatetime(startAt || moment().valueOf())}
+          {isNow(typeof startAt === "number" ? moment(startAt) : startAt)
+            ? t("create_event.set_datetime.now")
+            : // TODO
+              // @ts-ignore
+              formatDatetime(startAt || moment().valueOf())}
         </div>
         <input
           ref={inputRef}

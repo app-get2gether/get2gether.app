@@ -20,12 +20,11 @@ export function EditableInput({
   onSubmit?: (value: string) => void;
   onEnter?: () => void;
 }) {
-  const [_value] = useState(value);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current) return;
-    ref.current.innerText = _value || "";
-  }, [_value, ref]);
+    ref.current.innerText = value || "";
+  }, [value, ref]);
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter") {
@@ -94,12 +93,11 @@ export const EditableTextarea = forwardRef<
       e.currentTarget.blur();
     }
   }, []);
-  const [_value] = useState(value);
   useEffect(() => {
     const current = ref && (ref as MutableRefObject<HTMLDivElement>).current;
     if (!current) return;
-    current.innerText = _value || "";
-  }, [_value, ref]);
+    current.innerText = value || "";
+  }, [value, ref]);
 
   const _onBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
