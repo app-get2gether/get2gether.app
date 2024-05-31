@@ -11,6 +11,8 @@ create_event:
   set_location_notes: Any additional notes
   set_title_placeholder: Enter the name of your event
   success_msg: Successfully published
+list_events:
+  mine: My events
 Set: ''
 Set your username: ''
 title:

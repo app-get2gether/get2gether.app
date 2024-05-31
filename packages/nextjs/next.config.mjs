@@ -5,7 +5,7 @@ const nextConfig = {
   images: {
     remotePatterns: [{
       protocol: "https",
-      hostname: "img.daisyui.com"
+      hostname: "avatars.githubusercontent.com"
     }]
   },
   webpack: (config) => {

@@ -11,6 +11,8 @@ create_event:
   set_location_notes: Дополнительная информация
   set_title_placeholder: Введите название встречи
   success_msg: Опубликовано
+list_events:
+  mine: Мои
 Set: ''
 Set your username: ''
 title:
