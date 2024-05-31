@@ -57,6 +57,8 @@
     "i18next": "^23.11.5",
     "i18next-parser": "^8.13.0",
     "moment-locales-webpack-plugin": "^1.2.0",
+    "msw": "^2.3.0",
+    "msw-storybook-addon": "^2.0.2",
     "postcss": "^8",
     "prettier": "^3.2.5",
     "react-i18next": "^14.1.2",
@@ -66,5 +68,10 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "yaml-loader": "^0.8.1"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

@@ -1,21 +1,30 @@
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 
-export default function EventItem({
+export default function EventListItem({
+  id,
   posterUrl,
   address,
   title,
   description,
   className,
 }: {
+  id: string;
   posterUrl: string;
   address?: string;
   title: string;
   description: string;
   className?: string;
 }) {
+  const router = useRouter();
+  const onClick = useCallback(() => {
+    router.push(`/tgbot/events/${id}?back=true`);
+  }, [id, router]);
+
   return (
-    <div className={twMerge("flex", className)}>
+    <div className={twMerge("flex cursor-pointer", className)} onClick={onClick}>
       <div className="avatar mr-4">
         <div className="w-24 rounded border">
           <Image src={posterUrl} alt="" width={96} height={96} className="opacity-90" />

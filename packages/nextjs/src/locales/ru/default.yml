@@ -12,7 +12,7 @@ create_event:
   set_title_placeholder: Введите название встречи
   success_msg: Опубликовано
 list_events:
-  mine: Мои
+  mine: Мои встречи
 Set: ''
 Set your username: ''
 title:

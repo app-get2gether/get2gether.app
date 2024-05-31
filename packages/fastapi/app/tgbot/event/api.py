@@ -1,5 +1,5 @@
 from typing import Annotated
-from uuid import uuid4
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
@@ -10,60 +10,18 @@ router = APIRouter()
 
 
 @router.get("/events")
-async def get_events() -> list[Event]:
-    from datetime import datetime, timedelta
+async def get_events(
+    event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+) -> list[Event]:
+    return await event_svc.list()
 
-    return [
-        Event(
-            id=uuid4(),
-            title="Event #1",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #2",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #3",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #4",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #5",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #6",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-        Event(
-            id=uuid4(),
-            title="Event #7",
-            created_at=datetime.now(),
-            start_at=datetime.now() + timedelta(hours=3),
-            end_at=datetime.now() + timedelta(hours=4),
-        ),
-    ]
+
+@router.get("/events/{event_id}")
+async def get_event(
+    event_id: UUID,
+    event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+) -> Event | None:
+    return await event_svc.get_by_id(event_id)
 
 
 @router.post("/events")

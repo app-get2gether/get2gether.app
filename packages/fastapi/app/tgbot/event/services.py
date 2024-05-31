@@ -1,4 +1,5 @@
 from typing import Annotated, Self
+from uuid import UUID
 
 from fastapi import Depends
 from geoalchemy2.functions import ST_MakePoint
@@ -20,7 +21,12 @@ class EventService:
     ) -> Self:
         return cls(db)
 
-    async def get_by_id(self, event_id: int) -> Event:
+    async def list(self) -> list[Event]:
+        stmt = sql.select(EventModel)
+        res = await self.db.execute(stmt)
+        return [Event.model_validate(row) for row in res.scalars()]
+
+    async def get_by_id(self, event_id: UUID) -> Event:
         stmt = sql.select(EventModel).where(EventModel.id == event_id)
         res = await self.db.execute(stmt)
         return Event.model_validate(res.scalar_one())

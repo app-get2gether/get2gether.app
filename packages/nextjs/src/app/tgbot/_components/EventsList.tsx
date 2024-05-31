@@ -1,8 +1,9 @@
 "use client";
 
 import useSWR from "@/hooks/useSWR";
-import EventItem from "./EventItem";
+import EventListItem from "./EventListItem";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_EVENT_IMAGE_URL } from "@/config";
 
 /*posterUrl="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"*/
 export default function EventsList() {
@@ -29,8 +30,9 @@ export default function EventsList() {
             address: string;
           }) => (
             <li key={id} className="my-4">
-              <EventItem
-                posterUrl="https://avatars.githubusercontent.com/u/99787948?s=400"
+              <EventListItem
+                id={id}
+                posterUrl={DEFAULT_EVENT_IMAGE_URL}
                 title={title}
                 description={description}
                 address={address}
