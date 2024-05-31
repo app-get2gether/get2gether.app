@@ -11,6 +11,11 @@ create_event:
   set_location_notes: Дополнительная информация
   set_title_placeholder: Введите название встречи
   success_msg: Опубликовано
+event:
+  copy_link_button: Скопировать ссылку
+  join_button: Присоединиться
+  share_button: Поделиться
+  share_in_tg_button: Поделиться в Телеграм
 list_events:
   mine: Мои встречи
 Set: ''

@@ -7,8 +7,10 @@ import { MapPinIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import moment from "moment";
 import ShareButton from "./_components/ShareButton";
+import { useTranslation } from "react-i18next";
 
 export default function EventPage({ params: { id } }: { params: { id: string } }) {
+  const { t } = useTranslation();
   const { data, isLoading, error } = useSWR(`/tgbot/v1/events/${id}`);
   useTelegramBackButton();
 
@@ -50,7 +52,7 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
         </div>
       </div>
       <div className="mx-5">
-        <button className="btn btn-success w-full">Join</button>
+        <button className="btn btn-success w-full">{t("event.join_button")}</button>
         <ShareButton className="my-3" eventId={id} />
       </div>
     </div>
