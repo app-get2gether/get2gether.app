@@ -26,7 +26,7 @@ const EventData = {
 };
 
 type Story = StoryObj<typeof meta>;
-export const Default: Story = {
+export const Event: Story = {
   args: {
     params: {
       id: "1",

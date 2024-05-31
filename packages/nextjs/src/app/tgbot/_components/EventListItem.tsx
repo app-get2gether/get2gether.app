@@ -1,43 +1,73 @@
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { MapPinIcon } from "@heroicons/react/24/outline";
+import { formatHaversineDistance, haversineDistance } from "@/utils/map";
 
 export default function EventListItem({
   id,
-  posterUrl,
+  imageUrl,
   address,
+  location,
+  userLocation,
   title,
   description,
   className,
 }: {
   id: string;
-  posterUrl: string;
+  imageUrl: string;
   address?: string;
+  location: { lat: number; lng: number } | null;
+  userLocation: { lat: number; lng: number } | null;
   title: string;
   description: string;
   className?: string;
 }) {
   const router = useRouter();
+  const [distance, setDistance] = useState<string | null>(null);
+
   const onClick = useCallback(() => {
     router.push(`/tgbot/events/${id}?back=true`);
   }, [id, router]);
 
+  useEffect(() => {
+    if (!userLocation || !location) return;
+    const _distance = formatHaversineDistance(
+      haversineDistance(location.lat, location.lng, userLocation.lat, userLocation.lng),
+    );
+    setDistance(_distance);
+  }, [userLocation, location, setDistance]);
+
   return (
     <div className={twMerge("flex cursor-pointer", className)} onClick={onClick}>
-      <div className="avatar mr-4">
-        <div className="w-24 rounded border">
-          <Image src={posterUrl} alt="" width={96} height={96} className="opacity-90" />
+      <div className="avatar mr-4 rounded border h-fit">
+        <div className="w-24 relative">
+          <Image src={imageUrl} alt="" fill={true} className="opacity-90" />
         </div>
       </div>
-      <div className="relative flex flex-col justify-end">
-        <div>
-          <div className="text-lg">{title}</div>
-          <div>{description}</div>
+
+      <div className="relative flex flex-col justify-between w-full">
+        <div className="flex flex-row w-full justify-between">
+          <div>
+            <div className="text-lg line-clamp-2 leading-snug">{title}</div>
+            <div className="text-sm line-clamp-3 mt-1">{description}</div>
+          </div>
+          <div className="w-20 text-right">
+            <div className="text-xs text-success">{distance}</div>
+          </div>
         </div>
-        <div className="text-xs text-neutral-content">
-          <div className="w-36 truncate">{address}</div>
-        </div>
+
+        {address && (
+          <div className="text-xs opacity-50">
+            <div className="flex flex-row justify-end mr-3 w-full">
+              <span className="w-40 truncate text-right">
+                <MapPinIcon className="h-3 w-3 -mt-[.1rem] mr-1 inline-block" />
+                {address}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
