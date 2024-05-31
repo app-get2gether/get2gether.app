@@ -33,16 +33,19 @@
   /* Modal */
   /* if modal-content is small - use justify-end */
   .tgbot-modal {
-    @apply opacity-0 z-10 left-0 bottom-0 transition-opacity duration-500 ease-in-out;
-    @apply flex flex-col;
+    @apply opacity-0 z-10 transition-opacity duration-500 ease-in-out;
     @apply w-full absolute inset-0;
-    /* pay attention that overlay background color is used in javascript in Modal.tsx */
     @apply  bg-black bg-opacity-50;
+  }
+  .tgbot-modal-wrapper {
     height: var(--tg-viewport-height);
+    @apply w-full absolute inset-0;
+    @apply flex flex-col flex-col-reverse;
+    @apply w-full absolute inset-0;
     overflow-y: scroll;
   }
   .tgbot-modal .tgbot-modal-content {
-    @apply opacity-0 transition relative duration-500 ease-in-out mt-10;
+    @apply opacity-0 transition relative duration-500 ease-in-out;
     @apply w-full translate-y-full;
   }
   .tgbot-modal.enter-active, .tgbot-modal.enter-done {

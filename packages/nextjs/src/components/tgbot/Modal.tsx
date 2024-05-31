@@ -5,6 +5,7 @@ import IconButton from "@/components/IconButton";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCallback, useRef } from "react";
 import { useTelegramViewportHack } from "@/hooks/useTelegramViewportResize";
+import { createPortal } from "react-dom";
 
 export default function Modal({
   open,
@@ -26,19 +27,26 @@ export default function Modal({
 
   useTelegramViewportHack(ref);
 
-  return (
+  if (typeof window === "undefined") return null;
+  if (!window.document) return null;
+
+  return createPortal(
     <CSSTransition nodeRef={ref} in={open} timeout={500} mountOnEnter={true} unmountOnExit={true}>
-      <div ref={ref} className="tgbot-modal" onClick={_onClose}>
-        <div className="tgbot-modal-content rounded-t-3xl bg-base-100 z-20" onClick={disableClick}>
-          <IconButton
-            className="absolute right-4 top-4 z-10 bg-neutral text-neutral-content rounded-full"
-            onClick={_onClose}
-          >
-            <XMarkIcon className="h-4 w-4" />
-          </IconButton>
-          <div className="mt-10 px-5">{children}</div>
+      <div ref={ref} className="tgbot-modal">
+        <div className="tgbot-modal-wrapper" onClick={_onClose}>
+          <div className="tgbot-modal-content rounded-t-3xl bg-base-100 z-20" onClick={disableClick}>
+            <IconButton className="absolute right-4 top-4 z-10 bg-base-300 rounded-full" onClick={_onClose}>
+              <XMarkIcon className="h-4 w-4" />
+            </IconButton>
+            <div className="mt-10 px-5">{children}</div>
+          </div>
+          {/* Hack to keep padding for the modal */}
+          <div className="h-10 w-full">&nbsp;</div>
         </div>
+        {/* Hack to hide bottom elements, iOS */}
+        <div className="absolute bg-base-100 h-10 w-full bottom-0 z-10" />
       </div>
-    </CSSTransition>
+    </CSSTransition>,
+    document.body,
   );
 }

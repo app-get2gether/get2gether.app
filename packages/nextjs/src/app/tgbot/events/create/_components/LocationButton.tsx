@@ -4,7 +4,6 @@ import Modal from "@/components/tgbot/Modal";
 import { TCreateEventStore, useCreateEventStore } from "@/store";
 import { MagnifyingGlassIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import { useCallback, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { Loader } from "@googlemaps/js-api-loader";
 import SimpleLoader from "@/components/SimpleLoader";
@@ -117,50 +116,45 @@ export default function LocationButton() {
       <div className="truncate w-56" onClick={onLocationButtonClick}>
         {address.trim() || t("create_event.select_location_button")}
       </div>
-      {typeof window !== "undefined" &&
-        window.document &&
-        createPortal(
-          <Modal open={showLocationModal} onClose={onCloseLocationModal}>
-            <div>
-              <div>
-                <div className="relative">
-                  <EditableInput
-                    className="my-3 textarea-lg p-3 pr-9"
-                    placeholder={t("create_event.set_location_address")}
-                    onChange={onSetAddress}
-                    onSubmit={() => onSearchAddress(false)}
-                    value={address}
-                  />
-                  <div
-                    className="absolute top-0 right-2 h-full w-8 cursor-pointer z-2 animated-on-press"
-                    onClick={() => onSearchAddress(true)}
-                  >
-                    {isSearching ? (
-                      <SimpleLoader className="w-7 h-7 mx-auto mt-5" />
-                    ) : (
-                      <MagnifyingGlassIcon className="w-6 h-6 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
-                    )}
-                  </div>
-                </div>
-                <GMaps
-                  onSetLocation={onSetLocation}
-                  lat={location && location.lat}
-                  lng={location && location.lng}
-                  markerRef={markerRef}
-                />
-                <EditableTextarea
-                  className="px-3 py-1 my-3 min-h-20"
-                  placeholder={t("create_event.set_location_notes")}
-                  onSubmit={onSetAddressInfo}
-                />
-                <button className="btn btn-success w-full mb-7" onClick={onSubmit}>
-                  {t("create_event.set_location_button")}
-                </button>
+      <Modal open={showLocationModal} onClose={onCloseLocationModal}>
+        <div>
+          <div>
+            <div className="relative">
+              <EditableInput
+                className="my-3 textarea-lg p-3 pr-9"
+                placeholder={t("create_event.set_location_address")}
+                onChange={onSetAddress}
+                onSubmit={() => onSearchAddress(false)}
+                value={address}
+              />
+              <div
+                className="absolute top-0 right-2 h-full w-8 cursor-pointer z-2 animated-on-press"
+                onClick={() => onSearchAddress(true)}
+              >
+                {isSearching ? (
+                  <SimpleLoader className="w-7 h-7 mx-auto mt-5" />
+                ) : (
+                  <MagnifyingGlassIcon className="w-6 h-6 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+                )}
               </div>
             </div>
-          </Modal>,
-          document.body,
-        )}
+            <GMaps
+              onSetLocation={onSetLocation}
+              lat={location && location.lat}
+              lng={location && location.lng}
+              markerRef={markerRef}
+            />
+            <EditableTextarea
+              className="px-3 py-1 my-3 min-h-20"
+              placeholder={t("create_event.set_location_notes")}
+              onSubmit={onSetAddressInfo}
+            />
+            <button className="btn btn-success w-full mb-7" onClick={onSubmit}>
+              {t("create_event.set_location_button")}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
