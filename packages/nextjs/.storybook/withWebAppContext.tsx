@@ -4,9 +4,13 @@ import React from "react";
 
 import type { Decorator } from "@storybook/react";
 
-const withContext: Decorator = (Story): React.ReactElement => {
+const withWebAppContext: Decorator = (Story): React.ReactElement => {
   const webApp = mockWebApp();
-  return <WebAppContext.Provider value={webApp}>{Story()}</WebAppContext.Provider>;
+  return (
+    <WebAppContext.Provider value={webApp}>
+      <Story />
+    </WebAppContext.Provider>
+  );
 };
 
-export default withContext;
+export default withWebAppContext;

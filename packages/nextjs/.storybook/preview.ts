@@ -4,7 +4,7 @@ import { initialize, mswLoader, getWorker } from "msw-storybook-addon";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
 import { MINIMAL_VIEWPORTS } from "@storybook/addon-viewport";
 import i18n from "../src/i18n";
-import withContext from "./withContext";
+import withWebAppContext from "./withWebAppContext";
 
 initialize();
 
@@ -41,7 +41,7 @@ const preview: Preview = {
       defaultTheme: "light",
       attributeName: "data-theme",
     }),
-    withContext,
+    withWebAppContext,
   ],
   // https://github.com/mswjs/msw-storybook-addon/issues/89#issuecomment-2051972538
   loaders: [mswLoader, () => getWorker().start()],
