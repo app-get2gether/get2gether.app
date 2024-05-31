@@ -2,12 +2,13 @@ import type { Meta, StoryObj } from "@storybook/react";
 import EventPage from "../page";
 
 import { HttpResponse, http } from "msw";
+import moment from "moment";
 
 const meta = {
   title: "Pages/events/[id]",
   component: EventPage,
   parameters: {
-    layout: "centered",
+    layout: "fullscreen",
   },
 } satisfies Meta<typeof EventPage>;
 export default meta;
@@ -21,6 +22,7 @@ const EventData = {
     "Located in the heart of Beasleytown, this office suite is part of a modern commercial building close to local amenities and public transport. Ideal for businesses looking for a professional setting.",
   lat: 38.3829293,
   lng: -122.3092458,
+  startAt: moment().valueOf(),
 };
 
 type Story = StoryObj<typeof meta>;

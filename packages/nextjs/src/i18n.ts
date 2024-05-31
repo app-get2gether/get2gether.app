@@ -5,6 +5,7 @@ import { initReactI18next } from "react-i18next";
 import en from "@/locales/en/default.yml";
 // @ts-ignore
 import ru from "@/locales/ru/default.yml";
+import moment from "moment";
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -23,4 +24,9 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
 });
+
+i18n.on("languageChanged", lng => {
+  moment.locale(lng);
+});
+
 export default i18n;

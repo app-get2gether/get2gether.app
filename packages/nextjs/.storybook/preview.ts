@@ -35,7 +35,7 @@ const preview: Preview = {
     withThemeByDataAttribute({
       themes: {
         // nameOfTheme: 'dataAttributeForTheme',
-        light: "light",
+        light: "winter",
         dark: "dark",
       },
       defaultTheme: "light",
