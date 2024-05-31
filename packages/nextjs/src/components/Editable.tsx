@@ -85,7 +85,7 @@ export const EditableTextarea = forwardRef<
     placeholder?: string;
     className?: string;
     onBlur?: () => void;
-    onSubmit: (value: string) => void;
+    onSubmit: (innerText: string, innerHTML: string) => void;
   }
 >(({ value, placeholder, className, onBlur, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -93,11 +93,12 @@ export const EditableTextarea = forwardRef<
       e.currentTarget.blur();
     }
   }, []);
+  const [_value] = useState(value);
   useEffect(() => {
     const current = ref && (ref as MutableRefObject<HTMLDivElement>).current;
     if (!current) return;
-    current.innerText = value || "";
-  }, [value, ref]);
+    current.innerText = _value || "";
+  }, [_value, ref]);
 
   const _onBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
@@ -108,7 +109,7 @@ export const EditableTextarea = forwardRef<
       const event = new Event("keyboard:hide", { bubbles: true, cancelable: true });
       e.currentTarget.dispatchEvent(event);
       onBlur && onBlur();
-      onSubmit(e.currentTarget.innerText);
+      onSubmit(e.currentTarget.innerText, e.currentTarget.innerHTML);
     },
     [onSubmit, onBlur],
   );

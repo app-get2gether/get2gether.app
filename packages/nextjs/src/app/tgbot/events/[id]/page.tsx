@@ -8,6 +8,8 @@ import Image from "next/image";
 import moment from "moment";
 import ShareButton from "./_components/ShareButton";
 import { useTranslation } from "react-i18next";
+import { marked } from "marked";
+import dompurify from "dompurify";
 
 export default function EventPage({ params: { id } }: { params: { id: string } }) {
   const { t } = useTranslation();
@@ -27,7 +29,11 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
         <h1 className="card-title">{data.title}</h1>
         {data.startAt && <div className="text-xs text-primary mt-1">{moment(data.startAt).format("llll")}</div>}
         <div className="card-body my-3 p-0">
-          {data.description && <div>{data.description}</div>}
+          {data.description && (
+            <div
+              dangerouslySetInnerHTML={{ __html: dompurify.sanitize(marked.parse(data.description) as string) }}
+            ></div>
+          )}
           {data.address && (
             <div className="opacity-50 text-sm mt-4 flex flex-row flex-between">
               <div className="w-5 h-5 mr-1">

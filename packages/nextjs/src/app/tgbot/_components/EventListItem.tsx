@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { formatHaversineDistance, haversineDistance } from "@/utils/map";
+import { marked } from "marked";
+import dompurify from "dompurify";
 
 export default function EventListItem({
   id,
@@ -47,13 +49,18 @@ export default function EventListItem({
         </div>
       </div>
 
-      <div className="relative flex flex-col justify-between w-full">
-        <div className="flex flex-row w-full justify-between">
+      <div className="relative flex flex-col justify-between w-full pb-4">
+        <div className="flex flex-row w-full justify-between min-h-full">
           <div>
             <div className="text-lg line-clamp-2 leading-snug">{title}</div>
-            <div className="text-sm line-clamp-3 mt-1">{description}</div>
+            <div className="h-[2.5rem] mt-1overflow-hidden line-clamp-1">
+              <div
+                className="text-sm leading-snug"
+                dangerouslySetInnerHTML={{ __html: dompurify.sanitize(marked.parse(description) as string) }}
+              ></div>
+            </div>
           </div>
-          <div className="w-20 text-right">
+          <div className="w-20 text-right flex flex-col justify-end h-full">
             <div className="text-xs text-success">{distance}</div>
           </div>
         </div>

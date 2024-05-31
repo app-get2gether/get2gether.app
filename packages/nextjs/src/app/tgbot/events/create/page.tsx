@@ -3,19 +3,21 @@
 import { CSSTransition } from "react-transition-group";
 import { EditableInput, EditableTextarea } from "@/components/Editable";
 import { TCreateEventStore, useCreateEventStore } from "@/store";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DatetimeButton from "./_components/DatetimeButton";
 import ImageBlock from "./_components/ImageBlock";
 import LocationButton from "./_components/LocationButton";
 import useAxios from "@/hooks/useAxios";
 import moment from "moment";
+import TurndownService from "turndown";
 
 export default function CreateEventPage() {
   const { t } = useTranslation();
   const axios = useAxios();
-  const { title, description, address, addressInfo, location, startAt, setTitle, flush } = useCreateEventStore(
-    (state: TCreateEventStore) => ({
+  const turndown = useMemo(() => new TurndownService(), []);
+  const { title, description, address, addressInfo, location, startAt, setTitle, setDescription, flush } =
+    useCreateEventStore((state: TCreateEventStore) => ({
       title: state.title,
       description: state.description,
       address: state.address,
@@ -24,10 +26,10 @@ export default function CreateEventPage() {
       startAt: state.startAt,
 
       setTitle: state.setTitle,
+      setDescription: state.setDescription,
       setImageFile: state.setImageFile,
       flush: state.flush,
-    }),
-  );
+    }));
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -40,12 +42,16 @@ export default function CreateEventPage() {
     textareaRef.current?.focus();
   }, [textareaRef]);
 
-  const onSubmitTitle = useCallback((_title: string) => setTitle(_title), [setTitle]);
+  const onSubmitTitle = useCallback((value: string) => setTitle(value), [setTitle]);
+  const onSubmitDescription = useCallback(
+    (innerText: string, innerHTML: string) => setDescription(innerHTML),
+    [setDescription],
+  );
   const onSubmit = useCallback(() => {
     axios
       .post("/tgbot/v1/events", {
         title,
-        description,
+        description: description.trim() ? turndown.turndown(description.trim()) : "",
         address,
         addressInfo,
         lat: location ? location.lat : null,
@@ -65,7 +71,7 @@ export default function CreateEventPage() {
           setShowError(false);
         }, 2000);
       });
-  }, [title, description, address, addressInfo, location, startAt, axios, setShowError, flush]);
+  }, [title, description, address, addressInfo, location, startAt, axios, setShowError, flush, turndown]);
 
   return (
     <main>
@@ -96,7 +102,7 @@ export default function CreateEventPage() {
             placeholder={t("create_event.set_description_placeholder")}
             ref={textareaRef}
             value={description}
-            onSubmit={() => {}}
+            onSubmit={onSubmitDescription}
           />
           <div className="w-full mx-5 mt-5">
             <div>
