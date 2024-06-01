@@ -54,6 +54,23 @@
   .tgbot-modal.enter-active .tgbot-modal-content, .tgbot-modal.enter-done .tgbot-modal-content {
     @apply opacity-100 translate-y-0;
   }
+  /* Collapsible */
+  .collapsed > .collapsed-content {
+    @apply hidden opacity-0 transition duration-500 max-h-0;
+    transition: max-height 0.5s ease-in-out;
+  }
+  .collapsed .collapsed-chevron {
+    @apply transform transition duration-500;
+  }
+  .collapsed.enter-active > .collapsed-content,
+  .collapsed.enter-done > .collapsed-content {
+    @apply block opacity-100 max-h-[1000px];
+  }
+  .collapsed.enter-active .collapsed-chevron,
+  .collapsed.enter-done .collapsed-chevron {
+    @apply rotate-180;
+  }
+  /* end: Collapsible */
   .notification-panel {
     @apply px-10 w-full text-center transition absolute ease-in-out duration-500;
     @apply opacity-0 top-0 z-10;

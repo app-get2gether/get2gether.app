@@ -25,6 +25,9 @@ list_events:
   created_by_me:
     create: Create new one
     empty: You don't have any events created by you
+    title: Created by me
+  my_events:
+    title: My active events
 Set: ''
 Set your username: ''
 title:

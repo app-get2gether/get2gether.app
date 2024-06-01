@@ -11,8 +11,10 @@ import LocationButton from "./_components/LocationButton";
 import useAxios from "@/hooks/useAxios";
 import moment from "moment";
 import TurndownService from "turndown";
+import useTelegramBackButton from "@/hooks/useTelegramBackButton";
 
 export default function CreateEventPage() {
+  useTelegramBackButton();
   const { t } = useTranslation();
   const axios = useAxios();
   const turndown = useMemo(() => new TurndownService(), []);

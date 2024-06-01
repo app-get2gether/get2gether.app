@@ -25,6 +25,9 @@ list_events:
   created_by_me:
     create: Создать
     empty: Вы не создали ни одной встречи
+    title: Созданные мной
+  my_events:
+    title: Мои активные мероприятия
 Set: ''
 Set your username: ''
 title:
