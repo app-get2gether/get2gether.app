@@ -48,6 +48,7 @@ export default function EventsList() {
             title,
             lat,
             lng,
+            members_count,
             description,
             address,
           }: {
@@ -55,6 +56,7 @@ export default function EventsList() {
             title: string;
             lat: number | null;
             lng: number | null;
+            members_count: number;
             description: string;
             address: string;
           }) => (
@@ -64,6 +66,7 @@ export default function EventsList() {
                 imageUrl={DEFAULT_EVENT_IMAGE_URL}
                 userLocation={userLocation}
                 location={lat && lng ? { lat, lng } : null}
+                membersCount={members_count}
                 title={title}
                 description={description}
                 address={address}
