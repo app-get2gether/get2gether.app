@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Annotated
 from uuid import UUID
 
@@ -12,14 +13,16 @@ router = APIRouter()
 
 
 @router.get("/events")
-async def get_events(
+async def list_events(
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+    lat: Decimal | None = None,
+    lng: Decimal | None = None,
 ) -> list[Event]:
-    return await event_svc.list()
+    return await event_svc.list(user_lat=lat, user_lng=lng)
 
 
 @router.get("/events/created_by_me")
-async def get_events_created_by_me(
+async def list_events_created_by_me(
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
     user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
 ) -> list[Event]:

@@ -48,7 +48,6 @@ class EventModel(RecordModel):
     start_at = mapped_column(TIMESTAMP(timezone=True), nullable=False, default=utc_now)
     end_at = mapped_column(
         TIMESTAMP(timezone=True),
-        index=True,
         nullable=False,
         default=get_default_end_at,
     )
