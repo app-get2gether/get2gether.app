@@ -16,3 +16,17 @@ services:
       - POSTGRES_PASSWORD=password123
     ports:
       - 5435:5432  # exposed 5435 port for avoiding conflicts with another db
+
+  minio:
+    image: minio/minio:latest
+    container_name: g2g_minio
+    entrypoint: sh
+    command: -c 'mkdir -p /data/g2g && /usr/bin/docker-entrypoint.sh server /data --console-address ":9001"'
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - ./.minio:/data/
+    ports:
+      - 9000:9000
+      - 9001:9001
