@@ -22,6 +22,8 @@ class EventBase(BaseModel):
 class Event(EventBase):
     id: UUID
 
+    members_count: int
+
     created_by: UUID
     created_at: datetime
     start_at: datetime

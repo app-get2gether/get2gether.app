@@ -2,10 +2,10 @@ from datetime import datetime, timedelta
 from typing import cast
 
 from geoalchemy2 import Geography
-from sqlalchemy import CheckConstraint, ForeignKey, Index, String, Text
+from sqlalchemy import CheckConstraint, ForeignKey, Index
 from sqlalchemy.engine.default import DefaultExecutionContext
 from sqlalchemy.orm import mapped_column
-from sqlalchemy.types import TIMESTAMP, Numeric
+from sqlalchemy.types import TIMESTAMP, Integer, Numeric, String, Text
 
 from app.models.base import PostgresUUID, RecordModel, utc_now
 
@@ -44,6 +44,8 @@ class EventModel(RecordModel):
     location = mapped_column(
         Geography("POINT", 4326, spatial_index=True), nullable=True
     )  # SRID 4326, WGS84
+
+    members_count = mapped_column(Integer, nullable=False, default=1)
 
     start_at = mapped_column(TIMESTAMP(timezone=True), nullable=False, default=utc_now)
     end_at = mapped_column(
