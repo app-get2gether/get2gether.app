@@ -1,4 +1,4 @@
-from typing import Annotated, Self
+from typing import Annotated, Optional, Self
 from uuid import UUID
 
 from fastapi import Depends
@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db import get_db_session
 from app.models import EventModel
 from app.tgbot.event.schemas import Event, EventBase
+from app.tgbot.user.schemas import User
 
 
 class EventService:
@@ -21,8 +22,10 @@ class EventService:
     ) -> Self:
         return cls(db)
 
-    async def list(self) -> list[Event]:
+    async def list(self, created_by: Optional[UUID] = None) -> list[Event]:
         stmt = sql.select(EventModel)
+        if created_by:
+            stmt = stmt.where(EventModel.created_by == created_by)
         res = await self.db.execute(stmt)
         return [Event.model_validate(row) for row in res.scalars()]
 
@@ -31,12 +34,16 @@ class EventService:
         res = await self.db.execute(stmt)
         return Event.model_validate(res.scalar_one())
 
-    async def create(self, event: EventBase) -> Event:
-        event_data = event.dict()
+    async def create(self, event: EventBase, user: User) -> Event:
+        event_data = event.model_dump()
         if event.lat and event.lng:
             event_data["location"] = ST_MakePoint(event.lat, event.lng)
 
-        stmt = sql.insert(EventModel).values(**event_data).returning(EventModel)
+        stmt = (
+            sql.insert(EventModel)
+            .values(**event_data, created_by=user.id)
+            .returning(EventModel)
+        )
         res = await self.db.execute(stmt)
         _event = Event.model_validate(res.scalar_one())
         await self.db.commit()

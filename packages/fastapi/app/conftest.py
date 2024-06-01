@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterator
+from collections.abc import AsyncGenerator, AsyncIterator
 
 import pytest
 import pytest_asyncio
@@ -8,8 +8,12 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
 
 from app.db import create_async_engine, get_db_session
 from app.models.base import BaseModel
+from app.models.event import EventModel
+from app.models.user import UserModel
 from app.server import app
 from app.settings import settings
+from app.tgbot.event.schemas import Event, EventBase
+from app.tgbot.user.schemas import User
 
 
 # https://pytest-asyncio.readthedocs.io/en/latest/how-to-guides/run_session_tests_in_same_loop.html
@@ -61,3 +65,50 @@ async def session(
 
     await transaction.rollback()
     await connection.close()
+
+
+@pytest_asyncio.fixture(scope="session")
+async def user(session: AsyncSession) -> AsyncGenerator[User, None]:
+    # fmt: off
+    user_data = User.model_validate({
+        "id": "f1a6b1c1-4f7b-4c9d-8f8c-4d1e1b1c1f1a",
+        "username": "bob",
+
+        "is_admin": False,
+        "is_blocked": False,
+
+        "tg_id": 1,
+        "tg_first_name": "Bob",
+        "tg_last_name": "Doe",
+        "tg_username": "bob",
+        "tg_language_code": "en",
+        "tg_phone": "",
+        # "tg_is_premium": True,
+        # "tg_allows_write_to_pm": True,
+        "tg_is_bot": False,
+    })
+    # fmt: on
+
+    user = UserModel(**user_data.model_dump(by_alias=True))
+    session.add(user)
+    await session.flush()
+    await session.refresh(user)
+    yield User.model_validate(user)
+
+
+@pytest_asyncio.fixture(scope="session")
+async def event(session: AsyncSession, user: User) -> AsyncGenerator[Event, None]:
+    event_data = EventBase.model_validate(
+        {
+            "id": "3c1b1e4d-8f8c-4c9d-4f7b-f1a6b1c1f1a",
+            "title": "TestEvent",
+        }
+    )
+
+    event = EventModel(
+        **{**event_data.model_dump(by_alias=True), "created_by": user.id}
+    )
+    session.add(event)
+    await session.flush()
+    await session.refresh(event)
+    yield Event.model_validate(event)

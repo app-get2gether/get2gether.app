@@ -2,12 +2,12 @@ from datetime import datetime, timedelta
 from typing import cast
 
 from geoalchemy2 import Geography
-from sqlalchemy import CheckConstraint, String, Text
+from sqlalchemy import CheckConstraint, ForeignKey, Index, String, Text
 from sqlalchemy.engine.default import DefaultExecutionContext
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.types import TIMESTAMP, Numeric
 
-from app.models.base import RecordModel, utc_now
+from app.models.base import PostgresUUID, RecordModel, utc_now
 
 
 def get_default_end_at(ctx: DefaultExecutionContext) -> datetime:
@@ -25,10 +25,13 @@ def get_default_end_at(ctx: DefaultExecutionContext) -> datetime:
 class EventModel(RecordModel):
     __tablename__ = "events"
     __table_args__ = (
+        Index("ix_events_created_by", "created_by"),
+        Index("ix_events_end_at", "end_at"),
         CheckConstraint(
             "NOT((lat is NULL) <> (lng is NULL))", name="ch_events_not_xor_lat_lng"
         ),
     )
+    created_by = mapped_column(PostgresUUID, ForeignKey("users.id"), nullable=False)
 
     title = mapped_column(String(64), nullable=False)
     description = mapped_column(Text(), nullable=False, default="")

@@ -3,8 +3,10 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
+from app.tgbot.auth.dependencies import get_user_or_create_with_tg_data
 from app.tgbot.event.schemas import Event, EventBase
 from app.tgbot.event.services import EventService
+from app.tgbot.user.schemas import User
 
 router = APIRouter()
 
@@ -14,6 +16,14 @@ async def get_events(
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
 ) -> list[Event]:
     return await event_svc.list()
+
+
+@router.get("/events/created_by_me")
+async def get_events_created_by_me(
+    event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+    user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
+) -> list[Event]:
+    return await event_svc.list(created_by=user.id)
 
 
 @router.get("/events/{event_id}")
@@ -28,6 +38,7 @@ async def get_event(
 async def create_event(
     event_data: EventBase,
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+    user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
 ) -> Event:
-    event = await event_svc.create(event_data)
+    event = await event_svc.create(event_data, user)
     return event
