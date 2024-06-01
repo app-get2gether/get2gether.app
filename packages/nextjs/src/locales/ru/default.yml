@@ -17,6 +17,9 @@ event:
   share_button: Поделиться
   share_in_tg_button: Поделиться в Телеграм
 list_events:
+  created_by_me:
+    create: Создать
+    empty: Вы не создали ни одной встречи
   mine: Мои встречи
 Set: ''
 Set your username: ''
