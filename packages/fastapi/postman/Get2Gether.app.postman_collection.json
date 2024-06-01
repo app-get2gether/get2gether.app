@@ -11,6 +11,78 @@
 			"name": "tgbot/v1",
 			"item": [
 				{
+					"name": "events",
+					"item": [
+						{
+							"name": "create event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"My event\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tgbot/v1/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tgbot",
+										"v1",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list events",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tgbot/v1/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tgbot",
+										"v1",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "list events created by me",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/tgbot/v1/events/created_by_me",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tgbot",
+										"v1",
+										"events",
+										"created_by_me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "me",
 					"request": {
 						"method": "GET",
