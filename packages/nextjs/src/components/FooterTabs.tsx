@@ -1,49 +1,48 @@
+"use client";
+
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
-import { UserIcon, CalendarDaysIcon, WalletIcon, MapIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
+import { UserIcon, CalendarDaysIcon, WalletIcon, BoltIcon } from "@heroicons/react/24/outline";
 
 import cn from "classnames";
+import { useTranslation } from "react-i18next";
 
 const MenuLinks = [
   {
     href: "/tgbot/events",
-    title: "Events",
+    title: "footer_tabs.events",
     icon: <CalendarDaysIcon />,
   },
   {
-    href: "/tgbot/map",
-    title: "Map",
-    icon: <MapIcon />,
+    href: "/tgbot/my-events",
+    title: "footer_tabs.my_events",
+    icon: <BoltIcon />,
   },
   {
     href: "/tgbot/wallet",
-    title: "Wallet",
+    title: "footer_tabs.wallet",
     icon: <WalletIcon />,
   },
   {
     href: "/tgbot/profile",
-    title: "Profile",
+    title: "footer_tabs.profile",
     icon: <UserIcon />,
-  },
-  {
-    href: "/tgbot/profile",
-    title: "Help",
-    icon: <QuestionMarkCircleIcon />,
   },
 ];
 
 export default function FooterTabs({ className }: { className?: string }) {
+  const { t } = useTranslation();
   return (
     <footer
       className={twMerge(
-        "footer pb-2 bg-base-100 h-24 border-base-300 border-t flex items-center touch-none",
+        "footer pb-2 px-3 bg-base-100 h-24 border-base-300 border-t flex items-center touch-none",
         className,
       )}
     >
       <div className="w-full flex flex-row">
         {MenuLinks.map(({ href, title, icon }, i) => (
-          <FooterItem href={href} title={title} icon={icon} key={i} />
+          <FooterItem href={href} title={t(title)} icon={icon} key={i} />
         ))}
       </div>
     </footer>
@@ -55,7 +54,7 @@ function FooterItem({ href, title, icon, key }: { href: string; title: string; i
   const isActive = pathname === href;
 
   return (
-    <Link href={href} className={cn("flex-1 text-center", { "text-primary": isActive })} key={key}>
+    <Link href={href} className={cn("flex-1 text-center animated-on-press", { "text-primary": isActive })} key={key}>
       <span className="w-6 h-6 block mx-auto my-1">{icon}</span>
       <span className="text-sm">{title}</span>
     </Link>

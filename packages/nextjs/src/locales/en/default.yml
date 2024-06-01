@@ -21,6 +21,11 @@ list_events:
     create: Create new one
     empty: You don't have any events created by you
   mine: My events
+footer_tabs:
+  events: Events
+  my_events: My events
+  wallet: Wallet
+  profile: Profile
 Set: ''
 Set your username: ''
 title:

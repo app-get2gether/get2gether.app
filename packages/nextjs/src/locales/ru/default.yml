@@ -21,6 +21,11 @@ list_events:
     create: Создать
     empty: Вы не создали ни одной встречи
   mine: Мои встречи
+footer_tabs:
+  events: Мероприятия
+  my_events: Активные
+  wallet: Кошелек
+  profile: Профиль
 Set: ''
 Set your username: ''
 title:

@@ -5,6 +5,9 @@ const config = {
   createOldCatalogs: false,
   sort: true,
   output: "src/locales/$LOCALE/$NAMESPACE.yml",
+  keepRemoved: [
+    /^footer_tabs\./
+  ]
 }
 
 export default config
