@@ -6,7 +6,7 @@ const config = {
   sort: true,
   output: "src/locales/$LOCALE/$NAMESPACE.yml",
   keepRemoved: [
-    /^footer_tabs\./
+    /footer_tabs.*/
   ]
 }
 

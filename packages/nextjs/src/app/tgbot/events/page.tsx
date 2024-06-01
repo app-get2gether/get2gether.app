@@ -2,17 +2,12 @@
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import EventsList from "./_components/EventsList";
-import { useTranslation } from "react-i18next";
 import { MapIcon, FunnelIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 import Modal from "@/components/tgbot/Modal";
-import MyEventsList from "./_components/MyEventsList";
-import { twJoin } from "tailwind-merge";
 
 export default function EventsPage() {
-  const { t } = useTranslation();
   const [showFiltersModal, setShowFiltersModal] = useState(false);
-  const [showMyEvents, setShowMyEvents] = useState(false);
 
   const onFilterClick = useCallback(() => {
     setShowFiltersModal(true);
@@ -22,10 +17,6 @@ export default function EventsPage() {
     setShowFiltersModal(false);
   }, [setShowFiltersModal]);
 
-  const onMyEventsClick = useCallback(() => {
-    setShowMyEvents(ref => !ref);
-  }, [setShowMyEvents]);
-
   return (
     <main className="mx-3">
       <div className="my-3">
@@ -34,25 +25,13 @@ export default function EventsPage() {
           <MagnifyingGlassIcon className="w-6 h-6 opacity-70" />
         </label>
       </div>
-      <div className="flex flex-row justify-between">
-        <div>
-          <div
-            className={twJoin("badge cursor-pointer", showMyEvents ? "badge-primary" : "badge-outline")}
-            onClick={onMyEventsClick}
-          >
-            {t("list_events.mine")}
-          </div>
-        </div>
+      <div className="flex flex-row justify-end">
         <div className="flex flex-row gap-2">
-          {!showMyEvents && (
-            <>
-              <MapIcon className="w-6 h-6" />
-              <FunnelIcon className="w-6 h-6" onClick={onFilterClick} />
-            </>
-          )}
+          <MapIcon className="w-6 h-6" />
+          <FunnelIcon className="w-6 h-6" onClick={onFilterClick} />
         </div>
       </div>
-      <div>{showMyEvents ? <MyEventsList /> : <EventsList />}</div>
+      <EventsList />
       <Modal open={showFiltersModal} onClose={onFiltersModalClose}>
         <div>Setup filters</div>
       </Modal>

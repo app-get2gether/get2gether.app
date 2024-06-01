@@ -16,16 +16,15 @@ event:
   join_button: Присоединиться
   share_button: Поделиться
   share_in_tg_button: Поделиться в Телеграм
+footer_tabs:
+  events: Мероприятия
+  my_events: Активные
+  profile: Профиль
+  wallet: Кошелек
 list_events:
   created_by_me:
     create: Создать
     empty: Вы не создали ни одной встречи
-  mine: Мои встречи
-footer_tabs:
-  events: Мероприятия
-  my_events: Активные
-  wallet: Кошелек
-  profile: Профиль
 Set: ''
 Set your username: ''
 title:

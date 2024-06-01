@@ -15,7 +15,7 @@ const MenuLinks = [
     icon: <CalendarDaysIcon />,
   },
   {
-    href: "/tgbot/my-events",
+    href: "/tgbot/events/my",
     title: "footer_tabs.my_events",
     icon: <BoltIcon />,
   },

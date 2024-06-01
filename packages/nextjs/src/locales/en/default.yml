@@ -16,16 +16,15 @@ event:
   join_button: Join
   share_button: Share
   share_in_tg_button: Share in Telegram
+footer_tabs:
+  events: Events
+  my_events: My events
+  profile: Profile
+  wallet: Wallet
 list_events:
   created_by_me:
     create: Create new one
     empty: You don't have any events created by you
-  mine: My events
-footer_tabs:
-  events: Events
-  my_events: My events
-  wallet: Wallet
-  profile: Profile
 Set: ''
 Set your username: ''
 title:
