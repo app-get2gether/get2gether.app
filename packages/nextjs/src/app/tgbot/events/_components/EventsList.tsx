@@ -8,14 +8,32 @@ import { useEffect, useState } from "react";
 
 /*posterUrl="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"*/
 export default function EventsList() {
-  const { data, isLoading, error } = useSWR("/tgbot/v1/events");
-  const { t } = useTranslation();
+  const [ready, setReady] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const { data, isLoading, error } = useSWR(
+    ready
+      ? {
+          path: "/tgbot/v1/events",
+          params: {
+            page: 0,
+            lat: userLocation && userLocation.lat,
+            lng: userLocation && userLocation.lng,
+          },
+        }
+      : null,
+  );
+  const { t } = useTranslation();
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position => {
-      setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
-    });
-  }, [setUserLocation]);
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
+        setReady(true);
+      },
+      () => {
+        setReady(true);
+      },
+    );
+  }, [setUserLocation, setReady]);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return null;

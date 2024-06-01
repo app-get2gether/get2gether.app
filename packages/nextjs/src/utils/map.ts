@@ -14,7 +14,7 @@ export const formatHaversineDistance = (distance: number): string => {
   }
 
   if (distance < 1000 * 1000) {
-    return `${(distance / 1000).toFixed(1)} km`;
+    return `${Math.round(distance / 1000)} km`;
   }
 
   return `${(distance / (1000 * 1000)).toFixed(1)}k km`;

@@ -41,6 +41,9 @@ importers:
       dompurify:
         specifier: ^3.1.5
         version: 3.1.5
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       marked:
         specifier: ^12.0.2
         version: 12.0.2
@@ -50,9 +53,6 @@ importers:
       next:
         specifier: 14.2.3
         version: 14.2.3(@babel/core@7.24.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      next-scroll-restorer:
-        specifier: ^0.9.7
-        version: 0.9.7(next@14.2.3(@babel/core@7.24.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18
         version: 18.3.1
@@ -114,6 +114,9 @@ importers:
       '@types/google.maps':
         specifier: ^3.55.9
         version: 3.55.9
+      '@types/lodash':
+        specifier: ^4.17.4
+        version: 4.17.4
       '@types/node':
         specifier: ^20
         version: 20.12.11
@@ -976,9 +979,6 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
-
-  '@bladl/react-hooks@1.5.2':
-    resolution: {integrity: sha512-7hAybxLDsOCMQ2nKyQ7mNch0JrtCMarujkIBRxnOHII74R2WprMtyF09yGb1OSvXEBnMRkWwjH/ruGwYaj2ldA==}
 
   '@bundled-es-modules/cookie@2.0.0':
     resolution: {integrity: sha512-Or6YHg/kamKHpxULAdSqhGqnWFneIXu1NKvvfBBzKGwpVsYuFIQ5aBPHDnnoR3ghW1nvSkALd+EF9iMtY7Vjxw==}
@@ -5490,12 +5490,6 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  next-scroll-restorer@0.9.7:
-    resolution: {integrity: sha512-mPGn5EnxB+Y3XcdUxewdQl3IXShb5cZpJ3N6njYuJcExR6/uHL5wbBva+oUB/JZBHTnZlzx2Z56wx71kBFbhHw==}
-    peerDependencies:
-      next: ^13.0 || ^14.0
-      react: ^17.0 || ^18.0
-
   next@14.2.3:
     resolution: {integrity: sha512-dowFkFTR8v79NPJO4QsBUtxv0g9BrS/phluVpMAt2ku7H+cbcBJlopXjkWlwxrk/xGqMemr7JkGPGemPrLLX7A==}
     engines: {node: '>=18.17.0'}
@@ -8262,10 +8256,6 @@ snapshots:
   '@base2/pretty-print-object@1.0.1': {}
 
   '@bcoe/v8-coverage@0.2.3': {}
-
-  '@bladl/react-hooks@1.5.2':
-    dependencies:
-      react: 18.3.1
 
   '@bundled-es-modules/cookie@2.0.0':
     dependencies:
@@ -14135,12 +14125,6 @@ snapshots:
   negotiator@0.6.3: {}
 
   neo-async@2.6.2: {}
-
-  next-scroll-restorer@0.9.7(next@14.2.3(@babel/core@7.24.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
-    dependencies:
-      '@bladl/react-hooks': 1.5.2
-      next: 14.2.3(@babel/core@7.24.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
 
   next@14.2.3(@babel/core@7.24.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
