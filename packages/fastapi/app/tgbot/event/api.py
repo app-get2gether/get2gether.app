@@ -97,10 +97,11 @@ async def get_upload_url(
         access_key=settings.S3_ACCESS_KEY,
         secret_key=settings.S3_SECRET_KEY,
     )
+
     url = client.get_presigned_url(
         "PUT",
         settings.S3_BUCKET_NAME,
-        f"{event.id.hex}/{file_name}",
+        f"events/{str(event.id)}/{file_name}",
         expires=timedelta(minutes=5),
     )
     return url

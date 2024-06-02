@@ -9,35 +9,35 @@
 ## Running
 
 * `docker-compose up`
+* `task migrate`
 * `task dev`
 
-## Tgbot
+## MinIO
 
-### Setup TELEGRAM_ERROR_CHAT_ID
-
-It allows to push error logs into telegram chat
-
-1. Create telegram chat for logs
-2. Add telegram bot to this chat
-3. Retrieve chat id for the error logs chat (fastapi server should be stopped)
-   ```
-   curl https://api.telegram.org/bot<YourBOTToken>/getUpdates
-   ```
-4. Set `TELEGRAM_ERROR_CHAT_ID` value in `.env` from the curl output
-   ```
-   {
-        "update_id": 8393,
-        "message": {
-            "message_id": 3,
-            ...
-            "chat": {
-                "id": <group_ID>,  // <-- here
-                "title": "<Group name>"
+For storing images please setup MinIO policies  
+Open http://localhost:9001, authorize as `minioadmin:minioadmin`  
+Go to `Buckets > g2g (by default)`. Click on `Access Policy`, select `Custom` and put the policy
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "*"
+                ]
             },
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::g2g/events/*"
+            ]
         }
-    }
-
-   ```
+    ]
+}
+```
 
 ## Migrations
 
