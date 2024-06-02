@@ -46,7 +46,7 @@ export default function EventListItem({
 
   return (
     <div className={twMerge("flex cursor-pointer", className)} onClick={onClick}>
-      <div className="avatar mr-4 rounded border h-fit">
+      <div className="avatar mr-4 rounded border border-base-300 h-fit overflow-hidden">
         <div className="w-24 relative">
           <Image src={imageUrl} alt="" fill={true} className="opacity-90" />
         </div>

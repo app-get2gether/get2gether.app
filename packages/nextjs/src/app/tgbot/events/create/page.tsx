@@ -35,6 +35,7 @@ export default function CreateEventPage() {
       flush: state.flush,
     }));
   const [showError, setShowError] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const textareaRef = useRef<HTMLDivElement>(null);
@@ -52,6 +53,7 @@ export default function CreateEventPage() {
     [setDescription],
   );
   const onSubmit = useCallback(() => {
+    setLoading(true);
     axios
       .post("/tgbot/v1/events", {
         title,
@@ -62,8 +64,8 @@ export default function CreateEventPage() {
         lng: location ? location.lng : null,
         startAt: startAt === "now" ? moment().valueOf() : startAt,
       })
-      .then(res => {
-        uploadEventImage(axios, imageFile, res.data.id).finally(() => {
+      .then(async res => {
+        return uploadEventImage(axios, imageFile, res.data.id).finally(() => {
           flush();
           setShowSuccess(true);
           setTimeout(() => {
@@ -76,6 +78,9 @@ export default function CreateEventPage() {
         setTimeout(() => {
           setShowError(false);
         }, 2000);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [title, description, imageFile, address, addressInfo, location, startAt, axios, setShowError, flush, turndown]);
 
@@ -121,7 +126,11 @@ export default function CreateEventPage() {
         </div>
       </div>
       <div className="mt-5 mx-3">
-        <button className="btn btn-success w-full block shadow-lg" disabled={!title.trim()} onClick={onSubmit}>
+        <button
+          className="btn btn-success w-full block shadow-lg"
+          disabled={!title.trim() || isLoading}
+          onClick={onSubmit}
+        >
           {t("create_event.create_button")}
         </button>
       </div>

@@ -89,7 +89,7 @@ async def get_upload_url(
 
     # TODO: move to the lifespan hook
     s3_endpoint = re.sub(r"https?://", "", settings.S3_ENDPOINT_URL)
-    is_secure = s3_endpoint.startswith("https")
+    is_secure = settings.S3_ENDPOINT_URL.startswith("https")
     client = Minio(
         s3_endpoint,
         secure=is_secure,

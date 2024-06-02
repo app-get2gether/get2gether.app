@@ -20,9 +20,16 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
   if (!data) return null;
   return (
     <div className="flex flex-col mt-4">
-      <div className="w-full">
-        <div className="w-48 h-48 mx-auto relative rounded overflow-hidden">
-          <Image src={data.imageUrl || DEFAULT_EVENT_IMAGE_URL} alt="Event image" className="opacity-90" fill={true} />
+      <div className="mx-5">
+        <div className="w-full avatar">
+          <div className="w-full relative rounded-xl shadow-xl border border-base-300 overflow-hidden">
+            <Image
+              src={data.image_url || DEFAULT_EVENT_IMAGE_URL}
+              alt="Event image"
+              className="opacity-90"
+              fill={true}
+            />
+          </div>
         </div>
       </div>
       <div className="card mx-5 my-3 border border-base-300 p-3 relative">
@@ -46,9 +53,9 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
             <div className="w-full h-48 rounded overflow-hidden">
               <iframe
                 className="w-full h-full"
-                src={`https://maps.google.com/maps?q=${data.lat},${data.lng}&z=15&output=embed`}
+                src={`https://maps.google.com/maps?q=${data.lat},${data.lng}&z=14&output=embed`}
+                allowFullScreen={true}
                 frameBorder="0"
-                scrolling="no"
                 marginHeight={0}
                 marginWidth={0}
               />
