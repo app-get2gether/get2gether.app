@@ -6,7 +6,7 @@ There are [Postman](https://www.postman.com/) collections that could help you to
 
 * Open Postman
 * Go to `Collections`
-* Press import and paste file [Get2Gether.app.postman\_collection.json](../../packages/fastapi/postman/Get2Gether.app.postman\_collection.json)
+* Press import and paste file [Get2Gether.app.postman\_collection.json](../../../packages/fastapi/postman/Get2Gether.app.postman\_collection.json)
 
 ## Requirements
 

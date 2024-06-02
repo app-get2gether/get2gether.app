@@ -1,31 +1,8 @@
-# Getting started
+---
+description: Documentation about the product
+coverY: 0
+---
 
-How to launch the repo locally
+# Get2Gether
 
-```
-pnpm install
-```
-
-## [Smartcontracts](../packages/tact/)
-
-```
-pnpm tact:build
-```
-
-## [NextJS](../packages/nextjs/)
-
-```
-pnpm nextjs:dev
-```
-
-## Backend
-
-```
-cd packages/fastapi
-poetry install
-docker-compose up
-task migrate
-task dev
-```
-
-[More details](backend/)
+* [Technical](readme/)
