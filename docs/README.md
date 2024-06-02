@@ -12,13 +12,11 @@ pnpm install
 pnpm tact:build
 ```
 
-## [WebApp](../packages/nextjs/)
+## [NextJS](../packages/nextjs/)
 
 ```
 pnpm nextjs:dev
 ```
-
-[More details](webapp/)
 
 ## Backend
 

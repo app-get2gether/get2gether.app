@@ -28,7 +28,14 @@ The main database is PostgreSQL, with [SQLAlchemy ORM](https://www.sqlalchemy.or
 You need to add [PostGIS extension](http://postgis.net/documentation/getting\_started/) to the database
 {% endhint %}
 
+#### Migrations
+
+* `task alembic_print` - to see generated migrations output
+* `task makemigrations my_migration`
+* `task migrate`
+
 ## Additional
 
 * [Postman](postman.md)
 * [Setup tunnels](setup-tunnels.md)
+* Pushing errors to Telegram chat
