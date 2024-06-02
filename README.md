@@ -19,6 +19,7 @@
   </a>
   <a href="https://github.com/app-get2gether/get2gether.app/actions/workflows/nextjs.yaml"><img src="https://github.com/app-get2gether/get2gether.app/actions/workflows/nextjs.yaml/badge.svg" alt="NextJS"></a>
   <a href="https://github.com/app-get2gether/get2gether.app//actions/workflows/tact.yaml"><img src="https://github.com/app-get2gether/get2gether.app//actions/workflows/tact.yaml/badge.svg" alt="Tact"></a>
+  <a href="https://codecov.io/github/app-get2gether/get2gether.app"><img src="https://codecov.io/github/app-get2gether/get2gether.app/branch/main/graph/badge.svg?token=YCAKITUCIR&flags=fastapi" alt="FastAPI codecov"></a>
 </p>
 
 <p align="center">
@@ -31,7 +32,7 @@
 ## Tech Stack
 
 * Tact, Func, ton-blueprint, ton-sandbox
-* FastAPI, SQLAchemy, PostgreSQL, Redis
+* FastAPI, SQLAchemy, PostgreSQL, Redis, MinIO
 * NextJS, tailwindcss
 
 

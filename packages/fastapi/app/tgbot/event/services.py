@@ -11,7 +11,7 @@ from sqlalchemy.sql.functions import now
 
 from app.db import get_db_session
 from app.models import EventModel
-from app.tgbot.event.schemas import Event, EventBase
+from app.tgbot.event.schemas import Event, EventBase, EventUpdatePayload
 from app.tgbot.user.schemas import User
 
 # hardcoded limit for list of events
@@ -86,3 +86,14 @@ class EventService:
         _event = Event.model_validate(res.scalar_one())
         await self.db.commit()
         return _event
+
+    async def update(self, event_id: UUID, event_payload: EventUpdatePayload) -> Event:
+        stmt = (
+            sql.update(EventModel)
+            .where(EventModel.id == event_id)
+            .values(**event_payload.model_dump(exclude_unset=True))
+            .returning(EventModel)
+        )
+        res = await self.db.execute(stmt)
+        await self.db.commit()
+        return Event.model_validate(res.scalar_one())

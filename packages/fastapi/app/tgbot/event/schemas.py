@@ -19,6 +19,10 @@ class EventBase(BaseModel):
     address_info: str = ""
 
 
+class EventUpdatePayload(BaseModel):
+    image_url: Annotated[str | None, Field(max_length=128)] = None
+
+
 class Event(EventBase):
     id: UUID
 
