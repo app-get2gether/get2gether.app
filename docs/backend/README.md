@@ -38,4 +38,4 @@ You need to add [PostGIS extension](http://postgis.net/documentation/getting\_st
 
 * [Postman](postman.md)
 * [Setup tunnels](setup-tunnels.md)
-* Pushing errors to Telegram chat
+* [Pushing errors to Telegram chat](pushing-errors-to-telegram-chat.md)
