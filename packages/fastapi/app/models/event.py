@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import cast
 
 from geoalchemy2 import Geography
-from sqlalchemy import CheckConstraint, ForeignKey, Index
+from sqlalchemy import CheckConstraint, ForeignKey, Index, UniqueConstraint
 from sqlalchemy.engine.default import DefaultExecutionContext
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.types import TIMESTAMP, Integer, Numeric, String, Text
@@ -27,6 +27,7 @@ class EventModel(RecordModel):
     __table_args__ = (
         Index("ix_events_created_by", "created_by"),
         Index("ix_events_end_at", "end_at"),
+        Index("ix_events_location", "location", postgresql_using="gist"),
         CheckConstraint(
             "NOT((lat is NULL) <> (lng is NULL))", name="ch_events_not_xor_lat_lng"
         ),
@@ -42,10 +43,11 @@ class EventModel(RecordModel):
     lat = mapped_column(Numeric, nullable=True)
     lng = mapped_column(Numeric, nullable=True)
     location = mapped_column(
-        Geography("POINT", 4326, spatial_index=True), nullable=True
+        Geography("POINT", 4326, spatial_index=False), nullable=True
     )  # SRID 4326, WGS84
 
     members_count = mapped_column(Integer, nullable=False, default=1)
+    reports_count = mapped_column(Integer, nullable=False, default=0)
 
     start_at = mapped_column(TIMESTAMP(timezone=True), nullable=False, default=utc_now)
     end_at = mapped_column(
@@ -53,3 +55,17 @@ class EventModel(RecordModel):
         nullable=False,
         default=get_default_end_at,
     )
+
+
+class EventReportModel(RecordModel):
+    __tablename__ = "event_reports"
+    __table_args__ = (
+        Index("ix_event_reports_event_id", "event_id"),
+        Index("ix_event_reports_reported_by", "reported_by"),
+        UniqueConstraint(
+            "event_id", "reported_by", name="uq_event_reports_event_id_reported_by"
+        ),
+    )
+    event_id = mapped_column(PostgresUUID, ForeignKey("events.id"), nullable=False)
+    reported_by = mapped_column(PostgresUUID, ForeignKey("users.id"), nullable=False)
+    reason = mapped_column(Text(), nullable=False, default="")

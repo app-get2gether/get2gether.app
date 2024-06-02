@@ -9,7 +9,12 @@ from minio import Minio
 
 from app.settings import settings
 from app.tgbot.auth.dependencies import get_user_or_create_with_tg_data
-from app.tgbot.event.schemas import Event, EventBase, EventUpdatePayload
+from app.tgbot.event.schemas import (
+    Event,
+    EventBase,
+    EventReportPayload,
+    EventUpdatePayload,
+)
 from app.tgbot.event.services import EventService
 from app.tgbot.user.schemas import User
 
@@ -38,10 +43,10 @@ async def get_event(
     event_id: UUID,
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
 ) -> Event | None:
-    event = await event_svc.get_by_id(event_id)
-    if not event:
+    event_model = await event_svc.get_by_id(event_id)
+    if not event_model:
         raise HTTPException(status_code=404, detail="Event not found")
-    return event
+    return Event.model_validate(event_model)
 
 
 @router.put("/events/{event_id}")
@@ -51,14 +56,31 @@ async def update_event(
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
     user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
 ) -> Event:
-    event = await event_svc.get_by_id(event_id)
-    if not event:
+    event_model = await event_svc.get_by_id(event_id)
+    if not event_model:
         raise HTTPException(status_code=404, detail="Event not found")
-    if event.created_by != user.id:
+    if event_model.created_by != user.id:
         raise HTTPException(status_code=403, detail="You can't update this event")
 
     event = await event_svc.update(event_id, event_payload)
     return event
+
+
+@router.post("/events/{event_id}/report")
+async def report_event(
+    event_id: UUID,
+    report_payload: EventReportPayload,
+    event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+    user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
+) -> Event:
+    event_model = await event_svc.get_by_id(event_id)
+    if not event_model:
+        raise HTTPException(status_code=404, detail="Event not found")
+    if event_model.created_by == user.id:
+        return Event.model_validate(event_model)
+
+    event_model = await event_svc.report(event_id, user, report_payload)
+    return Event.model_validate(event_model)
 
 
 @router.post("/events")

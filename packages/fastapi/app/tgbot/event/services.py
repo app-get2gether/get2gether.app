@@ -11,7 +11,13 @@ from sqlalchemy.sql.functions import now
 
 from app.db import get_db_session
 from app.models import EventModel
-from app.tgbot.event.schemas import Event, EventBase, EventUpdatePayload
+from app.models.event import EventReportModel
+from app.tgbot.event.schemas import (
+    Event,
+    EventBase,
+    EventReportPayload,
+    EventUpdatePayload,
+)
 from app.tgbot.user.schemas import User
 
 # hardcoded limit for list of events
@@ -64,13 +70,16 @@ class EventService:
         res = await self.db.execute(stmt)
         return [Event.model_validate(row) for row in res.scalars()]
 
-    async def get_by_id(self, event_id: UUID) -> Event | None:
+    async def get_by_id(self, event_id: UUID) -> EventModel | None:
+        """
+        @return SQLAlchemy model
+        """
         stmt = sql.select(EventModel).where(EventModel.id == event_id)
         res = await self.db.execute(stmt)
         event_model = res.scalar_one_or_none()
         if not event_model:
             return None
-        return Event.model_validate(event_model)
+        return event_model
 
     async def create(self, event: EventBase, user: User) -> Event:
         event_data = event.model_dump()
@@ -97,3 +106,38 @@ class EventService:
         res = await self.db.execute(stmt)
         await self.db.commit()
         return Event.model_validate(res.scalar_one())
+
+    async def report(
+        self, event_id: UUID, reported_by: User, report_payload: EventReportPayload
+    ) -> EventModel:
+        """
+        @return SQLAlchemy model
+        """
+        try:
+            stmt_get = sql.select(EventReportModel).where(
+                EventReportModel.event_id == event_id,
+                EventReportModel.reported_by == reported_by.id,
+            )
+            res = await self.db.execute(stmt_get)
+            if res.scalar_one_or_none():
+                raise ValueError("You have already reported this event")
+
+            stmt_insert = sql.insert(EventReportModel).values(
+                event_id=event_id,
+                reported_by=reported_by.id,
+                **report_payload.model_dump(exclude_unset=True),
+            )
+            await self.db.execute(stmt_insert)
+
+            stmt_update = (
+                sql.update(EventModel)
+                .where(EventModel.id == event_id)
+                .values(reports_count=EventModel.reports_count + 1)
+                .returning(EventModel)
+            )
+            res_update = await self.db.execute(stmt_update)
+            await self.db.commit()
+            return res_update.scalar_one()
+        except:
+            await self.db.rollback()
+            raise

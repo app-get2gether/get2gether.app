@@ -23,6 +23,10 @@ class EventUpdatePayload(BaseModel):
     image_url: Annotated[str | None, Field(max_length=128)] = None
 
 
+class EventReportPayload(BaseModel):
+    reason: str = ""
+
+
 class Event(EventBase):
     id: UUID
 
