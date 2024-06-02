@@ -1,9 +1,13 @@
+import re
+from datetime import timedelta
 from decimal import Decimal
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from minio import Minio
 
+from app.settings import settings
 from app.tgbot.auth.dependencies import get_user_or_create_with_tg_data
 from app.tgbot.event.schemas import Event, EventBase
 from app.tgbot.event.services import EventService
@@ -34,7 +38,10 @@ async def get_event(
     event_id: UUID,
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
 ) -> Event | None:
-    return await event_svc.get_by_id(event_id)
+    event = await event_svc.get_by_id(event_id)
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    return event
 
 
 @router.post("/events")
@@ -45,3 +52,36 @@ async def create_event(
 ) -> Event:
     event = await event_svc.create(event_data, user)
     return event
+
+
+@router.get("/events/{event_id}/get_upload_url")
+async def get_upload_url(
+    event_id: UUID,
+    file_name: str,
+    event_svc: Annotated[EventService, Depends(EventService.get_svc)],
+    user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
+) -> str:
+    event = await event_svc.get_by_id(event_id)
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    if event.created_by != user.id:
+        raise HTTPException(
+            status_code=403, detail="You can't upload files for this event"
+        )
+
+    # TODO: move to the lifespan hook
+    s3_endpoint = re.sub(r"https?://", "", settings.S3_ENDPOINT_URL)
+    client = Minio(
+        s3_endpoint,
+        region=settings.S3_BUCKET_REGION,
+        access_key=settings.S3_ACCESS_KEY,
+        secret_key=settings.S3_SECRET_KEY,
+    )
+    url = client.get_presigned_url(
+        "PUT",
+        settings.S3_BUCKET_NAME,
+        f"{event.id.hex}/{file_name}",
+        expires=timedelta(minutes=5),
+    )
+    return url

@@ -25,6 +25,7 @@ async def test_create_event(client: AsyncClient, session: AsyncSession) -> None:
 
     data = response.json()
     event = await event_svc.get_by_id(data["id"])
+    assert event is not None
     assert str(event.id) == data["id"]
 
 

@@ -77,7 +77,7 @@ async def user(session: AsyncSession) -> AsyncGenerator[User, None]:
         "is_admin": False,
         "is_blocked": False,
 
-        "tg_id": 1,
+        "tg_id": -10,
         "tg_first_name": "Bob",
         "tg_last_name": "Doe",
         "tg_username": "bob",
@@ -85,6 +85,33 @@ async def user(session: AsyncSession) -> AsyncGenerator[User, None]:
         "tg_phone": "",
         # "tg_is_premium": True,
         # "tg_allows_write_to_pm": True,
+        "tg_is_bot": False,
+    })
+    # fmt: on
+
+    user = UserModel(**user_data.model_dump(by_alias=True))
+    session.add(user)
+    await session.flush()
+    await session.refresh(user)
+    yield User.model_validate(user)
+
+
+@pytest_asyncio.fixture(scope="session")
+async def user_frank(session: AsyncSession) -> AsyncGenerator[User, None]:
+    # fmt: off
+    user_data = User.model_validate({
+        "id": "bcdc9431-de95-4670-aa4c-f474d4c237f5",
+        "username": "frank",
+
+        "is_admin": False,
+        "is_blocked": False,
+
+        "tg_id": -11,
+        "tg_first_name": "Frank",
+        "tg_last_name": "Anderson",
+        "tg_username": "notfrank",
+        "tg_language_code": "en",
+        "tg_phone": "",
         "tg_is_bot": False,
     })
     # fmt: on

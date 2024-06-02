@@ -64,10 +64,13 @@ class EventService:
         res = await self.db.execute(stmt)
         return [Event.model_validate(row) for row in res.scalars()]
 
-    async def get_by_id(self, event_id: UUID) -> Event:
+    async def get_by_id(self, event_id: UUID) -> Event | None:
         stmt = sql.select(EventModel).where(EventModel.id == event_id)
         res = await self.db.execute(stmt)
-        return Event.model_validate(res.scalar_one())
+        event_model = res.scalar_one_or_none()
+        if not event_model:
+            return None
+        return Event.model_validate(event_model)
 
     async def create(self, event: EventBase, user: User) -> Event:
         event_data = event.model_dump()

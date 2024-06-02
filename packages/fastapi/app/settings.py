@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     DATABASE_URL: str = ""
     TELEGRAM_TOKEN: str = ""
     WEBAPP_URL: str = ""
+    S3_ENDPOINT_URL: str
+    S3_BUCKET_NAME: str
+    S3_BUCKET_REGION: str
+    S3_ACCESS_KEY: str
+    S3_SECRET_KEY: str
 
     # optional
     TELEGRAM_ERROR_CHAT_ID: str = ""
@@ -26,4 +31,5 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 
 
-settings = Settings()
+# https://github.com/pydantic/pydantic/issues/3753
+settings = Settings.model_validate({})

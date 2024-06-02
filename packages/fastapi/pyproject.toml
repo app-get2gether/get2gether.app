@@ -17,6 +17,7 @@ python-telegram-bot = "^21.1.1"
 pyi18n-v2 = "^1.2.1"
 pytest-asyncio = "^0.23.7"
 geoalchemy2 = "^0.15.1"
+minio = "^7.2.7"
 
 
 [tool.poetry.group.dev.dependencies]
