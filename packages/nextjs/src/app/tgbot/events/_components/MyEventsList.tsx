@@ -64,6 +64,7 @@ export default function MyEventsList() {
                       ({
                         id,
                         title,
+                        image_url,
                         members_count,
                         lat,
                         lng,
@@ -74,6 +75,7 @@ export default function MyEventsList() {
                         title: string;
                         lat: number | null;
                         lng: number | null;
+                        image_url: string;
                         members_count: number;
                         description: string;
                         address: string;
@@ -81,7 +83,7 @@ export default function MyEventsList() {
                         <li key={id} className="my-4">
                           <EventListItem
                             id={id}
-                            imageUrl={DEFAULT_EVENT_IMAGE_URL}
+                            imageUrl={image_url || DEFAULT_EVENT_IMAGE_URL}
                             membersCount={members_count}
                             userLocation={userLocation}
                             location={lat && lng ? { lat, lng } : null}

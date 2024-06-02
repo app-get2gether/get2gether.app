@@ -12,16 +12,18 @@ import useAxios from "@/hooks/useAxios";
 import moment from "moment";
 import TurndownService from "turndown";
 import useTelegramBackButton from "@/hooks/useTelegramBackButton";
+import { uploadEventImage } from "../_utils/uploadEventImage";
 
 export default function CreateEventPage() {
   useTelegramBackButton();
   const { t } = useTranslation();
   const axios = useAxios();
   const turndown = useMemo(() => new TurndownService(), []);
-  const { title, description, address, addressInfo, location, startAt, setTitle, setDescription, flush } =
+  const { title, description, imageFile, address, addressInfo, location, startAt, setTitle, setDescription, flush } =
     useCreateEventStore((state: TCreateEventStore) => ({
       title: state.title,
       description: state.description,
+      imageFile: state.imageFile,
       address: state.address,
       addressInfo: state.addressInfo,
       location: state.location,
@@ -61,11 +63,13 @@ export default function CreateEventPage() {
         startAt: startAt === "now" ? moment().valueOf() : startAt,
       })
       .then(res => {
-        flush();
-        setShowSuccess(true);
-        setTimeout(() => {
-          setShowSuccess(false);
-        }, 2000);
+        uploadEventImage(axios, imageFile, res.data.id).finally(() => {
+          flush();
+          setShowSuccess(true);
+          setTimeout(() => {
+            setShowSuccess(false);
+          }, 2000);
+        });
       })
       .catch(err => {
         setShowError(true);
@@ -73,7 +77,7 @@ export default function CreateEventPage() {
           setShowError(false);
         }, 2000);
       });
-  }, [title, description, address, addressInfo, location, startAt, axios, setShowError, flush, turndown]);
+  }, [title, description, imageFile, address, addressInfo, location, startAt, axios, setShowError, flush, turndown]);
 
   return (
     <main>

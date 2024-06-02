@@ -56,7 +56,7 @@
   }
   /* Collapsible */
   .collapsed > .collapsed-content {
-    @apply hidden opacity-0 transition duration-500 max-h-0;
+    @apply hidden opacity-0 transition duration-500;
     transition: max-height 0.5s ease-in-out;
   }
   .collapsed .collapsed-chevron {
@@ -64,7 +64,7 @@
   }
   .collapsed.enter-active > .collapsed-content,
   .collapsed.enter-done > .collapsed-content {
-    @apply block opacity-100 max-h-[1000px];
+    @apply block opacity-100;
   }
   .collapsed.enter-active .collapsed-chevron,
   .collapsed.enter-done .collapsed-chevron {
