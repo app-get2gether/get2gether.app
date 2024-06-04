@@ -15,8 +15,8 @@ class Settings(BaseSettings):
 
     # required
     DATABASE_URL: str = ""
+    WEBAPP_URL: str
     TELEGRAM_TOKEN: str = ""
-    WEBAPP_URL: str = ""
     S3_ENDPOINT_URL: str
     S3_BUCKET_NAME: str
     S3_BUCKET_REGION: str

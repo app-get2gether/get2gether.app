@@ -25,7 +25,7 @@ async def start(db: AsyncSession, update: Update, context: Context) -> None:
                 [
                     InlineKeyboardButton(
                         "Open app",
-                        web_app=WebAppInfo(url=f"{settings.WEBAPP_URL}/events"),
+                        web_app=WebAppInfo(url=f"{settings.WEBAPP_URL}/tgbot/events"),
                     )
                 ]
             ]
