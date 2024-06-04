@@ -85,9 +85,10 @@ export const EditableTextarea = forwardRef<
     placeholder?: string;
     className?: string;
     onBlur?: () => void;
-    onSubmit: (innerText: string, innerHTML: string) => void;
+    onSubmit?: (innerText: string, innerHTML: string) => void;
+    onChange?: (innerText: string, innerHTML: string) => void;
   }
->(({ value, placeholder, className, onBlur, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
+>(({ value, placeholder, className, onBlur, onChange, onSubmit }, ref: ForwardedRef<HTMLDivElement | null>) => {
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
       e.currentTarget.blur();
@@ -100,6 +101,16 @@ export const EditableTextarea = forwardRef<
     current.innerText = _value || "";
   }, [_value, ref]);
 
+  const _onChange = useCallback(
+    (e: React.ChangeEvent<HTMLDivElement>) => {
+      // https://stackoverflow.com/questions/14638887/br-is-inserted-into-contenteditable-html-element-if-left-empty
+      if (!e.currentTarget.innerText.trim()) {
+        e.currentTarget.innerHTML = "";
+      }
+      onChange && onChange(e.currentTarget.innerText || "", e.currentTarget.innerHTML);
+    },
+    [onChange],
+  );
   const _onBlur = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       // https://stackoverflow.com/questions/14638887/br-is-inserted-into-contenteditable-html-element-if-left-empty
@@ -109,7 +120,7 @@ export const EditableTextarea = forwardRef<
       const event = new Event("keyboard:hide", { bubbles: true, cancelable: true });
       e.currentTarget.dispatchEvent(event);
       onBlur && onBlur();
-      onSubmit(e.currentTarget.innerText, e.currentTarget.innerHTML);
+      onSubmit && onSubmit(e.currentTarget.innerText, e.currentTarget.innerHTML);
     },
     [onSubmit, onBlur],
   );
@@ -129,6 +140,7 @@ export const EditableTextarea = forwardRef<
       data-placeholder={placeholder}
       onKeyDown={onKeyDown}
       onBlur={_onBlur}
+      onChange={_onChange}
       onFocus={onFocus}
     />
   );
