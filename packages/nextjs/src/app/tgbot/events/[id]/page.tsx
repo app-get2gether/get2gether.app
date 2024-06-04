@@ -10,10 +10,13 @@ import ShareButton from "./_components/ShareButton";
 import { useTranslation } from "react-i18next";
 import { marked } from "marked";
 import dompurify from "dompurify";
+import ReportButton from "./_components/ReportButton";
+import useUser from "@/hooks/useUser";
 
 export default function EventPage({ params: { id } }: { params: { id: string } }) {
   const { t } = useTranslation();
   const { data, isLoading, error } = useSWR(`/tgbot/v1/events/${id}`);
+  const { user } = useUser();
   useTelegramBackButton();
 
   if (error) return <div>Failed to load</div>;
@@ -67,6 +70,7 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
       <div className="mx-5">
         <button className="btn btn-success w-full">{t("event.join_button")}</button>
         <ShareButton className="my-3" eventId={id} />
+        {user && user.id != data.created_by && <ReportButton className="my-3" eventId={id} />}
       </div>
     </div>
   );

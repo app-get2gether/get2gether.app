@@ -14,6 +14,13 @@ create_event:
 event:
   copy_link_button: Скопировать ссылку
   join_button: Присоединиться
+  report:
+    description: |
+      Если мероприятие нарушает правила сервиса и публикует неприемлемый контент, то вы можете пожаловаться, а мы примем меры
+    reason_placeholder: Вы можете добавить описание (опционально)
+    show_popup_button: Пожаловаться
+    title: Пожаловаться на мероприятие
+    submit_button: Report
   share_button: Поделиться
   share_in_tg_button: Поделиться в Телеграм
 footer_tabs:
