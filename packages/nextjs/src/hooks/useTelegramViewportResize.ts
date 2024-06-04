@@ -10,9 +10,10 @@ export const useTelegramViewportHack = (ref: RefObject<HTMLElement>) => {
   const onWindowScroll = useCallback(() => {
     if (window.scrollY === 0) return;
     const shift = document.documentElement.scrollTop;
-    window.scrollTo(0, 0);
+    document.documentElement.scrollTo(0, 0);
     if (!ref.current || shift === 0) return;
     ref.current.scrollTo(0, shift + ref.current.scrollTop);
+    ref.current.style.top = `${shift + ref.current.scrollTop}px`;
   }, [ref]);
 
   const onKeyboardToggle = useCallback(
@@ -36,5 +37,5 @@ export const useTelegramViewportHack = (ref: RefObject<HTMLElement>) => {
       window.removeEventListener("scroll", onWindowScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onKeyboardToggle, onWindowScroll, ref.current]); // <--- ref.current is a dependency (bad practice)
+  }, [onKeyboardToggle, onWindowScroll, ref]);
 };

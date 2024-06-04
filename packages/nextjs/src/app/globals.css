@@ -33,27 +33,39 @@
   /* Modal */
   /* if modal-content is small - use justify-end */
   .tgbot-modal {
-    @apply opacity-0 z-10 transition-opacity duration-500 ease-in-out;
+    @apply z-10 transition-opacity duration-500 ease-in-out;
     @apply w-full absolute inset-0;
-    @apply  bg-black bg-opacity-50;
+    @apply bg-black bg-opacity-50;
   }
   .tgbot-modal-wrapper {
     height: var(--tg-viewport-height);
     @apply w-full absolute inset-0;
     @apply flex flex-col flex-col-reverse;
-    @apply w-full absolute inset-0;
     overflow-y: scroll;
   }
   .tgbot-modal .tgbot-modal-content {
-    @apply opacity-0 transition relative duration-500 ease-in-out;
+    @apply transition relative duration-500 ease-in-out;
     @apply w-full translate-y-full;
   }
+  /* exit-done */
+  .tgbot-modal.exit-done {
+    @apply opacity-0 invisible;
+  }
+  /* exit-active */
+  .tgbot-modal.exit-active {
+    @apply opacity-0;
+  }
+  .tgbot-modal.exit-active .tgbot-modal-content {
+    @apply opacity-0;
+  }
+  /* enter-active */
   .tgbot-modal.enter-active, .tgbot-modal.enter-done {
     @apply opacity-100;
   }
   .tgbot-modal.enter-active .tgbot-modal-content, .tgbot-modal.enter-done .tgbot-modal-content {
     @apply opacity-100 translate-y-0;
   }
+  /* end: Modal */
   /* Collapsible */
   .collapsed > .collapsed-content {
     @apply hidden opacity-0 transition duration-500;

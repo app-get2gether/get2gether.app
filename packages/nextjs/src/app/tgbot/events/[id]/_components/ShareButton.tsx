@@ -33,8 +33,8 @@ export default function ShareButton({ eventId, className }: { eventId: string; c
   const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(botUrl)}&text=${shareText}`;
 
   return (
-    <>
-      <button className="btn btn-neutral text-neural-content w-full my-3" onClick={onClick}>
+    <div className={className}>
+      <button className="btn btn-neutral text-neural-content w-full" onClick={onClick}>
         <span>{t("event.share_button")}</span>
         <span>
           <ShareIcon className="w-4 h-4 inline-block" />
@@ -60,6 +60,6 @@ export default function ShareButton({ eventId, className }: { eventId: string; c
           </button>
         </div>
       </Modal>
-    </>
+    </div>
   );
 }
