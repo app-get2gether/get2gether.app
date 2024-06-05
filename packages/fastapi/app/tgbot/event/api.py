@@ -11,7 +11,7 @@ from app.settings import settings
 from app.tgbot.auth.dependencies import get_user_or_create_with_tg_data
 from app.tgbot.event.schemas import (
     Event,
-    EventBase,
+    EventCreatePayload,
     EventReportPayload,
     EventUpdatePayload,
 )
@@ -85,11 +85,12 @@ async def report_event(
 
 @router.post("/events")
 async def create_event(
-    event_data: EventBase,
+    event_payload: EventCreatePayload,
     event_svc: Annotated[EventService, Depends(EventService.get_svc)],
     user: Annotated[User, Depends(get_user_or_create_with_tg_data)],
 ) -> Event:
-    event = await event_svc.create(event_data, user)
+    event_model = await event_svc.create(event_payload, user)
+    event = Event.model_validate(event_model)
     return event
 
 

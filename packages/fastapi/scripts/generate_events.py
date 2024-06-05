@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import create_async_engine
 from app.settings import settings
-from app.tgbot.event.schemas import EventBase
+from app.tgbot.event.schemas import EventCreatePayload
 from app.tgbot.event.services import EventService
 from app.tgbot.user.schemas import UserTgData
 from app.tgbot.user.services import UserService
@@ -40,7 +40,7 @@ async def generate_events() -> None:
         address_info = faker.text()
 
         await event_svc.create(
-            EventBase.model_validate(
+            EventCreatePayload.model_validate(
                 {
                     "lat": lat,
                     "lng": lng,

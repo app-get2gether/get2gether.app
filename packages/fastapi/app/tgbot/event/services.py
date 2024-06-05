@@ -11,10 +11,10 @@ from sqlalchemy.sql.functions import now
 
 from app.db import get_db_session
 from app.models import EventModel
-from app.models.event import EventReportModel
+from app.models.event import EventReportModel, EventTicketTypeModel
 from app.tgbot.event.schemas import (
     Event,
-    EventBase,
+    EventCreatePayload,
     EventReportPayload,
     EventUpdatePayload,
 )
@@ -81,10 +81,10 @@ class EventService:
             return None
         return event_model
 
-    async def create(self, event: EventBase, user: User) -> Event:
-        event_data = event.model_dump()
-        if event.lat and event.lng:
-            event_data["location"] = ST_MakePoint(event.lng, event.lat)
+    async def create(self, event_payload: EventCreatePayload, user: User) -> EventModel:
+        event_data = event_payload.dict(exclude_unset=True)
+        if event_payload.lat and event_payload.lng:
+            event_data["location"] = ST_MakePoint(event_payload.lng, event_payload.lat)
 
         stmt = (
             sql.insert(EventModel)
@@ -92,9 +92,13 @@ class EventService:
             .returning(EventModel)
         )
         res = await self.db.execute(stmt)
-        _event = Event.model_validate(res.scalar_one())
+        event_model = res.scalar_one()
+        ticket_type_stmt = sql.insert(EventTicketTypeModel).values(
+            event_id=event_model.id, price=event_payload.ticket_price
+        )
+        await self.db.execute(ticket_type_stmt)
         await self.db.commit()
-        return _event
+        return event_model
 
     async def update(self, event_id: UUID, event_payload: EventUpdatePayload) -> Event:
         stmt = (

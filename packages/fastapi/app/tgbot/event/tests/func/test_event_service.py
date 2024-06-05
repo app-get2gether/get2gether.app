@@ -3,7 +3,7 @@ import sqlalchemy
 from faker import Faker
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.tgbot.event.schemas import EventBase
+from app.tgbot.event.schemas import EventCreatePayload
 from app.tgbot.event.services import EventService
 from app.tgbot.user.schemas import User
 
@@ -16,7 +16,8 @@ async def test_create_event(session: AsyncSession, user: User) -> None:
     lng = faker.longitude()
     title = "TestEvent"
     event = await event_svc.create(
-        EventBase.model_validate({"title": title, "lat": lat, "lng": lng}), user
+        EventCreatePayload.model_validate({"title": title, "lat": lat, "lng": lng}),
+        user,
     )
 
     assert event.title == title
@@ -24,7 +25,7 @@ async def test_create_event(session: AsyncSession, user: User) -> None:
     assert event.lng == lng
 
     # creates without coords
-    await event_svc.create(EventBase.model_validate({"title": title}), user)
+    await event_svc.create(EventCreatePayload.model_validate({"title": title}), user)
 
 
 @pytest.mark.skip(reason="issue with pytest-asyncio event_loops per scope")
@@ -34,7 +35,7 @@ async def test_create_event_fails_on_missed_coords(
     event_svc = EventService(session)
     with pytest.raises(sqlalchemy.exc.IntegrityError) as e:
         await event_svc.create(
-            EventBase.model_validate({"lat": faker.latitude()}), user
+            EventCreatePayload.model_validate({"lat": faker.latitude()}), user
         )
 
     assert "asyncpg.exceptions.CheckViolationError" in str(e.value)
@@ -42,7 +43,7 @@ async def test_create_event_fails_on_missed_coords(
 
     with pytest.raises(sqlalchemy.exc.IntegrityError) as e:
         await event_svc.create(
-            EventBase.model_validate({"lng": faker.longitude()}), user
+            EventCreatePayload.model_validate({"lng": faker.longitude()}), user
         )
 
     assert "asyncpg.exceptions.CheckViolationError" in str(e.value)

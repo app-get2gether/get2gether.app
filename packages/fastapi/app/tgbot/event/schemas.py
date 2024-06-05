@@ -19,6 +19,10 @@ class EventBase(BaseModel):
     address_info: str = ""
 
 
+class EventCreatePayload(EventBase):
+    ticket_price: int | None = 0
+
+
 class EventUpdatePayload(BaseModel):
     image_url: Annotated[str | None, Field(max_length=128)] = None
 
