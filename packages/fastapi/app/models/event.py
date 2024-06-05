@@ -1,11 +1,12 @@
+import enum
 from datetime import datetime, timedelta
 from typing import cast
 
 from geoalchemy2 import Geography
-from sqlalchemy import CheckConstraint, ForeignKey, Index, UniqueConstraint
+from sqlalchemy import BigInteger, CheckConstraint, ForeignKey, Index, UniqueConstraint
 from sqlalchemy.engine.default import DefaultExecutionContext
 from sqlalchemy.orm import mapped_column
-from sqlalchemy.types import TIMESTAMP, Integer, Numeric, String, Text
+from sqlalchemy.types import TIMESTAMP, Boolean, Enum, Integer, Numeric, String, Text
 
 from app.models.base import PostgresUUID, RecordModel, utc_now
 
@@ -69,3 +70,79 @@ class EventReportModel(RecordModel):
     event_id = mapped_column(PostgresUUID, ForeignKey("events.id"), nullable=False)
     reported_by = mapped_column(PostgresUUID, ForeignKey("users.id"), nullable=False)
     reason = mapped_column(Text(), nullable=False, default="")
+
+
+class TicketType(enum.Enum):
+    REGULAR = "regular"
+
+
+class EventTicketTypeModel(RecordModel):
+    __tablename__ = "event_ticket_types"
+    __table_args__ = (
+        Index("ix_event_ticket_types_event_id", "event_id"),
+        CheckConstraint("total_count >= -1", name="ck_event_ticket_types_total_count"),
+        CheckConstraint("sold_count >= 0", name="ck_event_ticket_types_sold_count"),
+        CheckConstraint("price >= 0", name="ck_event_ticket_types_price"),
+    )
+
+    event_id = mapped_column(PostgresUUID, ForeignKey("events.id"), nullable=False)
+    ticket_type = mapped_column(
+        Enum(TicketType), nullable=False, default=TicketType.REGULAR
+    )
+    price = mapped_column(BigInteger, nullable=False, default=0)
+    total_count = mapped_column(Integer, nullable=False, default=-1)
+    sold_count = mapped_column(Integer, nullable=False, default=0)
+
+
+class TicketOnChainStatus(enum.Enum):
+    PENDING = "pending"
+    CONFIRMED = "confirmed"
+    REJECTED = "rejected"
+
+
+class EventPurchasedTicketModel(RecordModel):
+    __tablename__ = "event_purchased_tickets"
+    __table_args__ = (
+        Index("ix_event_purchased_tickets_event_id", "event_id"),
+        Index("ix_event_purchased_tickets_owned_by", "owned_by"),
+        CheckConstraint("price >= 0", name="ck_event_purchased_tickets_price"),
+        CheckConstraint(
+            "is_onchain = TRUE OR onchain_status IS NULL",
+            name="ck_event_purchased_tickets_onchain_status",
+        ),
+    )
+
+    event_id = mapped_column(PostgresUUID, ForeignKey("events.id"), nullable=False)
+    ticket_type_id = mapped_column(
+        PostgresUUID, ForeignKey("event_ticket_types.id"), nullable=False
+    )
+    owned_by = mapped_column(PostgresUUID, ForeignKey("users.id"), nullable=False)
+    price = mapped_column(BigInteger, nullable=False, default=0)
+
+    # if tickets were bought on-chain
+    is_onchain = mapped_column(Boolean, nullable=False, default=False)
+    onchain_status = mapped_column(Enum(TicketOnChainStatus), nullable=True)
+
+
+class EventBankModel(RecordModel):
+    __tablename__ = "event_banks"
+    __table_args__ = (
+        Index("ix_event_banks_event_id", "event_id"),
+        CheckConstraint(
+            "total_offchain_funds >= withdrawn_offchain_funds",
+            name="ck_event_banks_total_offchain_funds",
+        ),
+        CheckConstraint(
+            "total_onchain_funds >= withdrawn_onchain_funds",
+            name="ck_event_banks_total_onchain_funds",
+        ),
+    )
+
+    event_id = mapped_column(PostgresUUID, ForeignKey("events.id"), nullable=False)
+    is_locked = mapped_column(Boolean, nullable=False, default=True)
+
+    total_offchain_funds = mapped_column(BigInteger, nullable=False, default=0)
+    total_onchain_funds = mapped_column(BigInteger, nullable=False, default=0)
+
+    withdrawn_offchain_funds = mapped_column(BigInteger, nullable=False, default=0)
+    withdrawn_onchain_funds = mapped_column(BigInteger, nullable=False, default=0)
