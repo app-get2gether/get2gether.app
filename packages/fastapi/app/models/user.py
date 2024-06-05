@@ -21,4 +21,7 @@ class UserModel(RecordModel):
 
     is_admin      = mapped_column(Boolean, nullable=False, default=False)
     is_blocked    = mapped_column(Boolean, nullable=False, default=False)
+
+    onchain_funds  = mapped_column(BigInteger, nullable=False, default=0)
+    offchain_funds = mapped_column(BigInteger, nullable=False, default=0)
     # fmt: on

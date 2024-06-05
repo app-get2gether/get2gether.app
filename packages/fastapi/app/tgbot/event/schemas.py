@@ -40,3 +40,15 @@ class Event(EventBase):
     created_at: datetime
     start_at: datetime
     end_at: datetime
+
+
+class EventPurchasedTicket(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    owned_by: UUID
+    event_id: UUID
+    currency: str
+    ticket_type: str
+    price: int
+    created_at: datetime

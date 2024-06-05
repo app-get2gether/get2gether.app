@@ -21,6 +21,9 @@ class User(BaseModel):
     is_admin: bool
     is_blocked: bool
 
+    offchain_funds: int = 0
+    onchain_funds: int = 0
+
 
 class UserTgData(BaseModel):
     id: Annotated[int, Field(serialization_alias="tg_id")]

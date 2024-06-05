@@ -76,6 +76,10 @@ class TicketType(enum.Enum):
     REGULAR = "regular"
 
 
+class TicketCurrency(enum.Enum):
+    GET = "GET"
+
+
 class EventTicketTypeModel(RecordModel):
     __tablename__ = "event_ticket_types"
     __table_args__ = (
@@ -90,6 +94,9 @@ class EventTicketTypeModel(RecordModel):
         Enum(TicketType), nullable=False, default=TicketType.REGULAR
     )
     price = mapped_column(BigInteger, nullable=False, default=0)
+    currency = mapped_column(
+        Enum(TicketCurrency), nullable=False, default=TicketCurrency.GET
+    )
     total_count = mapped_column(Integer, nullable=False, default=-1)
     sold_count = mapped_column(Integer, nullable=False, default=0)
 
@@ -138,7 +145,9 @@ class EventBankModel(RecordModel):
         ),
     )
 
-    event_id = mapped_column(PostgresUUID, ForeignKey("events.id"), nullable=False)
+    event_id = mapped_column(
+        PostgresUUID, ForeignKey("events.id"), unique=True, nullable=False
+    )
     is_locked = mapped_column(Boolean, nullable=False, default=True)
 
     total_offchain_funds = mapped_column(BigInteger, nullable=False, default=0)

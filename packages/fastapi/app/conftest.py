@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
 
 from app.db import create_async_engine, get_db_session
 from app.models.base import BaseModel
-from app.models.event import EventModel
+from app.models.event import EventModel, EventTicketTypeModel
 from app.models.user import UserModel
 from app.server import app
 from app.settings import settings
@@ -113,6 +113,8 @@ async def user_frank(session: AsyncSession) -> AsyncGenerator[User, None]:
         "tg_language_code": "en",
         "tg_phone": "",
         "tg_is_bot": False,
+
+        "offchain_funds": 1000,
     })
     # fmt: on
 
@@ -138,4 +140,8 @@ async def event(session: AsyncSession, user: User) -> AsyncGenerator[Event, None
     session.add(event)
     await session.flush()
     await session.refresh(event)
+
+    event_ticket_type = EventTicketTypeModel(event_id=event.id, price=100)
+    session.add(event_ticket_type)
+    await session.flush()
     yield Event.model_validate(event)
