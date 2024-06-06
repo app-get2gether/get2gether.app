@@ -1,4 +1,3 @@
-import pytest
 import sqlalchemy
 from faker import Faker
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,23 +27,35 @@ async def test_create_event(session: AsyncSession, user: User) -> None:
     await event_svc.create(EventCreatePayload.model_validate({"title": title}), user)
 
 
-@pytest.mark.skip(reason="issue with pytest-asyncio event_loops per scope")
+# @pytest.mark.skip(reason="issue with pytest-asyncio event_loops per scope")
 async def test_create_event_fails_on_missed_coords(
     session: AsyncSession, user: User
 ) -> None:
     event_svc = EventService(session)
-    with pytest.raises(sqlalchemy.exc.IntegrityError) as e:
+    try:
         await event_svc.create(
-            EventCreatePayload.model_validate({"lat": faker.latitude()}), user
+            EventCreatePayload.model_validate(
+                {"title": "TestEvent", "lat": faker.latitude()}
+            ),
+            user,
         )
+        raise AssertionError("expected IntegrityError")
+    except sqlalchemy.exc.IntegrityError as e:
+        assert "asyncpg.exceptions.CheckViolationError" in str(e)
+        assert "ck_events_ch_events_not_xor_lat_lng" in str(e)
+    finally:
+        await session.rollback()
 
-    assert "asyncpg.exceptions.CheckViolationError" in str(e.value)
-    assert "ck_events_ch_events_not_xor_lat_lng" in str(e.value)
-
-    with pytest.raises(sqlalchemy.exc.IntegrityError) as e:
+    try:
         await event_svc.create(
-            EventCreatePayload.model_validate({"lng": faker.longitude()}), user
+            EventCreatePayload.model_validate(
+                {"title": "TestEvent", "lng": faker.longitude()}
+            ),
+            user,
         )
-
-    assert "asyncpg.exceptions.CheckViolationError" in str(e.value)
-    assert "ck_events_ch_events_not_xor_lat_lng" in str(e.value)
+        raise AssertionError("expected IntegrityError")
+    except sqlalchemy.exc.IntegrityError as e:
+        assert "asyncpg.exceptions.CheckViolationError" in str(e)
+        assert "ck_events_ch_events_not_xor_lat_lng" in str(e)
+    finally:
+        await session.rollback()

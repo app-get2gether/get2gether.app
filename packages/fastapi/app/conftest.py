@@ -58,12 +58,10 @@ async def session(
     engine: AsyncEngine,
 ) -> AsyncIterator[AsyncSession]:
     connection = await engine.connect()
-    transaction = await connection.begin()
 
     session = AsyncSession(bind=connection, expire_on_commit=False)
     yield session
 
-    await transaction.rollback()
     await connection.close()
 
 

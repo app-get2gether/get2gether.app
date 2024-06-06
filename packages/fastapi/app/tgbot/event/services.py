@@ -5,7 +5,7 @@ from uuid import UUID
 from fastapi import Depends
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import ST_DistanceSphere, ST_MakePoint
-from sqlalchemy import cast, func, sql
+from sqlalchemy import cast, func, inspect, sql
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.functions import now
@@ -90,13 +90,21 @@ class EventService:
         return event_model
 
     async def create(self, event_payload: EventCreatePayload, user: User) -> EventModel:
-        event_data = event_payload.dict(exclude_unset=True)
+        event_data = event_payload.model_dump(exclude_unset=True)
         if event_payload.lat and event_payload.lng:
             event_data["location"] = ST_MakePoint(event_payload.lng, event_payload.lat)
 
+        # TODO: move to schema
+        event_model_columns = {column.name for column in inspect(EventModel).c}
+        filtered_event_data = {
+            key: value
+            for key, value in event_data.items()
+            if key in event_model_columns
+        }
+
         stmt = (
             sql.insert(EventModel)
-            .values(**event_data, created_by=user.id)
+            .values(**filtered_event_data, created_by=user.id)
             .returning(EventModel)
         )
         res = await self.db.execute(stmt)

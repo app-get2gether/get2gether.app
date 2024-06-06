@@ -21,6 +21,7 @@ class EventBase(BaseModel):
 
 class EventCreatePayload(EventBase):
     ticket_price: int | None = 0
+    ticket_count: int | None = -1
 
 
 class EventUpdatePayload(BaseModel):
