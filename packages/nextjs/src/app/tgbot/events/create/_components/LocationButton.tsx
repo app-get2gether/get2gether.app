@@ -36,7 +36,7 @@ export default function LocationButton({ className }: { className?: string }) {
       setLocation: state.setLocation,
     }),
   );
-  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [_address, _setAddress] = useState(address);
   const [_addressInfo, _setAddressInfo] = useState(addressInfo);
   const [_location, _setLocation] = useState(location);
@@ -45,8 +45,8 @@ export default function LocationButton({ className }: { className?: string }) {
   const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
 
   const onLocationButtonClick = useCallback(() => {
-    setShowLocationModal(true);
-  }, [setShowLocationModal]);
+    setShowModal(true);
+  }, [setShowModal]);
 
   const onSetLocation = useCallback(
     ({ lat, lng }: { lat: number; lng: number }) => {
@@ -57,8 +57,8 @@ export default function LocationButton({ className }: { className?: string }) {
   );
 
   const onCloseLocationModal = useCallback(() => {
-    setShowLocationModal(false);
-  }, [setShowLocationModal]);
+    setShowModal(false);
+  }, [setShowModal]);
 
   const onSearchAddress = useCallback(
     async (force: boolean = false) => {
@@ -106,8 +106,8 @@ export default function LocationButton({ className }: { className?: string }) {
     setAddress(_address.trim());
     setAddressInfo(_addressInfo);
     setLocation(_location);
-    setShowLocationModal(false);
-  }, [_address, _addressInfo, _location, setAddress, setAddressInfo, setLocation, setShowLocationModal]);
+    setShowModal(false);
+  }, [_address, _addressInfo, _location, setAddress, setAddressInfo, setLocation, setShowModal]);
 
   return (
     <div className={twMerge("inline-flex cursor-pointer animated-on-press", className)}>
@@ -117,7 +117,7 @@ export default function LocationButton({ className }: { className?: string }) {
       <div className="truncate w-56 text-sm" onClick={onLocationButtonClick}>
         {address.trim() || t("create_event.select_location_button")}
       </div>
-      <Modal open={showLocationModal} onClose={onCloseLocationModal}>
+      <Modal open={showModal} onClose={onCloseLocationModal}>
         <div>
           <div>
             <div className="relative">
