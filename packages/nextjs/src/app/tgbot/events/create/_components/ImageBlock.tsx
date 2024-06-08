@@ -1,7 +1,6 @@
 import { TCreateEventStore, useCreateEventStore } from "@/store";
 import { useCallback, useRef, useState } from "react";
-import { CameraIcon } from "@heroicons/react/24/outline";
-import { TrashIcon } from "@heroicons/react/24/solid";
+import { CameraIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { twMerge } from "tailwind-merge";
 
 const MAX_FILE_SIZE = 1024 * 1024 * 6; // 6MB
@@ -77,7 +76,7 @@ export default function ImageBlock({ className }: { className?: string }) {
         ) : null}
         {showControls && (
           <div
-            className="cursor-pointer border-2 rounded-full border-primary text-primary absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-3 bg-neutral bg-opacity-70 animated-on-press"
+            className="cursor-pointer border-2 rounded-full border-base-content bg-base-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-3 animated-on-press"
             onClick={onUploaderClick}
             ref={uploaderRef}
           >
@@ -85,8 +84,11 @@ export default function ImageBlock({ className }: { className?: string }) {
           </div>
         )}
         {imageFile && showControls ? (
-          <div className="absolute right-3 top-3 cursor-pointer text-primary animated-on-press" onClick={onDeleteClick}>
-            <TrashIcon className="h-6 w-6" />
+          <div
+            className="absolute right-3 top-3 cursor-pointer text-neutral rounded-full overflow-hidden animated-on-press"
+            onClick={onDeleteClick}
+          >
+            <TrashIcon className="h-6 w-6 bg-base-300 p-1" />
           </div>
         ) : null}
         <input

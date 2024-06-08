@@ -71,7 +71,7 @@ function PriceBlock({ value }: { value: number }) {
 
   return (
     <div>
-      {value} <span className="opacity-50">GET</span>
+      <span className="text-primary ">{value}</span> <span className="opacity-50">GET</span>
     </div>
   );
 }

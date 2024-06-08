@@ -114,15 +114,15 @@ export default function LocationButton({ className }: { className?: string }) {
       <label className="mr-4 text-primary">
         <MapPinIcon className="w-5 h-5 -mt-2 inline-block" />
       </label>
-      <div className="truncate w-56 text-sm" onClick={onLocationButtonClick}>
+      <div className="truncate w-56 text-sm underline" onClick={onLocationButtonClick}>
         {address.trim() || t("create_event.select_location_button")}
       </div>
       <Modal open={showModal} onClose={onCloseLocationModal}>
-        <div>
+        <div className="pt-2">
           <div>
             <div className="relative">
               <EditableInput
-                className="my-3 textarea-lg p-3 pr-9"
+                className="my-3 textarea-bordered p-3 pr-9"
                 placeholder={t("create_event.set_location_address")}
                 onChange={onSetAddress}
                 onSubmit={() => onSearchAddress(false)}
@@ -146,11 +146,11 @@ export default function LocationButton({ className }: { className?: string }) {
               markerRef={markerRef}
             />
             <EditableTextarea
-              className="px-3 py-1 my-3 min-h-20"
+              className="px-3 py-1 my-3 min-h-20 textarea-bordered"
               placeholder={t("create_event.set_location_notes")}
               onSubmit={onSetAddressInfo}
             />
-            <button className="btn btn-success w-full mb-7" onClick={onSubmit}>
+            <button className="btn btn-neutral btn-neutral-control w-full mb-7" onClick={onSubmit}>
               {t("create_event.set_location_button")}
             </button>
           </div>

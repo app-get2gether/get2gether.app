@@ -135,27 +135,27 @@ export default function CreateEventPage() {
       <div className="card mx-3 my-2 border border-base-300">
         <div className="m-5">
           <EditableInput
-            className="card-title textarea-lg text-xl py-3 font-normal"
+            className="textarea-bordered font-bold"
             placeholder={t("create_event.set_title_placeholder")}
             onSubmit={onSubmitTitle}
             value={title}
             onEnter={onTitleEnter}
           />
           <EditableTextarea
-            className="px-6 py-3 min-h-28 leading-normal"
+            className="my-3 min-h-28 textarea-bordered leading-normal"
             placeholder={t("create_event.set_description_placeholder")}
             ref={textareaRef}
             value={description}
             onSubmit={onSubmitDescription}
           />
-          <div className="w-full mx-5">
-            <div className="my-3">
+          <div className="w-full mx-2 mt-10">
+            <div className="my-5">
               <LocationButton />
             </div>
-            <div className="my-3">
+            <div className="my-5">
               <DatetimeButton />
             </div>
-            <div className="mt-3">
+            <div className="mt-5">
               <SetPriceButton />
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function CreateEventPage() {
       </div>
       <div className="mt-5 mx-3">
         <button
-          className="btn btn-success w-full block shadow-lg"
+          className="btn btn-neutral btn-neutral-content w-full block shadow-lg"
           disabled={!title.trim() || isLoading}
           onClick={onSubmit}
         >

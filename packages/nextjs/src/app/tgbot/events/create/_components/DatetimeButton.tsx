@@ -57,7 +57,7 @@ export default function DatetimeButton({ className }: { className?: string }) {
         <CalendarIcon className="w-5 h-5 -mt-2 inline-block" />
       </label>
       <div className="relative">
-        <div className="z-1 relative select-none text-sm" ref={ref}>
+        <div className="z-1 relative select-none text-sm underline" ref={ref}>
           {isNow(typeof startAt === "number" ? moment(startAt) : startAt)
             ? t("create_event.set_datetime.now")
             : // TODO
