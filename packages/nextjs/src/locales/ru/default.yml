@@ -9,18 +9,23 @@ create_event:
   set_location_address: Введите адрес
   set_location_button: Сохранить
   set_location_notes: Дополнительная информация
+  set_price_button: Сохранить
+  set_price_description: Мы используем токен GET (Get2Gether Event Token)
+  set_price_placeholder: Ввести цену
+  set_price_title: Установить входную цену на мероприятие
   set_title_placeholder: Введите название встречи
   success_msg: Опубликовано
 event:
   copy_link_button: Скопировать ссылку
   join_button: Присоединиться
   report:
-    description: |
-      Если мероприятие нарушает правила сервиса и публикует неприемлемый контент, то вы можете пожаловаться, а мы примем меры
+    description: >
+      Если мероприятие нарушает правила сервиса и публикует неприемлемый
+      контент, то вы можете пожаловаться, а мы примем меры
     reason_placeholder: Вы можете добавить описание (опционально)
     show_popup_button: Пожаловаться
-    title: Пожаловаться на мероприятие
     submit_button: Report
+    title: Пожаловаться на мероприятие
   share_button: Поделиться
   share_in_tg_button: Поделиться в Телеграм
 footer_tabs:

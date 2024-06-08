@@ -3,6 +3,7 @@ import { create } from "zustand";
 const createEventStoreInit = {
   title: "",
   description: "",
+  ticket_price: 0,
   imageUrl: "",
   imageFile: null,
   startAt: null,
@@ -18,6 +19,7 @@ export type TCreateEventStore = {
   description: string;
   imageFile: File | null;
   startAt: number | "now" | null;
+  ticket_price: number;
 
   address: string;
   addressInfo: string;
@@ -25,6 +27,7 @@ export type TCreateEventStore = {
 
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
+  setTicketPrice: (price: number) => void;
   setLocation: (location: { lat: number; lng: number } | null) => void;
   setAddress: (address: string) => void;
   setAddressInfo: (addressInfo: string) => void;
@@ -38,6 +41,7 @@ export const useCreateEventStore = create<TCreateEventStore>(set => ({
 
   setTitle: (title: string) => set({ title }),
   setDescription: (description: string) => set({ description }),
+  setTicketPrice: (ticket_price: number) => set({ ticket_price }),
   setLocation: (location: { lat: number; lng: number } | null) => set({ location }),
   setAddress: (address: string) => set({ address }),
   setAddressInfo: (addressInfo: string) => set({ addressInfo }),

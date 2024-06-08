@@ -13,27 +13,40 @@ import moment from "moment";
 import TurndownService from "turndown";
 import useTelegramBackButton from "@/hooks/useTelegramBackButton";
 import { uploadEventImage } from "../_utils/uploadEventImage";
+import SetPriceButton from "./_components/SetPriceButton";
 
 export default function CreateEventPage() {
   useTelegramBackButton();
   const { t } = useTranslation();
   const axios = useAxios();
   const turndown = useMemo(() => new TurndownService(), []);
-  const { title, description, imageFile, address, addressInfo, location, startAt, setTitle, setDescription, flush } =
-    useCreateEventStore((state: TCreateEventStore) => ({
-      title: state.title,
-      description: state.description,
-      imageFile: state.imageFile,
-      address: state.address,
-      addressInfo: state.addressInfo,
-      location: state.location,
-      startAt: state.startAt,
+  const {
+    title,
+    description,
+    imageFile,
+    ticket_price,
+    address,
+    addressInfo,
+    location,
+    startAt,
+    setTitle,
+    setDescription,
+    flush,
+  } = useCreateEventStore((state: TCreateEventStore) => ({
+    title: state.title,
+    description: state.description,
+    imageFile: state.imageFile,
+    ticket_price: state.ticket_price,
+    address: state.address,
+    addressInfo: state.addressInfo,
+    location: state.location,
+    startAt: state.startAt,
 
-      setTitle: state.setTitle,
-      setDescription: state.setDescription,
-      setImageFile: state.setImageFile,
-      flush: state.flush,
-    }));
+    setTitle: state.setTitle,
+    setDescription: state.setDescription,
+    setImageFile: state.setImageFile,
+    flush: state.flush,
+  }));
   const [showError, setShowError] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -60,6 +73,7 @@ export default function CreateEventPage() {
         description: description.trim() ? turndown.turndown(description.trim()) : "",
         address,
         addressInfo,
+        ticket_price,
         lat: location ? location.lat : null,
         lng: location ? location.lng : null,
         startAt: startAt === "now" ? moment().valueOf() : startAt,
@@ -82,7 +96,20 @@ export default function CreateEventPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, [title, description, imageFile, address, addressInfo, location, startAt, axios, setShowError, flush, turndown]);
+  }, [
+    title,
+    description,
+    imageFile,
+    ticket_price,
+    address,
+    addressInfo,
+    location,
+    startAt,
+    axios,
+    setShowError,
+    flush,
+    turndown,
+  ]);
 
   return (
     <main>
@@ -122,8 +149,15 @@ export default function CreateEventPage() {
             onSubmit={onSubmitDescription}
           />
           <div className="w-full mx-5">
-            <LocationButton className="my-3" />
-            <DatetimeButton />
+            <div className="my-3">
+              <LocationButton />
+            </div>
+            <div className="my-3">
+              <DatetimeButton />
+            </div>
+            <div className="mt-3">
+              <SetPriceButton />
+            </div>
           </div>
         </div>
       </div>

@@ -65,7 +65,7 @@ export function EditableInput({
     <div
       ref={ref}
       contentEditable={true}
-      className={twMerge("w-full min-w-44 block textarea textarea-ghost focused:texterea-info", className)}
+      className={twMerge("w-full min-w-44 block textarea", className)}
       data-placeholder={placeholder}
       onKeyDown={onKeyDown}
       onInput={onInput}
@@ -136,7 +136,7 @@ export const EditableTextarea = forwardRef<
     <div
       ref={ref}
       contentEditable={true}
-      className={twMerge("w-full min-w-44 block textarea textarea-ghost focused:texterea-info", className)}
+      className={twMerge("w-full min-w-44 block textarea", className)}
       data-placeholder={placeholder}
       onKeyDown={onKeyDown}
       onBlur={_onBlur}
