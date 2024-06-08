@@ -7,6 +7,7 @@ import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Loader } from "@googlemaps/js-api-loader";
 import SimpleLoader from "@/components/SimpleLoader";
+import { twMerge } from "tailwind-merge";
 
 const searchAddress = async (address: string) => {
   if (!process.env.NEXT_PUBLIC_GMAPS_API_KEY) {
@@ -23,7 +24,7 @@ const searchAddress = async (address: string) => {
   return res;
 };
 
-export default function LocationButton() {
+export default function LocationButton({ className }: { className?: string }) {
   const { t } = useTranslation();
   const { address, addressInfo, location, setAddress, setAddressInfo, setLocation } = useCreateEventStore(
     (state: TCreateEventStore) => ({
@@ -109,11 +110,11 @@ export default function LocationButton() {
   }, [_address, _addressInfo, _location, setAddress, setAddressInfo, setLocation, setShowLocationModal]);
 
   return (
-    <div className="inline-flex cursor-pointer animated-on-press">
+    <div className={twMerge("inline-flex cursor-pointer animated-on-press", className)}>
       <label className="mr-4 text-primary">
-        <MapPinIcon className="w-6 h-6 -mt-1 inline-block" />
+        <MapPinIcon className="w-5 h-5 -mt-2 inline-block" />
       </label>
-      <div className="truncate w-56" onClick={onLocationButtonClick}>
+      <div className="truncate w-56 text-sm" onClick={onLocationButtonClick}>
         {address.trim() || t("create_event.select_location_button")}
       </div>
       <Modal open={showLocationModal} onClose={onCloseLocationModal}>

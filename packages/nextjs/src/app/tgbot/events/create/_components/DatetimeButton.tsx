@@ -4,6 +4,7 @@ import { CalendarIcon } from "@heroicons/react/24/outline";
 import { useCallback, useRef } from "react";
 import { TCreateEventStore, useCreateEventStore } from "@/store";
 import { useTranslation } from "react-i18next";
+import { twMerge } from "tailwind-merge";
 
 const formatDatetime = (timestamp: number) => {
   return moment(timestamp).locale(i18n.language).format("llll");
@@ -18,7 +19,7 @@ const isNow = (date: Moment | null | "now") => {
   return diff < 1000 * 60 * MINUTES ? true : false;
 };
 
-export default function DatetimeButton() {
+export default function DatetimeButton({ className }: { className?: string }) {
   const { t } = useTranslation();
   const { startAt, setStartAt } = useCreateEventStore((state: TCreateEventStore) => ({
     startAt: state.startAt,
@@ -51,12 +52,12 @@ export default function DatetimeButton() {
   );
 
   return (
-    <div className="mx-auto mt-5 inline-flex cursor-pointer animated-on-press" onClick={onClick}>
+    <div className={twMerge("mx-auto inline-flex cursor-pointer animated-on-press", className)} onClick={onClick}>
       <label className="mr-4 text-primary">
-        <CalendarIcon className="w-6 h-6 -mt-1 inline-block" />
+        <CalendarIcon className="w-5 h-5 -mt-2 inline-block" />
       </label>
       <div className="relative">
-        <div className="z-1 relative select-none" ref={ref}>
+        <div className="z-1 relative select-none text-sm" ref={ref}>
           {isNow(typeof startAt === "number" ? moment(startAt) : startAt)
             ? t("create_event.set_datetime.now")
             : // TODO

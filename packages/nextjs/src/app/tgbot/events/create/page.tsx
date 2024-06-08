@@ -98,8 +98,14 @@ export default function CreateEventPage() {
           </div>
         </div>
       </CSSTransition>
-      <div className="card bg-base-200 mx-3 my-2 shadow-lg border border-base-300">
-        <ImageBlock />
+
+      <div className="mx-3 mt-4">
+        <div className="w-full">
+          <ImageBlock className="w-full relative" />
+        </div>
+      </div>
+
+      <div className="card mx-3 my-2 border border-base-300">
         <div className="m-5">
           <EditableInput
             className="card-title textarea-lg text-xl py-3 font-normal"
@@ -115,13 +121,9 @@ export default function CreateEventPage() {
             value={description}
             onSubmit={onSubmitDescription}
           />
-          <div className="w-full mx-5 mt-5">
-            <div>
-              <LocationButton />
-            </div>
-            <div>
-              <DatetimeButton />
-            </div>
+          <div className="w-full mx-5">
+            <LocationButton className="my-3" />
+            <DatetimeButton />
           </div>
         </div>
       </div>

@@ -4,14 +4,13 @@ import FooterTabs from "@/components/FooterTabs";
 import { WebAppContext } from "@/contexts";
 import mockWebApp from "@/utils/mockWebApp";
 import Script from "next/script";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import type { WebApp } from "telegram";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import Colorjs from "colorjs.io";
 
 import i18n from "@/i18n";
 import { parseUserData } from "@/utils/telegram";
-import { useTelegramViewportHack } from "@/hooks/useTelegramViewportResize";
 
 const TELEGRAM_SCRIPT_URL = "https://telegram.org/js/telegram-web-app.js";
 
@@ -42,14 +41,11 @@ export default function RootLayout({
     window.Telegram.WebApp.expand();
   }, [setWebApp]);
 
-  const scrollableRef = useRef<HTMLDivElement>(null);
-  useTelegramViewportHack(scrollableRef);
-
   return (
     <WebAppContext.Provider value={webApp}>
       <TonConnectUIProvider manifestUrl={`/manifest.json`}>
         <Script src={TELEGRAM_SCRIPT_URL} onLoad={onLoad} />
-        <div className="h-root relative overflow-y-scroll" ref={scrollableRef}>
+        <div className="h-root relative overflow-y-scroll">
           {children}
           <FooterTabs className="fixed bottom-0" />
         </div>

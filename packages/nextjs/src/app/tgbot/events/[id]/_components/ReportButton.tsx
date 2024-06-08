@@ -14,15 +14,19 @@ export default function ReportButton({ eventId, className }: { eventId: string; 
   const onSubmit = useCallback(() => {
     // TODO: animate UI
     setLoading(true);
+    setReason("");
     tgAxios.post(`/tgbot/v1/events/${eventId}/report`, { reason }).finally(() => {
       setTimeout(() => {
         setLoading(false);
         setShowModal(false);
       }, 1000);
     });
-  }, [tgAxios, eventId, reason, setShowModal]);
+  }, [tgAxios, eventId, reason, setReason, setShowModal]);
   const onModalClose = useCallback(() => {
     setShowModal(false);
+  }, [setShowModal]);
+  const onModalOpen = useCallback(() => {
+    setShowModal(true);
   }, [setShowModal]);
   const onReasonChange = useCallback(
     (value: string) => {
@@ -33,7 +37,7 @@ export default function ReportButton({ eventId, className }: { eventId: string; 
 
   return (
     <div className={className}>
-      <button className="btn text-neural-content w-full" onClick={onSubmit}>
+      <button className="btn text-neural-content w-full" onClick={onModalOpen}>
         <span>{t("event.report.show_popup_button")}</span>
         <span></span>
       </button>
@@ -48,7 +52,7 @@ export default function ReportButton({ eventId, className }: { eventId: string; 
             onChange={onReasonChange}
             value={reason}
           />
-          <button className="btn w-full my-3" disabled={isLoading}>
+          <button className="btn w-full my-3" disabled={isLoading} onClick={onSubmit}>
             {t("event.report.submit_button")}
           </button>
           <div className="h-[1px]"></div>
