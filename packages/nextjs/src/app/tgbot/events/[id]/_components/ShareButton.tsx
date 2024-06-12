@@ -34,7 +34,7 @@ export default function ShareButton({ eventId, className }: { eventId: string; c
 
   return (
     <div className={className}>
-      <button className="btn btn-neutral text-neural-content w-full" onClick={onClick}>
+      <button className="btn w-full" onClick={onClick}>
         <span>{t("event.share_button")}</span>
         <span>
           <ShareIcon className="w-4 h-4 inline-block" />
@@ -43,14 +43,14 @@ export default function ShareButton({ eventId, className }: { eventId: string; c
 
       <Modal open={showModal} onClose={onModalClose}>
         <div className="my-5 pt-3">
-          <Link href={shareUrl} className="btn btn-neutral text-neural-content w-full my-2">
+          <Link href={shareUrl} className="btn w-full my-2">
             <span>{t("event.share_in_tg_button")}</span>
             {/*
             <ShareIcon className="w-4 h-4 inline-block" />
             */}
             <TelegramIcon className="w-4 h-4 inline-block fill-neutral-content" />
           </Link>
-          <button className="btn btn-neutral text-neural-content w-full" onClick={() => onCopyClick(botUrl)}>
+          <button className="btn  w-full" onClick={() => onCopyClick(botUrl)}>
             <span>{t("event.copy_link_button")}</span>
             {copied ? (
               <CheckIcon className="w-4 h-4 inline-block" />

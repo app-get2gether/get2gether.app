@@ -1,6 +1,5 @@
 "use client";
 
-import { DEFAULT_EVENT_IMAGE_URL } from "@/config";
 import useSWR from "@/hooks/useSWR";
 import useTelegramBackButton from "@/hooks/useTelegramBackButton";
 import { MapPinIcon } from "@heroicons/react/24/outline";
@@ -12,12 +11,16 @@ import { marked } from "marked";
 import dompurify from "dompurify";
 import ReportButton from "./_components/ReportButton";
 import useUser from "@/hooks/useUser";
+import { twMerge } from "tailwind-merge";
+import JoinButton from "./_components/JoinButton";
+import useDefaultImage from "@/hooks/useDefaultImage";
 
 export default function EventPage({ params: { id } }: { params: { id: string } }) {
   const { t } = useTranslation();
-  const { data, isLoading, error } = useSWR(`/tgbot/v1/events/${id}`);
+  const { data, error } = useSWR(`/tgbot/v1/events/${id}`);
   const { user } = useUser();
   useTelegramBackButton();
+  const defaultImageUrl = useDefaultImage();
 
   if (error) return <div>Failed to load</div>;
   if (!data) return null;
@@ -25,13 +28,13 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
     <div className="flex flex-col mt-4">
       <div className="mx-5">
         <div className="w-full avatar">
-          <div className="w-full relative rounded-xl shadow-xl border border-base-300 overflow-hidden">
-            <Image
-              src={data.image_url || DEFAULT_EVENT_IMAGE_URL}
-              alt="Event image"
-              className="opacity-90"
-              fill={true}
-            />
+          <div
+            className={twMerge(
+              "overflow-hidden",
+              data.image_url ? "w-full rounded-xl shadow-xl border border-base-300" : "w-52 relative mx-auto",
+            )}
+          >
+            <Image src={data.image_url || defaultImageUrl} alt="Event image" className="opacity-90" fill={true} />
           </div>
         </div>
       </div>
@@ -68,7 +71,7 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
         </div>
       </div>
       <div className="mx-5">
-        <button className="btn btn-success w-full">{t("event.join_button")}</button>
+        <JoinButton eventId={id} />
         <ShareButton className="my-3" eventId={id} />
         {user && user.id != data.created_by && <ReportButton className="my-3" eventId={id} />}
       </div>

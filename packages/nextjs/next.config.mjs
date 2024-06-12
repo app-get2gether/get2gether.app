@@ -1,17 +1,21 @@
 /** @type {import('next').NextConfig} */
 import MomentLocalesPlugin from "moment-locales-webpack-plugin";
 
-const bucketUrl = process.env.NEXT_PUBLIC_S3_BUCKET_URL
-
+const additionalImageUrls = [process.env.NEXT_PUBLIC_S3_BUCKET_URL, process.env.NEXT_PUBLIC_UI_URL]
 const additionalImagesPatterns = []
-if (bucketUrl) {
-  const m = bucketUrl.match(/(https?):\/\/([\w\d\.]+)/)
+
+for (const url of additionalImageUrls) {
+  if (!url) {
+    continue
+  }
+
+  const m = url.match(/(https?):\/\/([\w\d\.]+)/)
   if (m) {
-    const bucketUrlSchema = m[1]
-    const bucketUrlHost = m[2]
+    const urlSchema = m[1]
+    const urlHost = m[2]
     additionalImagesPatterns.push({
-      protocol: bucketUrlSchema,
-      hostname: bucketUrlHost
+      protocol: urlSchema,
+      hostname: urlHost
     })
   }
 }

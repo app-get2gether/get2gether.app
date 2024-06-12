@@ -14,6 +14,7 @@ import TurndownService from "turndown";
 import useTelegramBackButton from "@/hooks/useTelegramBackButton";
 import { uploadEventImage } from "../_utils/uploadEventImage";
 import SetPriceButton from "./_components/SetPriceButton";
+import { useRouter } from "next/navigation";
 
 export default function CreateEventPage() {
   useTelegramBackButton();
@@ -49,11 +50,10 @@ export default function CreateEventPage() {
   }));
   const [showError, setShowError] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const textareaRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
-  const successRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const onTitleEnter = useCallback(() => {
     // TODO: only if description is empty
@@ -81,10 +81,7 @@ export default function CreateEventPage() {
       .then(async res => {
         return uploadEventImage(axios, imageFile, res.data.id).finally(() => {
           flush();
-          setShowSuccess(true);
-          setTimeout(() => {
-            setShowSuccess(false);
-          }, 2000);
+          router.push(`/tgbot/events/${res.data.id}`);
         });
       })
       .catch(err => {
@@ -99,6 +96,7 @@ export default function CreateEventPage() {
   }, [
     title,
     description,
+    router,
     imageFile,
     ticket_price,
     address,
@@ -116,13 +114,6 @@ export default function CreateEventPage() {
       <CSSTransition nodeRef={errorRef} in={showError} timeout={250} mountOnEnter={true} unmountOnExit={true}>
         <div ref={errorRef} className="notification-panel">
           <div className="bg-error text-error-content w-full">{t("create_event.error_msg")}</div>
-        </div>
-      </CSSTransition>
-      <CSSTransition nodeRef={successRef} in={showSuccess} timeout={250} mountOnEnter={true} unmountOnExit={true}>
-        <div ref={successRef} className="notification-panel">
-          <div ref={successRef} className="bg-success text-success-content">
-            {t("create_event.success_msg")}
-          </div>
         </div>
       </CSSTransition>
 
