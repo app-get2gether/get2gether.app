@@ -20,11 +20,6 @@ const MenuLinks = [
     icon: <BoltIcon />,
   },
   {
-    href: "/tgbot/wallet",
-    title: "footer_tabs.wallet",
-    icon: <WalletIcon />,
-  },
-  {
     href: "/tgbot/profile",
     title: "footer_tabs.profile",
     icon: <UserIcon />,

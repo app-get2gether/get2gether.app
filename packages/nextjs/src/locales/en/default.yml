@@ -14,7 +14,6 @@ create_event:
   set_price_placeholder: Enter price
   set_price_title: Set ticket price for the event
   set_title_placeholder: Enter the name of your event
-  success_msg: Successfully published
 event:
   copy_link_button: Copy link
   join_button: Join
@@ -40,6 +39,8 @@ list_events:
     title: Created by me
   my_events:
     title: My active events
+profile:
+  get_bonus: Retrieve daily bonus
 Set: ''
 Set your username: ''
 title:

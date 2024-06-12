@@ -14,7 +14,6 @@ create_event:
   set_price_placeholder: Ввести цену
   set_price_title: Установить входную цену на мероприятие
   set_title_placeholder: Введите название встречи
-  success_msg: Опубликовано
 event:
   copy_link_button: Скопировать ссылку
   join_button: Присоединиться
@@ -40,6 +39,8 @@ list_events:
     title: Созданные мной
   my_events:
     title: Мои активные мероприятия
+profile:
+  get_bonus: Получить дневной бонус
 Set: ''
 Set your username: ''
 title:
