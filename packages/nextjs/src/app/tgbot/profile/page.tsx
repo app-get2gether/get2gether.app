@@ -21,7 +21,7 @@ export default function ProfilePage() {
               <div className="mt-3">
                 <div className="flex flex-row gap-2">
                   <UserIcon className="w-5 h-5 mt-[.2rem]" />
-                  <span>{me.username}</span>
+                  <span>{me && me.username}</span>
                 </div>
                 {me && me.tg_username && (
                   <div className="flex flex-row gap-2 mt-1">
