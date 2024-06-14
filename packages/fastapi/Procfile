@@ -1,0 +1,2 @@
+release: task migrate
+web: poetry run uvicorn app.server:app --port $PORT

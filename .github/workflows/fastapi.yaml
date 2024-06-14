@@ -71,3 +71,52 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: packages/fastapi/coverage.json
         flags: fastapi
+    - name: Notify on failure
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ vars.TELEGRAM_UPDATES_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ❌ FastAPI. Tests failed
+
+          Commit message: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - id: deploy
+      name: Deploy to dokku
+      uses: dokku/github-action@v1.1.3
+      with:
+          git_push_flags: '--force'
+          git_remote_url: ${{ secrets.FASTAPI_DEPLOY_URL }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Notify on failure
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ vars.TELEGRAM_UPDATES_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ❌ FastAPI. Deploy failed
+
+          Commit message: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
+    - name: Notify on success
+      if: ${{ success() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ vars.TELEGRAM_UPDATES_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ✅ FastAPI. Deploy succeed
+
+          Commit message: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}

@@ -12,11 +12,13 @@ fastapi = "^0.108.0"
 uvicorn = {extras = ["standard"], version = "^0.25.0"}
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.25"}
 pydantic-settings = "^2.1.0"
+alembic = "^1.13.1"
 asyncpg = "^0.29.0"
 python-telegram-bot = "^21.1.1"
 pyi18n-v2 = "^1.2.1"
 geoalchemy2 = "^0.15.1"
 minio = "^7.2.7"
+taskipy = "^1.12.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -24,9 +26,7 @@ mypy = "^1.8.0"
 ruff = "^0.1.11"
 pytest = "^7.4.4"
 pytest-watch = "^4.2.0"
-taskipy = "^1.12.2"
 coverage = "^7.4.0"
-alembic = "^1.13.1"
 pytest-dotenv = "^0.5.2"
 faker = "^25.2.0"
 pytest-asyncio = "^0.23.7"
