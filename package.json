@@ -5,6 +5,8 @@
     "node": ">=18.16.1"
   },
   "scripts": {
+    "build": "pnpm -F @g2g/nextjs build",
+    "start": "pnpm -F @g2g/nextjs start",
     "fastapi:dev": "cd packages/fastapi && task dev",
     "fastapi:lint": "cd packages/fastapi && task lint",
     "fastapi:mypy": "cd packages/fastapi && task mypy",
