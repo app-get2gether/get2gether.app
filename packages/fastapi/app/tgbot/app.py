@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
@@ -9,6 +10,8 @@ from app.settings import settings
 from app.tgbot.context import AnyDict, Context
 from app.tgbot.handlers import handlers
 from app.tgbot.handlers.error import error_handler
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -31,8 +34,10 @@ async def start_tg_app(
 
     async with tg_app:
         await tg_app.start()
+        logger.info("Telegram bot started")
         if tg_app.updater is not None:
             await tg_app.updater.start_polling()
+            logger.info("Telegram bot polling started")
         if settings.TELEGRAM_SETUP_COMMANDS:
             await setup_commands(tg_app)
         yield tg_app
