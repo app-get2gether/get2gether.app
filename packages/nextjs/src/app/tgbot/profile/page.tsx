@@ -1,8 +1,6 @@
 "use client";
 
-import useDefaultImage from "@/hooks/useDefaultImage";
 import useUser from "@/hooks/useUser";
-import Image from "next/image";
 import BalanceBlock from "./_components/BalanceBlock";
 import { TelegramIcon } from "@/components/icons";
 import { EyeSlashIcon, UserIcon } from "@heroicons/react/24/outline";
@@ -35,7 +33,7 @@ export default function ProfilePage() {
           </div>
           <div className="card mt-5"></div>
           <div className="flex flex-row justify-center mt-10">
-            <BalanceBlock funds={me.balance || 0} />
+            <BalanceBlock funds={0} />
           </div>
         </div>
 
