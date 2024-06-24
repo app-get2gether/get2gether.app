@@ -4,8 +4,6 @@ import useDefaultImage from "@/hooks/useDefaultImage";
 import { TonConnectButton } from "@tonconnect/ui-react";
 
 export default function BalanceBlock({ className, funds }: { className?: string; funds: number }) {
-  const defaultImageUrl = useDefaultImage();
-
   return (
     <div className={twMerge("w-full", className)}>
       <div className="border border-base-300 rounded-xl p-5">
@@ -15,10 +13,10 @@ export default function BalanceBlock({ className, funds }: { className?: string;
 
         <div className="divider" />
 
-        <div className="flex flex-row">
-          <div className="avatar">
-            <div className="rounded-full w-12">
-              <Image src={defaultImageUrl} alt="avatar" fill={true} />
+        <div className="flex flex-row items-center">
+          <div className="avatar w-12 h-12">
+            <div className="rounded-full">
+              <Image src="/assets/token.png" alt="avatar" fill={true} />
             </div>
           </div>
           <div className="ml-3">
