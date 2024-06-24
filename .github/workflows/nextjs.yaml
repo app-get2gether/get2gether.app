@@ -12,7 +12,7 @@ on:
       - main
 
 jobs:
-  ci:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -52,3 +52,53 @@ jobs:
 
       - name: Run Typescript linter
         run: pnpm nextjs:ts
+
+      - name: Notify on failure
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ vars.TELEGRAM_UPDATES_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ❌ NextJS. Tests/Lint failed
+
+            Commit message: ${{ github.event.commits[0].message }}
+            https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - id: deploy
+      name: Deploy to dokku
+      uses: dokku/github-action@v1.1.3
+      with:
+          git_push_flags: '--force'
+          git_remote_url: ${{ secrets.NEXTJS_DEPLOY_URL }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Notify on failure
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ vars.TELEGRAM_UPDATES_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ❌ NextJS. Deploy failed
+
+          Commit message: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}
+    - name: Notify on success
+      if: ${{ success() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ vars.TELEGRAM_UPDATES_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ✅ NextJS. Deploy succeed
+
+          Commit message: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/actions/runs/${{github.run_id}}

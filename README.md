@@ -34,10 +34,3 @@
 * Tact, Func, ton-blueprint, ton-sandbox
 * FastAPI, SQLAchemy, PostgreSQL, Redis, MinIO
 * NextJS, tailwindcss
-
-
-## Blockchain Features
-* [ ] Jettons, TEP-74
-* [ ] NFTs, TEP-62
-* [ ] Swap pool
-* [ ] NFTs marketplace
