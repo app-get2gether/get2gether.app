@@ -29,9 +29,8 @@ async def start(db: AsyncSession, update: Update, context: Context) -> None:
     chat = update.effective_chat
     if not chat:
         return
-    await chat.send_photo(
-        photo=f"{settings.S3_ENDPOINT_URL}/{settings.S3_BUCKET_NAME}/media/logo.png",
-        caption=text,
+    await chat.send_message(
+        text=text,
         parse_mode=ParseMode.MARKDOWN_V2,
         reply_markup=InlineKeyboardMarkup(
             [
