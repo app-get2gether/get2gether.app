@@ -31,7 +31,9 @@ export default function EventPage({ params: { id } }: { params: { id: string } }
           <div
             className={twMerge(
               "overflow-hidden",
-              data.image_url ? "w-full rounded-xl shadow-xl border border-base-300" : "w-52 relative mx-auto",
+              data.image_url
+                ? "w-full rounded-xl shadow-xl border border-base-300 relative overflow-hidden"
+                : "w-52 relative mx-auto",
             )}
           >
             <Image src={data.image_url || defaultImageUrl} alt="Event image" className="opacity-90" fill={true} />
