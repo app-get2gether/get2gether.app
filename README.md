@@ -23,6 +23,7 @@
 </p>
 
 <p align="center">
+  <a href="https://t.me/ton_g2g_bot">MiniApp</a> •
   <a href="https://docs.get2gether.team">Docs</a> •
   <a href="https://dorahacks.io/buidl/11527">DoraHacks</a> •
   <a href="https://dorahacks.io/hackathon/the-open-league-hackathon/buidl">OpenLeague Hackaton</a>
